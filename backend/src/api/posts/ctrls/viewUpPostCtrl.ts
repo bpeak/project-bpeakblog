@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Post from '~db/models/Post'
+import Post from '~db/models/post'
 
 const viewUpPost = (req : Request, res : Response) => {
     (async function() : Promise<Response>{

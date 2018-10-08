@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import Post from '~db/models/Post'
+import Post from '~db/models/post'
 
 const getAllpostsCtrl = (req : Request, res : Response) : void => {
     (async function() : Promise<Response>{

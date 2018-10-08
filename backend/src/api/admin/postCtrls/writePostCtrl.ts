@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import * as fs from 'fs'
 import * as redis from 'redis'
 import * as path from 'path'
-import Post from '~db/models/Post'
+import Post from '~db/models/post'
 const redisClient = redis.createClient()
 
 const writePostCtrl = (req : Request, res : Response) : void => {

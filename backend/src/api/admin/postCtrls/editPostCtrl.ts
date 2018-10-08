@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import * as fs from 'fs'
 import * as path from 'path'
-import Post from '~db/models/Post'
+import Post from '~db/models/post'
 import * as redis from 'redis'
 const redisClient = redis.createClient()
 
