@@ -1,0 +1,7 @@
+{
+    "NICK_CHAR_MIN" : 2,
+    "NICK_CHAR_MAX" : 10,
+    "EMAIL_CHAR_MAX" : 254,
+    "PASSWORD_CHAR_MIN" : 8,
+    "PASSWORD_CHAR_MAX" : 16
+}

@@ -1,0 +1,51 @@
+.SearchBar{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-size: 100%;
+    padding: 1em;
+    .cover{
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        font-size: 100%;
+        font-weight: 600;
+        color: #6C6C6C;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        z-index: 1;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        background-color: #E5E6E3;
+        box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        border-radius: 0.1em;
+        img{
+            width: 0.75em;
+            height: 0.75em;
+            margin-right: 0.2em;
+        }
+    }
+    input{
+        text-align: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.1em;
+        padding: 0.5em;
+        font-size: 100%;
+        font-weight: 600;
+        &:focus { 
+            outline: none !important;
+            border: none;
+            border-color: #496898;
+            box-shadow: 0 0 0.5em #496898;
+        }
+    }
+}

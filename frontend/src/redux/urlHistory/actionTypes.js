@@ -1,0 +1,1 @@
+export const ENTER_TO_AUTH_PAGE = "ENTER_TO_AUTH_PAGE"

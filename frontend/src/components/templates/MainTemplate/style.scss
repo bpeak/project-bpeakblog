@@ -1,0 +1,27 @@
+.MainTemplate{
+    min-height: 100vh;
+    background-color: #FFFFFF;
+    position: relative;
+}
+
+.header{
+    z-index: 3;
+    .TopHeader-container{
+        z-index: 3;
+        transition : height 0.2s ease;
+    }
+    .MainHeader-container{
+        z-index: 3;
+        transition : height 0.2s ease;
+        border-bottom: 1px solid grey;
+    }
+}
+
+.contents{
+
+}
+
+.footer{
+    transition : height 0.2s ease;
+    background-color: blue;
+}

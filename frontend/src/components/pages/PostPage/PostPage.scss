@@ -1,0 +1,150 @@
+.PostPage{
+    display: flex;
+    flex-direction: column;
+
+    font-size: 20.5px;
+
+    .spinner-container{
+        
+    }
+}
+
+article.post{
+    width: 55%;
+    margin: 0 auto;
+    
+    div.authorAndDate{
+        margin-top: 1em;
+        display: flex;
+        align-items: center;
+        .ProfileImg-container { 
+            width: 3em; 
+            height: 3em;
+            margin-right: 0.7em; 
+        }
+        .nickAndDate{
+            display: flex;
+            flex-direction: column;
+            span.nick{
+                font-size: 110%;
+                font-weight: 700;
+                color: #003569;
+                cursor: pointer;
+                transition: color 0.15s ease;
+                &:hover{
+                    color: #FF5252;
+                }
+            }
+            span.date{
+                font-size: 80%;
+                font-weight: 700;
+                color: rgba(0,0,0,.54);
+            }
+        }
+    }
+
+    div.title{
+        font-size: 165%;
+        font-weight: 900;
+        word-wrap: break-word;
+        word-break: keep-all;
+        line-height: 155%;
+        margin: 0.75em 0;
+    }
+
+    div.coverImg-container{
+        transition: height 0.15s ease;
+        img { width: 100%; height: 100%; border-radius: 0.2em; }
+    }
+
+    div.intro{
+        word-wrap: break-word;
+        word-break: keep-all;
+        font-size: 100%;
+        line-height: 175%;
+        margin: 1em 0;
+        color: rgba(0,0,0,.84);
+    }
+
+    div.description{
+        & > * {
+            color: rgba(0,0,0,.84);
+            font-size: 100%;
+            line-height: 175%;
+            margin: 1em 0;
+        }
+        p{ 
+            
+        }
+
+        pre{
+            border-radius: 0.1em;
+            padding: 1em;
+            font-family: Monaco, Consolas, "Andale Mono", "DejaVu Sans Mono", monospace;
+            background-color: #F2F2F2;
+            overflow: auto;
+            color: #666;
+            font-weight: 400;
+        }
+    }
+}
+
+@media (max-width : 1280px){
+    .PostPage{
+        font-size: 19.5px;
+        article.post{
+            width: 70%;
+        }
+    }
+}
+
+@media (max-width : 1024px){
+    .PostPage{
+        font-size: 18.5px;
+        article.post{
+            width: 75%;
+        }
+    }
+}
+
+@media (max-width : 960px){
+    .PostPage{
+        font-size: 17.5px;
+        article.post{
+            width: 80%;
+        }
+    }
+}
+
+@media (max-width : 768px){
+    .PostPage{
+        font-size: 16.5px;
+        article.post{
+            width: 85%;
+        }
+    }
+}
+
+@media (max-width : 600px){
+    .PostPage{
+        font-size: 15.5px;
+        article.post{
+            width: 90%;
+        }
+    }
+}
+
+@media (max-width : 480px){
+    .PostPage{
+        font-size: 14px;
+        article.post{
+            width: 95%;
+        }
+    }
+}
+
+@media (max-width : 320px){
+    .PostPage{
+        
+    }
+}

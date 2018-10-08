@@ -1,0 +1,177 @@
+.PostEditor{
+    position: relative;
+    font-size: 18px;
+    font-weight: lighter;
+    padding: 1em;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    .spinner-container{
+        position: absolute;
+        top: 2.5em;
+        left: 0;
+        right: 0;
+    }
+
+    &.loading{
+        pointer-events: none;
+    }
+
+    & > * {
+        margin: 0.3em 0;
+    }
+
+    img.coverPreview{
+        width: 33%;
+        height: auto;
+        margin: 0 auto;
+    }
+
+    input.cover{
+        display: none;
+    }
+
+    .btns-cover{
+        display: flex;
+        button{
+            flex-grow: 1;
+            margin: 0 0.2em;
+            cursor: pointer;
+            font-size: 100%;
+            font-weight: 900;
+            color: white;
+            padding: 0.5em;
+            border: none;
+            border-radius: 0.1em;
+            &:focus{
+                outline: none;
+            }
+        }
+        button.selectCover{
+            background-color: #0074C1;
+            &:hover{
+                background-color: #262626;
+            }
+        }
+        button.deleteCover{
+            background-color: grey;
+            &:hover{
+                background-color: #262626;
+            }
+        }
+    }
+    
+    select.category{
+        height: 2.3em;
+        font-size: 100%;
+        padding: 0.3em;
+        font-weight: 900;
+    }
+
+    input.title {
+        font-weight: 900;
+        font-size: 100%;
+        padding: 0.3em;
+        height: 2.3em;
+    }
+
+    textarea.intro {
+        min-height: 3.5em;
+        color: #3F484A;
+        font-size: 100%;
+        padding: 0.3em;
+        resize: none;
+    }
+
+    div.tags{
+        display: flex;
+        flex-wrap: wrap;
+        span{
+            font-size: 100%;
+            padding: 0.35em;
+            margin: 0.2em;
+            border-radius: 0.2em;
+            background-color: #516FF7;
+            color: white;
+            font-weight: 600;
+        }
+    }
+
+    textarea.tags {
+        min-height: 3.5em;
+        font-size: 100%;
+        padding: 0.3em;
+        resize: none;
+    }
+
+    .btns{
+        margin-top: 1em;
+        display: flex;
+        button{
+            font-size: 100%;
+            margin: 0.2em;
+            padding: 0.5em;
+            font-weight: 900;
+            flex-grow: 1;
+            border: none;
+            cursor: pointer;
+            color: white;
+            border-radius: 0.1em;
+            transition: background-color 0.2s ease;
+            &:focus{
+                outline: none;
+            }
+            &.publish{
+                background-color: #003468;
+            }
+            &.save{
+                background-color: #666799;
+            }
+            &.cancel{
+                background-color: #CECA9C;
+            }
+            &:hover{
+                background-color: #262626;
+            }
+        }
+    }
+
+    div.isPublished-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 1em;
+        color: red;
+        font-size: 100%;
+        font-weight: 900;
+        width: 100%;
+        span{
+            padding: 1em;
+        }
+        input{
+            width: 1.3em;
+            height: 1.3em;
+        }
+    }
+
+    button.edit{
+        margin-top: 1em;
+        width: 100%;
+        font-size: 100%;
+        padding: 0.5em;
+        font-weight: 900;
+        border: none;
+        cursor: pointer;
+        color: white;
+        border-radius: 0.1em;
+        transition: background-color 0.2s ease;
+        background-color:#003468;;
+        &:focus{
+            outline: none;
+        }
+        &:hover{
+            background-color: #262626;
+        }
+    }
+}

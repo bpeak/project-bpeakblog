@@ -1,0 +1,28 @@
+.AdminPage{
+    font-size: 19px;
+    font-weight: 600;
+    color: #262626;
+    header{
+        font-size: 130%;
+        padding: 0.3em;
+        background-color: #0D1B49;
+        color: white;
+    }
+    nav{
+        background-color: #3F4DB8;
+        a{
+            opacity: 0.7;
+            color: white;
+            display: inline-block;
+            padding: 0.3em;
+            &:hover{
+                opacity: 1;
+                background-color: grey;
+            }
+            &.active{
+                opacity: 1;
+                background-color: #6834BC;
+            }
+        }
+    }
+}

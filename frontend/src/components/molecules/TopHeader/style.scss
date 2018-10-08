@@ -1,0 +1,65 @@
+@keyframes colorChanger {
+	0% {
+		background-position: 0% 50%
+	}
+	100% {
+		background-position: 100% 50%
+	}
+}
+
+.TopHeader{
+    font-size: 14px;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(-45deg, #0d1b49, #0d1b49, #0d1b49, #23D5AB, #23A6D5, #E73C7E, #EE7752);
+    animation-fill-mode: forwards;
+	background-size: 400% 400%;
+    animation-name: colorChanger;
+    animation-duration: 4s;
+    animation-timing-function: ease;
+    
+    color: white;
+}
+.exex{
+    background-color: black;
+}
+
+.clock{
+    font-weight: 800;
+    display: flex;
+    .bundle{
+        margin: 0 3px;
+        span{
+            padding: 5px 5px;
+            border-radius: 10%;
+            box-shadow: #ffffff 0 0px 0px 2px inset;
+        }
+    }
+}
+
+@media (max-width : 1280px){
+    .TopHeader{
+        font-size: 13.5px;
+    }
+}
+
+@media (max-width : 1024px){
+    .TopHeader{
+        font-size: 12.7px;
+    }
+}
+
+@media (max-width : 960px){
+    .TopHeader{
+        font-size: 12.5px;
+    }
+}
+
+@media (max-width : 480px){
+    .TopHeader{
+        font-size: 12px;
+    }
+}

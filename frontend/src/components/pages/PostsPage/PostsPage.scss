@@ -1,0 +1,254 @@
+.PostsPage{
+    padding-top: 1em;
+    width: 100%;
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .spinner-container{
+        margin-top: 2.4em;
+    }
+
+}
+
+nav.category{
+    width: 84%;
+    display: flex;
+    justify-content: center;
+    background-color: #E5E6E3;
+    border-radius: 0.2em;
+    li{
+        cursor: pointer;
+        color: #013A6B;
+        padding: 1em;
+        list-style-type: none;
+        transition: all 0.2s ease;
+        span{
+            font-weight: 900;
+            font-size: 100%;
+        }
+        i{
+            margin-left: 0.45em;
+            font-size: 85%;
+        }
+        &.active{
+            color: white;
+            background-color: #013A6B;
+            border-radius: 0.25em;
+            box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        }
+        &:hover{
+            color: white;
+            background-color: #323632;
+            border-radius: 0.25em;
+            box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        }
+    }    
+}
+
+div.SearchBar-container{
+    width: 84%;
+    height: 2em;
+    margin: 1em 0;
+    font-size: 100%;
+}
+
+div.notifierKeyword{
+    font-size: 100%;
+    font-weight: 900;
+    padding: 0.5em 0;
+    margin-bottom: 1em;
+    span:first-child{
+        font-size: 100%;
+        font-weight: 900;
+    }
+    span:last-child{
+        border-radius: 0.2em;
+        box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        padding: 0.5em;
+        background-color: #4267B2;
+        color: #ffffff;
+        font-weight: 900;
+        font-size: 100%;
+    }
+}
+
+div.notifierPostsNull{
+    color: #1E306E;
+    font-size: 150%;
+    font-weight: 900;
+}
+
+main.cards{
+    width: 84%;
+    display: flex;
+    flex-wrap: wrap;
+    .PostCard-container{
+        width: 25%;
+        padding: 0 0.6em;
+        padding-bottom: 2.2em;
+    }
+}
+
+nav.pagenation{
+    margin: 1.25em 0;
+    width: 84%;
+    display: flex;
+    justify-content: center;
+    button{
+        border: none;
+        cursor: pointer;
+        font-size: 100%;
+        font-weight: 900;
+        border-radius: 0.2em;
+        box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        margin: 0 0.15em;
+        padding: 0.6em;
+        color: #1E306E;
+        background-color: #DDDDDD;
+        transition: all 0.1s ease;
+        &.active{
+            color: white;
+            background-color: #1E306E;
+        }
+        &:focus{
+            outline: none !important;
+        }
+        &:hover{
+            background-color: #323632;
+            color: white;
+        }
+    }
+}
+
+nav.tag{
+    margin-bottom: 1.25em;
+    width: 84%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    button.tag{
+        border: none;
+        cursor: pointer;
+        margin: 0.4em;
+        font-size: 100%;
+        font-weight: 900;
+        color: white;
+        background-color:#3fb0ac;
+        border-radius: 0.3em;
+        padding: 0.5em;
+        box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+        transition: background-color 0.2s ease;
+        &:hover{
+            background-color: #173e43;
+        }
+        &:focus{
+            outline: none;
+        }
+        span.name{
+
+        }
+        span.count{
+            margin-left: 0.2em;
+        }
+    }
+}
+
+@media (max-width : 1280px){
+    .PostsPage{
+        font-size: 15.5px
+    }
+    nav.category{
+        width: 90%;
+    }
+    div.SearchBar-container{
+        width: 90%;
+    }
+    main.cards{
+        width: 90%;
+        .PostCard-container{
+            width: 33.333333333%
+        }
+    }
+    nav.pagenation{
+        width: 90%;
+    }
+    nav.tag{
+        width: 90%;
+    }
+}
+
+@media (max-width : 1024px){
+    .PostsPage{
+        font-size: 15px
+    }
+}
+
+@media (max-width : 960px){
+    .PostsPage{
+        font-size: 14.5px
+    }
+}
+
+@media (max-width : 768px){
+    .PostsPage{
+        font-size: 14px
+    }
+    nav.category{
+        width: 93%;
+    }
+    div.SearchBar-container{
+        width: 93%;
+    }
+    main.cards{
+        width: 93%;
+        .PostCard-container{
+            width: 50%
+        }
+    }
+    nav.pagenation{
+        width: 93%;
+    }
+    nav.tag{
+        width: 93%;
+    }
+}
+
+@media (max-width : 600px){
+    .PostsPage{
+        font-size: 13.5px
+    }
+}
+
+@media (max-width : 550px){
+    nav.category{
+        width: 100%;
+    }
+    main.cards{
+        width: 100%;
+        .PostCard-container{
+            width: 100%
+        }
+    }
+    div.SearchBar-container{
+        padding: 0 0.5em;
+        width: 100%;
+    }
+    nav.pagenation{
+        width: 100%;
+    }
+    nav.tag{
+        width: 100%;
+    }
+}
+
+@media (max-width : 480px){
+    .PostsPage{
+        font-size: 13px
+    }
+}
+
+@media (max-width : 320px){
+
+}

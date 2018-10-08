@@ -1,0 +1,1 @@
+export const POST_RECEIVED = 'POST_RECEIVED'

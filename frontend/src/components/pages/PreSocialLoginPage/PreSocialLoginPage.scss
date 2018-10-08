@@ -1,0 +1,194 @@
+.PreSocialLoginPage{
+    width: 30%;
+    margin: 0 auto;
+
+    font-size: 21px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1{
+        // align-self: flex-start;
+        margin-top: 1em;
+        margin-bottom: 0.4em;
+        word-break: keep-all;
+        word-wrap: break-word;
+    }
+
+    div.ProfileImg-container{
+        width: 3.9em;
+        height: 3.9em;
+    }
+    span.nick{
+        color: #262626;
+        font-weight: 900;
+        margin-top: 0.5em;
+        margin-bottom: 1em;
+    }
+}
+
+.spinner-container{
+    margin-top: 5em;
+}
+
+.form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h1{
+        padding: 0.3em;
+    }
+
+    div.bundle{
+        margin-bottom: 0.3em;
+        position: relative;
+        height: 3.5em;
+        display: flex;
+        align-items: flex-end;
+        input{
+            font-size: 80%;
+            font-weight: bold;
+            padding: 0.2em;
+            height: 50%;
+            flex-grow: 1;
+            flex-shrink: 1;
+            border: none;
+            border-bottom: 1px solid grey;
+            transition : all 0.2s ease;
+            &:focus{
+                border-bottom: 2px solid grey;
+                outline: none;
+                ~ label{
+                    top: 0;
+                    left: 0;
+                    color: #666;
+                    font-size: 70%;
+                }
+            }
+            &:valid{
+                ~ label{
+                    top: 0;
+                    left: 0;
+                    color: #666;
+                    font-size: 70%;
+                }
+            }
+        }
+        label{
+            color: #0D1B49;
+            position: absolute;
+            top: 50%;
+            left: 0.5em;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: auto;
+            font-size: 80%;
+            font-weight: bold;
+            transition-property: top color font-size;
+            transition-duration: 0.2s;
+            transition-timing-function: ease;
+        }
+        .icon-container{
+            padding: 0.3em;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            &.active{
+                opacity: 1;
+                i{
+                    transition: color 0.2s ease;
+                    font-size: 1.3em;
+                }
+                i.check{
+                    color: green;
+                }
+                i.x{
+                    color: #FF4136;
+                }
+            }
+        }
+    }
+
+    button.submit{
+        margin-top: 1em;
+        margin-bottom: 1em;
+        cursor: pointer;
+        color: #FFFFFF;
+        font-size: 1em;
+        font-weight: bold;
+        border-radius: 0.15em;
+        opacity: 1;
+        background-color:#1E306E;
+        border: none;
+        width: 100%;
+        height: calc(3.5em / 1.7);
+        transition: all 0.2s ease;
+        &:disabled{
+            cursor: default;
+            opacity: 0.6;
+            background-color: #8c91ab;
+        }
+        &:enabled:hover{
+            background-color: #3F4DB8;
+        }
+    }
+
+    .errMsg{
+        width: 100%;
+        color: #FF4136;
+        font-size: 0.7em;
+        font-weight: 600;
+    }
+    
+    .remainingTime{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 70%;
+        font-weight: 900;
+        .time{
+            padding: 0.2em;
+            color: red;
+            display: flex;
+        }
+        .msg{
+            padding: 0.2em;
+            color: #999;
+        }
+    }
+}
+
+@media (max-width : 1280px){
+    .PreSocialLoginPage{
+        font-size: 20px;
+        width: 40%;
+    }
+}
+
+@media (max-width : 1024px){
+    .PreSocialLoginPage{
+        font-size: 19px;
+        width: 55%;
+    }
+}
+
+@media (max-width : 960px){
+    .PreSocialLoginPage{
+        font-size: 18px;
+        width: 70%;
+    }
+}
+
+@media (max-width : 480px){
+    .PreSocialLoginPage{
+        font-size: 17px;
+        width: 90%;
+    }
+}

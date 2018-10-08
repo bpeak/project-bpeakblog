@@ -1,0 +1,172 @@
+@keyframes fadeIn {
+    from { 
+        opacity: 0.1;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.PostCard-wrapper{
+    font-size: 16px;
+    width: 100%;
+    transition: height 0.2s ease;
+    .spinner-container{
+        border-radius: 0.4em;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0.3;
+        background-image: linear-gradient(-45deg, #5614b0,#dbd65c);
+    }
+}
+
+.PostCard{
+    animation-name: fadeIn;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+
+    width: 100%;
+    height: 100%;
+    border-radius: 0.3em;
+    box-shadow: 0 0 0.25em 0.06em rgba(0, 0, 0, 0.3);
+    .coverImg-container{
+        border-top-right-radius: 0.3em;
+        border-top-left-radius: 0.3em;
+        img{
+            border-top-left-radius: 0.3em;
+            border-top-right-radius: 0.3em;
+            width: 100%;
+            height: 100%; 
+            cursor: pointer;
+            transition: opacity 0.1s ease;
+            &:hover{
+                opacity: 0.75;
+            }
+        }
+    }
+    .contents{
+        padding: 0 0.9em;
+        display: flex;
+        flex-direction: column;
+        div.categoryAndDate{
+            padding-top: 0.67em;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            span.category{
+                border-radius: 0.25em;
+                padding: 0.3em 0.5em;
+                background-color: #4267B2;
+                color: #ffffff;
+                font-weight: 600;
+                font-size: 100%;
+                margin-right: 0.8em;
+            }
+            div.date{
+                opacity: 0.8;
+                font-weight: 900;
+                i{
+                    margin-right: 0.3em;
+                }
+            }
+        }
+        div.title{
+            flex-shrink: 0;
+            padding: 0.45em 0;
+            h2{
+                width: fit-content;
+                transition: color 0.2s ease;
+                font-size: 0;
+                font-size: 150%;
+                cursor: pointer;
+                transition: color 0.2s ease;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-line-clamp: 3; /* 라인수 */
+                -webkit-box-orient: vertical;
+                word-wrap:break-word;
+                line-height: 1.3em; /* 1배 */
+                max-height: 3.9em; /* 3배 */    
+                &:hover{
+                    color: #3498db;
+                }
+            }
+        }
+        div.intro{
+            color: #8F9294;
+            font-weight: 600;
+            font-size: 100%;
+            overflow: hidden;
+            flex-grow: 1;
+            flex-shrink: 1;
+            font-size: 100%;
+        }
+        div.author{
+            padding-top: 0.6em;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            div.profileImg-container{
+                width: 3em;
+                height: 3em;
+            }
+            span.nick{
+                cursor: pointer;
+                margin-left: 0.5em;
+                font-weight: 900;
+                color: #003569;
+                transition: color 0.2s ease;
+                &:hover{
+                    color: #FF5252;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width : 1280px){
+    .PostCard-wrapper{
+        font-size: 15.7px;
+    }
+}
+
+@media (max-width : 1024px){
+    .PostCard-wrapper{
+        font-size: 15.3px;
+    }
+}
+
+@media (max-width : 960px){
+    .PostCard-wrapper{
+        font-size: 15px;
+    }
+}
+
+@media (max-width : 768px){
+    .PostCard-wrapper{
+        font-size: 14.7px;
+    }
+}
+
+@media (max-width : 600px){
+    .PostCard-wrapper{
+        font-size: 14.6px;
+    }
+}
+
+@media (max-width : 480px){
+    .PostCard-wrapper{
+        font-size: 14.5px;
+    }
+}
+
+@media (max-width : 320px){
+    .PostCard-wrapper{
+        
+    }
+}
