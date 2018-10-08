@@ -1,9 +1,14 @@
 import { Request, Response } from 'express'
 import fetch from 'node-fetch'
 import naverConfig from '~configs/secret/naver.config'
+import uniqueStringMaker from '~modules/uniqueStringMaker'
+import User from '~db/models/user'
+import * as memberTypes from '~constants/memberTypes'
+import * as redis from 'redis'
+const redisClient = redis.createClient()
 
-const naverCtrl = (req : Request, res : Response) : void => {
-    (async function() : Promise<any> {
+const naverCallbackCtrl = (req : Request, res : Response) : void => {
+    (async function() : Promise< void | Response > {
         try{
             const { code } = req.query
             const client_id = naverConfig.client_id
@@ -23,16 +28,43 @@ const naverCtrl = (req : Request, res : Response) : void => {
                 }
             })
             .then(data => data.json())
-            if(response.message === 'success'){
-                const social_id = response.response.id
-                const nick = response.response.name
-                const gender = response.response.gender
-                const profileImgSrc = response.response.profile_image
-                console.log(social_id, nick, gender, profileImgSrc)
-                return res.redirect('/')
-            } else {
-                return res.redirect('/social')
-            }
+            
+            if(response.message !== 'success'){ return res.redirect('/SocialErrorPage')}
+
+            const social_id = response.response.id
+            const nick = response.response.name
+            const gender = response.response.gender
+            const profileImgSrc = response.response.profile_image
+
+            const userBySocialId : any | null = await User.findOne({ social_id })
+
+            const preUser = (function(){
+                if(userBySocialId){
+                    return ({
+                        isMember : true,
+                        unique_id : userBySocialId.unique_id,
+                        nick : userBySocialId.nick,
+                        isAdmin : userBySocialId.isAdmin,
+                        profileImgSrc : userBySocialId.profileImgSrc
+                    })
+                } else {
+                    return ({
+                        isMember : false,
+                        social_id,
+                        nick,
+                        isAdmin : false,
+                        profileImgSrc  
+                    })
+                }
+            })()
+
+            const preSocialUser_key : string = uniqueStringMaker()
+            res.cookie('preSocialUser_key', preSocialUser_key, { httpOnly : true })
+            redisClient.set(preSocialUser_key, JSON.stringify(preUser))
+            setTimeout(() => {
+                redisClient.del(preSocialUser_key)
+            }, 1000 * 60 * 3 + 1000 * 3)
+            return res.redirect('/preSocialLogin')
         }
         catch(err){
             console.log(err)
@@ -41,4 +73,4 @@ const naverCtrl = (req : Request, res : Response) : void => {
     })()
 }
 
-export default naverCtrl
+export default naverCallbackCtrl

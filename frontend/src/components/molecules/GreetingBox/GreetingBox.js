@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import classNames from 'classnames/bind'
 //styles
-import styles from './style.scss'
+import styles from './GreetingBox.scss'
 const cx = classNames.bind(styles)
 //components
 import GreetingCanvas from '~components/atoms/canvas/GreetingCanvas/GreetingCanvas'

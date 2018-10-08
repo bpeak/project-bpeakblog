@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import User from '~db/models/user'
 import textValidator from '~modules/textValidator'
 import * as userConfig from '~configs/user.config.json'
-import { text } from 'body-parser';
 
 const doubleCheckNickCtrl = (req : Request, res : Response) : void => {
     (async function() : Promise<Response>{

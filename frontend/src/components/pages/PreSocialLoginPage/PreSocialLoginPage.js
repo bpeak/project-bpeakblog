@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from 'react'
-//modules
-import history from '~modules/history'
 //styles
 import classNames from 'classnames/bind'
 import styles from './PreSocialLoginPage.scss'

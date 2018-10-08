@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+//actions
 import * as popupsActionCreators from '~redux/popups/actionCreators'
 import * as userActionCreators from '~redux/user/actionCreators'
 //configs

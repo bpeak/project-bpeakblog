@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 //imgs
 import coverDefaultImgSrc from '~assets/nemo.png'
@@ -7,6 +7,7 @@ import classNames from 'classnames/bind'
 import styles from './PostCard.scss'
 const cx = classNames.bind(styles)
 //modules
+import isoDateToTimeText from '~modules/isoDateToTimeText'
 import getImgSizeFromSrc from '~modules/getImgSizeFromSrc'
 import history from '~modules/history'
 //components
@@ -58,11 +59,9 @@ class PostCard extends Component {
         const coverImgWidth = postCardWidth
         const coverImgHeight = coverImgWidth * coverImgRatio
         window.addEventListener('resize', this._handleOnWindowReSize)
-        setTimeout(() => {
-            this._setPostCardHeight(postCardHeight)
-            this._setCoverImgHeight(coverImgHeight)
-            this._setIsLoaded(true)
-        }, 1)
+        this._setPostCardHeight(postCardHeight)
+        this._setCoverImgHeight(coverImgHeight)
+        this._setIsLoaded(true)
     }
 
     componentWillUnmount(){
@@ -99,7 +98,7 @@ class PostCard extends Component {
                     <div style={{ height : postCardHeight - coverImgHeight }} className={cx('contents')}>
                         <div className={cx('categoryAndDate')}>
                             <span className={cx('category')}>{category}</span>
-                            <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>2019 -1 - 1</span></div>
+                            <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>{isoDateToTimeText(createdDate)}</span></div>
                         </div>
                         <div className={cx('title')} onClick={_handleOnShowPostClick}>
                             <h2>{title}</h2>
