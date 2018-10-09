@@ -44,12 +44,17 @@ const fetchedDataMiddleware = (data, fetchName) => {
 }
 
 const defaultFetchOptions = {
-    credentials: 'same-origin'
+    credentials: 'same-origin',
+    // headers : {
+    //     'Authorization': 'Bearer ' + 'sdfsdfasdf'
+    // }
+    // 그냥하면 이거 헤더 뒤집어 씌워지거든 에디셔널 펫치옵션때문에
 }
 
 async function fetchCreator  (fetchUrl, additionalFetchOptions, fetchName){
     try{
-        const response = await fetch(fetchUrl, Object.assign(defaultFetchOptions, additionalFetchOptions))
+        const fetchOptions = Object.assign({}, defaultFetchOptions, additionalFetchOptions)
+        const response = await fetch(fetchUrl, fetchOptions)
         .then(data => fetchedDataMiddleware(data, fetchName).json())
         .then(json => JSON.parse(json))
         return response
@@ -58,6 +63,7 @@ async function fetchCreator  (fetchUrl, additionalFetchOptions, fetchName){
         if(err instanceof CustomError){
             openPopupForFetchError(err.name, err.message)
         } else {
+            console.log(err)
             openPopupForFetchError('UNKNOWN ERROR', '예기치 못한 오류가 발생했습니다. 나중에 다시 시도해주세요.')
         }
         return undefined

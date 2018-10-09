@@ -32,6 +32,7 @@ const MainHeader = (props) => {
             <div className={cx('contents')}>
             <div className={cx('shortMenu-container')}>
                 <div className={cx('menuImg-container')}><img src={hamburgerImgSrc}/></div>
+                {/* <nav>여기에 네비게이션</nav> */}
             </div>
             <div className={cx('longMenu-container')}>
                 <nav>

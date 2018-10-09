@@ -1,0 +1,92 @@
+.VisitorsPage{
+    font-size: 18px;
+    background-image: linear-gradient(to right, #dae2f8,#d6a4a4);
+    min-height: 100vh;
+    padding-top: 1em;
+}
+
+div.VisitorCardForm-container{
+    width: 84%;
+    margin: 0 auto;
+    padding-bottom: 1em;
+}
+
+main.visitorCards{
+    width: 84%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+
+    transition: width 0.2s ease;
+
+    div.visitorCard-container{
+        width: 25%;
+        padding:0 0.6em;
+        padding-bottom: 1.2em;
+
+        transition: width 0.2s ease;
+    }
+}
+
+@media (max-width : 1280px){
+    .VisitorsPage{
+        font-size: 17.5px;
+        div.VisitorCardForm-container{
+            width: 90%;
+        }
+        main.visitorCards{
+            width: 90%;
+            div.visitorCard-container{
+                width: 33.3333%;
+            }
+        }     
+    }
+}
+
+@media (max-width : 1024px){
+    .VisitorsPage{
+        font-size: 17px;
+    }
+}
+
+@media (max-width : 960px){
+    .VisitorsPage{
+        font-size: 16.5px;
+    }
+}
+
+@media (max-width : 768px){
+    .VisitorsPage{
+        font-size: 16px;
+        div.VisitorCardForm-container{
+            width: 95%;
+        }
+        main.visitorCards{
+            width: 95%;
+            div.visitorCard-container{
+                width: 50%;
+            }
+        }           
+    }
+}
+
+@media (max-width : 600px){
+    .VisitorsPage{
+        font-size: 15.5px;
+    }
+}
+
+@media (max-width : 480px){
+    .VisitorsPage{
+        font-size: 15px;
+        div.VisitorCardForm-container{
+            width: 95%;
+        }
+        main.visitorCards{
+            width: 100%;
+            div.visitorCard-container{
+                width: 100%;
+            }
+        }        
+    }
+}

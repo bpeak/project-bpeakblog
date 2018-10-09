@@ -1,0 +1,151 @@
+@keyframes slidein {
+    from {
+        top: -10em;
+    }  
+    to {
+        top: 0px;
+    }
+}
+
+.VisitorCardForm{
+    width: 100%;
+
+    .spinner-container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 1em;
+    }
+
+    button.write{
+        cursor: pointer;
+        width: 100%;
+        font-size: 100%;
+        font-weight: 900;
+        padding: 0.6em;
+        color: white;
+        border: none;
+        outline: none;
+        background-color: #1E306E;
+        transition: background-color 0.2s ease;
+        border-radius: 0.22em;
+        &:focus{
+            outline: none;
+            border: none;
+        }
+        &:hover{
+            background-color: #272532;
+        }
+    }
+
+    form{
+        &.fetching{
+            opacity: 0.5;
+        }
+
+        width: 700px;
+        margin: 0 auto;
+        position: relative;
+        animation-name: slidein;
+        animation-duration: 0.5s;
+        animation-timing-function: ease;
+        animation-fill-mode: forwards;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: white;
+        padding: 0 1em;
+
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        
+        & > * {
+            font-size: 100%;
+            width: 100%;
+        }
+
+        h2{
+            padding: 0.65em;
+            font-size: 160%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        input{
+            font-weight: 700;
+            height: 1.5em;
+            width: 100%;
+            padding: 0.88em 0.5em;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.05em 0.25em rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            background-color: #EEEEEE;
+            &:focus{ 
+                outline: none !important;
+                border-color: #496898;
+                box-shadow: 0 0 0.5em #496898;
+            }
+        }
+        textarea{
+            margin: 1em;
+            background-color: #EEEEEE;
+            font-weight: 700;
+            padding: 0.5em 0.5em;
+            min-height: 4.5em;
+            width: 100%;
+            resize: none;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0.05em 0.25em rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            &:focus{ 
+                outline: none !important;
+                border-color: #496898;
+                box-shadow: 0 0 0.5em #496898;
+            }
+        }
+        div.btns{
+            margin-bottom: 1em;
+            display: flex;
+            justify-content: space-between;
+            button{
+                cursor: pointer;
+                border: none;
+                border-radius: 0.2em;
+                width: 49%;
+                padding: 0.5em;
+                font-size: 100%;
+                font-weight: 900;
+                color: white;
+                transition: all 0.2s ease;
+                &.submit{
+                    background-color: #1E306E;
+                    &:hover:enabled{
+                        background-color: #272532;
+                        color: white;
+                    }
+                    &:disabled{
+                        cursor: auto;
+                        opacity: 0.7;
+                    }
+                }
+                &.cancel{
+                    background-color: #8c91ab;
+                    &:hover{
+                        background-color: #272532;
+                    }
+                }
+            }         
+        }
+    }
+}
+
+@media (max-width : 768px){
+    .VisitorCardForm{
+        form{ width: 100%;}
+    }
+}

@@ -94,7 +94,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst path = __webpack_require__(/*! path */ \"path\");\r\nconst express = __webpack_require__(/*! express */ \"express\");\r\nconst bodyParser = __webpack_require__(/*! body-parser */ \"body-parser\");\r\nconst cookieParser = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\r\nconst api_1 = __webpack_require__(/*! ./api */ \"./src/api/index.ts\");\r\nclass App {\r\n    constructor() {\r\n        this.app = express();\r\n        this.parserSetup();\r\n        this.RouterSetup();\r\n    }\r\n    parserSetup() {\r\n        this.app.use(bodyParser.json());\r\n        this.app.use(bodyParser.urlencoded({ extended: false }));\r\n        this.app.use(cookieParser());\r\n    }\r\n    RouterSetup() {\r\n        this.app.use('/api', api_1.default);\r\n        this.app.use('/dist', express.static(path.join(global.__rootDir, '../../frontend/dist')));\r\n        this.app.use('/public', express.static(path.join(global.__rootDir, '/public')));\r\n        this.app.get('*', (req, res) => {\r\n            res.sendFile(path.resolve(path.join(global.__rootDir, '../../frontend/dist/index.html')));\r\n        });\r\n    }\r\n}\r\nexports.default = App;\r\n\n\n//# sourceURL=webpack:///./src/App.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst path = __webpack_require__(/*! path */ \"path\");\r\nconst express = __webpack_require__(/*! express */ \"express\");\r\nconst bodyParser = __webpack_require__(/*! body-parser */ \"body-parser\");\r\nconst cookieParser = __webpack_require__(/*! cookie-parser */ \"cookie-parser\");\r\nconst api_1 = __webpack_require__(/*! ./api */ \"./src/api/index.ts\");\r\nclass App {\r\n    constructor() {\r\n        this.app = express();\r\n        this.parserSetup();\r\n        this.RouterSetup();\r\n    }\r\n    parserSetup() {\r\n        this.app.use(bodyParser.json());\r\n        this.app.use(bodyParser.urlencoded({ extended: false }));\r\n        this.app.use(cookieParser());\r\n    }\r\n    RouterSetup() {\r\n        this.app.use('/api', (req, res, next) => {\r\n            // const authorization : string | undefined = req.headers['authorization']\r\n            // if(!authorization){ return console.log('헤더미존재')}\r\n            // console.log(authorization.split(' ')[1])\r\n            // res.sendFile(path.resolve(path.join(global.__rootDir, '../../frontend/dist/index.html')))\r\n            next();\r\n        }, api_1.default);\r\n        this.app.use('/dist', express.static(path.join(global.__rootDir, '../../frontend/dist')));\r\n        this.app.use('/public', express.static(path.join(global.__rootDir, '/public')));\r\n        this.app.get('*', (req, res) => {\r\n            res.sendFile(path.resolve(path.join(global.__rootDir, '../../frontend/dist/index.html')));\r\n        });\r\n    }\r\n}\r\nexports.default = App;\r\n\n\n//# sourceURL=webpack:///./src/App.ts?");
 
 /***/ }),
 
@@ -370,7 +370,7 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst auth_1 = __webpack_require__(/*! ./auth */ \"./src/api/auth/index.ts\");\r\nconst posts_1 = __webpack_require__(/*! ./posts */ \"./src/api/posts/index.ts\");\r\nconst admin_1 = __webpack_require__(/*! ./admin */ \"./src/api/admin/index.ts\");\r\nconst api = express_1.Router();\r\napi.use('/auth', auth_1.default);\r\napi.use('/posts', posts_1.default);\r\napi.use('/admin', admin_1.default);\r\nexports.default = api;\r\n\n\n//# sourceURL=webpack:///./src/api/index.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst auth_1 = __webpack_require__(/*! ./auth */ \"./src/api/auth/index.ts\");\r\nconst posts_1 = __webpack_require__(/*! ./posts */ \"./src/api/posts/index.ts\");\r\nconst visitorCards_1 = __webpack_require__(/*! ./visitorCards */ \"./src/api/visitorCards/index.ts\");\r\nconst admin_1 = __webpack_require__(/*! ./admin */ \"./src/api/admin/index.ts\");\r\nconst api = express_1.Router();\r\napi.use('/auth', auth_1.default);\r\napi.use('/posts', posts_1.default);\r\napi.use('/visitorCards', visitorCards_1.default);\r\napi.use('/admin', admin_1.default);\r\nexports.default = api;\r\n\n\n//# sourceURL=webpack:///./src/api/index.ts?");
 
 /***/ }),
 
@@ -419,6 +419,66 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 
 "use strict";
 eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst ctrls = __webpack_require__(/*! ./ctrls */ \"./src/api/posts/ctrls/index.ts\");\r\nconst posts = express_1.Router();\r\nposts.get('/', ctrls.getAllPostsCtrl);\r\nposts.patch('/post/:_id/view', ctrls.viewUpPostCtrl);\r\nexports.default = posts;\r\n\n\n//# sourceURL=webpack:///./src/api/posts/index.ts?");
+
+/***/ }),
+
+/***/ "./src/api/visitorCards/ctrls/getAllVisitorCardsCtrl.ts":
+/*!**************************************************************!*\
+  !*** ./src/api/visitorCards/ctrls/getAllVisitorCardsCtrl.ts ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst visitorCard_1 = __webpack_require__(/*! ~db/models/visitorCard */ \"./src/db/models/visitorCard.ts\");\r\nconst getAllVisitorCardsCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const sortOption = { createdDate: -1 };\r\n                const populateOption = { path: 'memberAuthor', select: '-_id nick profileImgSrc' };\r\n                const visitorCards = yield visitorCard_1.default.find()\r\n                    .sort(sortOption)\r\n                    .populate(populateOption);\r\n                return res.status(200).json(JSON.stringify({ visitorCards }));\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.sendStatus(500);\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = getAllVisitorCardsCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/visitorCards/ctrls/getAllVisitorCardsCtrl.ts?");
+
+/***/ }),
+
+/***/ "./src/api/visitorCards/ctrls/index.ts":
+/*!*********************************************!*\
+  !*** ./src/api/visitorCards/ctrls/index.ts ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar getAllVisitorCardsCtrl_1 = __webpack_require__(/*! ./getAllVisitorCardsCtrl */ \"./src/api/visitorCards/ctrls/getAllVisitorCardsCtrl.ts\");\r\nexports.getAllVisitorCardsCtrl = getAllVisitorCardsCtrl_1.default;\r\nvar writeMemberVisitorCardCtrl_1 = __webpack_require__(/*! ./writeMemberVisitorCardCtrl */ \"./src/api/visitorCards/ctrls/writeMemberVisitorCardCtrl.ts\");\r\nexports.writeMemberVisitorCardCtrl = writeMemberVisitorCardCtrl_1.default;\r\nvar writeNonMemberVisitorCardCtrl_1 = __webpack_require__(/*! ./writeNonMemberVisitorCardCtrl */ \"./src/api/visitorCards/ctrls/writeNonMemberVisitorCardCtrl.ts\");\r\nexports.writeNonMemberVisitorCardCtrl = writeNonMemberVisitorCardCtrl_1.default;\r\n\n\n//# sourceURL=webpack:///./src/api/visitorCards/ctrls/index.ts?");
+
+/***/ }),
+
+/***/ "./src/api/visitorCards/ctrls/writeMemberVisitorCardCtrl.ts":
+/*!******************************************************************!*\
+  !*** ./src/api/visitorCards/ctrls/writeMemberVisitorCardCtrl.ts ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst visitorCard_1 = __webpack_require__(/*! ~db/models/visitorCard */ \"./src/db/models/visitorCard.ts\");\r\nconst visitorCardConfig = __webpack_require__(/*! ~configs/visitorCard.config.json */ \"./src/configs/visitorCard.config.json\");\r\nconst textValidator_1 = __webpack_require__(/*! ~modules/textValidator */ \"./src/modules/textValidator.ts\");\r\nconst writeMemberVisitorCardCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { user } = req;\r\n                const { description } = req.body;\r\n                const isBadRequest = ((!description) ||\r\n                    (description.constructor !== String) ||\r\n                    (!textValidator_1.default.validateMaxLength(description, visitorCardConfig.DESCRIPTION_CHAR_MAX)));\r\n                if (isBadRequest) {\r\n                    return res.sendStatus(400);\r\n                }\r\n                const visitorCard = (yield new visitorCard_1.default({\r\n                    isMember: true,\r\n                    isAdmin: user.isAdmin,\r\n                    description,\r\n                    memberAuthor: user._id\r\n                }).save())\r\n                    .toObject();\r\n                return res.status(201).json(JSON.stringify({\r\n                    visitorCard: {\r\n                        isMember: visitorCard.isMember,\r\n                        isAdmin: visitorCard.isAdmin,\r\n                        description: visitorCard.description,\r\n                        memberAuthor: {\r\n                            nick: user.nick,\r\n                            profileImgSrc: user.profileImgSrc\r\n                        }\r\n                    }\r\n                }));\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.sendStatus(500);\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = writeMemberVisitorCardCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/visitorCards/ctrls/writeMemberVisitorCardCtrl.ts?");
+
+/***/ }),
+
+/***/ "./src/api/visitorCards/ctrls/writeNonMemberVisitorCardCtrl.ts":
+/*!*********************************************************************!*\
+  !*** ./src/api/visitorCards/ctrls/writeNonMemberVisitorCardCtrl.ts ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst visitorCard_1 = __webpack_require__(/*! ~db/models/visitorCard */ \"./src/db/models/visitorCard.ts\");\r\nconst visitorCardConfig = __webpack_require__(/*! ~configs/visitorCard.config.json */ \"./src/configs/visitorCard.config.json\");\r\nconst textValidator_1 = __webpack_require__(/*! ~modules/textValidator */ \"./src/modules/textValidator.ts\");\r\nconst writeNonMemberVisitorCardCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { description, nick } = req.body;\r\n                const isBadRequest = ((!description) ||\r\n                    (description.constructor !== String) ||\r\n                    (!textValidator_1.default.validateMaxLength(description, visitorCardConfig.DESCRIPTION_CHAR_MAX)) ||\r\n                    (!nick) ||\r\n                    (nick.constructor !== String) ||\r\n                    (!textValidator_1.default.validateBlank(nick)) ||\r\n                    (!textValidator_1.default.validateMinLength(nick, visitorCardConfig.NICK_CHAR_MIN)) ||\r\n                    (!textValidator_1.default.validateMaxLength(nick, visitorCardConfig.NICK_CHAR_MAX)));\r\n                if (isBadRequest) {\r\n                    return res.status(400).json(JSON.stringify({}));\r\n                }\r\n                const visitorCard = (yield new visitorCard_1.default({\r\n                    isMember: false,\r\n                    isAdmin: false,\r\n                    description,\r\n                    nonMemberAuthor: { nick }\r\n                }).save())\r\n                    .toObject();\r\n                return res.status(201).json(JSON.stringify({\r\n                    visitorCard: {\r\n                        _id: visitorCard._id,\r\n                        isMember: visitorCard.isMember,\r\n                        isAdmin: visitorCard.isAdmin,\r\n                        description: visitorCard.description,\r\n                        nonMemberAuthor: { nick: visitorCard.nonMemberAuthor.nick },\r\n                        createdDate: visitorCard.createdDate\r\n                    }\r\n                }));\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.sendStatus(500);\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = writeNonMemberVisitorCardCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/visitorCards/ctrls/writeNonMemberVisitorCardCtrl.ts?");
+
+/***/ }),
+
+/***/ "./src/api/visitorCards/index.ts":
+/*!***************************************!*\
+  !*** ./src/api/visitorCards/index.ts ***!
+  \***************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst ctrls = __webpack_require__(/*! ./ctrls */ \"./src/api/visitorCards/ctrls/index.ts\");\r\nconst tokenValidationMiddleware_1 = __webpack_require__(/*! ~middlewares/tokenValidationMiddleware */ \"./src/middlewares/tokenValidationMiddleware.ts\");\r\nconst visitorCards = express_1.Router();\r\nvisitorCards.get('/', ctrls.getAllVisitorCardsCtrl);\r\nvisitorCards.post('/forMember', tokenValidationMiddleware_1.default, ctrls.writeMemberVisitorCardCtrl);\r\nvisitorCards.post('/forNonMember', ctrls.writeNonMemberVisitorCardCtrl);\r\nexports.default = visitorCards;\r\n\n\n//# sourceURL=webpack:///./src/api/visitorCards/index.ts?");
 
 /***/ }),
 
@@ -493,6 +553,17 @@ eval("module.exports = {\"NICK_CHAR_MIN\":2,\"NICK_CHAR_MAX\":10,\"EMAIL_CHAR_MA
 
 /***/ }),
 
+/***/ "./src/configs/visitorCard.config.json":
+/*!*********************************************!*\
+  !*** ./src/configs/visitorCard.config.json ***!
+  \*********************************************/
+/*! exports provided: NICK_CHAR_MIN, NICK_CHAR_MAX, DESCRIPTION_CHAR_MAX, default */
+/***/ (function(module) {
+
+eval("module.exports = {\"NICK_CHAR_MIN\":2,\"NICK_CHAR_MAX\":10,\"DESCRIPTION_CHAR_MAX\":1000};\n\n//# sourceURL=webpack:///./src/configs/visitorCard.config.json?");
+
+/***/ }),
+
 /***/ "./src/constants/memberTypes.ts":
 /*!**************************************!*\
   !*** ./src/constants/memberTypes.ts ***!
@@ -550,6 +621,18 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 
 "use strict";
 eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\r\nconst userConfig = __webpack_require__(/*! ~configs/user.config.json */ \"./src/configs/user.config.json\");\r\nconst memberTypes = __webpack_require__(/*! ~constants/memberTypes */ \"./src/constants/memberTypes.ts\");\r\nconst Schema = mongoose.Schema;\r\nconst userSchema = new Schema({\r\n    // common\r\n    unique_id: { type: String, required: true },\r\n    memberType: {\r\n        type: String,\r\n        required: true,\r\n        validate: {\r\n            validator: (v) => {\r\n                return (v === memberTypes.FACEBOOK ||\r\n                    v === memberTypes.GOOGLE ||\r\n                    v === memberTypes.LOCAL ||\r\n                    v === memberTypes.NAVER ||\r\n                    v === memberTypes.KAKAO);\r\n            },\r\n            message: \"user schema / memberType 알수없는 유형\"\r\n        }\r\n    },\r\n    isAdmin: { type: Boolean, required: true },\r\n    nick: {\r\n        type: String,\r\n        required: true,\r\n        validate: {\r\n            validator: (v) => {\r\n                return (v.length <= userConfig.NICK_CHAR_MAX);\r\n            },\r\n            message: `user schema / nick 의 맥스길이 ${userConfig.NICK_CHAR_MAX}`\r\n        }\r\n    },\r\n    sex: {\r\n        type: String,\r\n        required: true,\r\n        validate: {\r\n            validator: (v) => {\r\n                return (v === 'M' || v === 'W');\r\n            },\r\n            message: \"user schema / sex 알수없는 유형\"\r\n        }\r\n    },\r\n    profileImgSrc: { type: String, default: null },\r\n    joinDate: { type: Date, default: Date.now },\r\n    // local\r\n    key: {\r\n        hash: { type: String },\r\n        salt: { type: String }\r\n    },\r\n    email: {\r\n        type: String,\r\n        validate: {\r\n            validator: (v) => {\r\n                return v.length <= userConfig.EMAIL_CHAR_MAX;\r\n            },\r\n            message: `user schema / email 맥스길이 ${userConfig.EMAIL_CHAR_MAX}`\r\n        }\r\n    },\r\n    //social\r\n    social_id: { type: String }\r\n});\r\nconst User = mongoose.model('user', userSchema);\r\nexports.default = User;\r\n\n\n//# sourceURL=webpack:///./src/db/models/user.ts?");
+
+/***/ }),
+
+/***/ "./src/db/models/visitorCard.ts":
+/*!**************************************!*\
+  !*** ./src/db/models/visitorCard.ts ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\r\nconst autoIncrement = __webpack_require__(/*! mongoose-auto-increment */ \"mongoose-auto-increment\");\r\nconst Schema = mongoose.Schema;\r\nconst visitorCardSchema = new Schema({\r\n    isMember: { type: Boolean, required: true },\r\n    isAdmin: { type: Boolean, required: true },\r\n    memberAuthor: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },\r\n    nonMemberAuthor: {\r\n        nick: { type: String }\r\n    },\r\n    description: { type: String, required: true, },\r\n    createdDate: { type: Date, default: Date.now }\r\n});\r\nconst VisitorCard = mongoose.model('visitorCard', visitorCardSchema);\r\nexports.default = VisitorCard;\r\nautoIncrement.initialize(mongoose.connection);\r\nvisitorCardSchema.plugin(autoIncrement.plugin, 'visitorCard');\r\n\n\n//# sourceURL=webpack:///./src/db/models/visitorCard.ts?");
 
 /***/ }),
 

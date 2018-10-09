@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 //actions
 import * as popupsActionCreators from '~redux/popups/actionCreators'
@@ -25,27 +25,20 @@ const mapDispatchToProps = (dispatch) => ({
     }
 })
 
-class PreSocialLoginPageContainer extends React.PureComponent {
+class PreSocialLoginPageContainer extends Component {
     constructor(){
         super()
         this.state = {
-            isLoadedPreUser : false,
-            profileImgSrc : undefined,
             nick : {
                 val : '',
                 isFetching : false,
                 isValidated : false,
                 isTouched : false,
                 errMsg : null
-            },
-            sex : {
-                val : '',
             }
         }
     }
 
-    _setIsLoadedPreUser = (isLoadedPreUser) => { this.setState(() => ({ isLoadedPreUser }))}
-    _setProfileImgSrc = (profileImgSrc) => { this.setState(() => ({ profileImgSrc }))}
     _setInputVal = (inputName, val) => {
         this.setState((state) => ({
             [inputName] : {
@@ -91,62 +84,44 @@ class PreSocialLoginPageContainer extends React.PureComponent {
         }))
     }
 
-    _getPreUser = () => {
-        return fetchCreator('/api/auth/social/preUser', {
-            method : "GET"
-        }, '소셜로그인 정보요청')
-    }
-
     _doubleCheckNick = (nick) => {
+        const body = { nick }
         return fetchCreator('/api/auth/doubleCheckNick', {
             method : "POST",
             headers : {
                 'content-type' : 'application/json'
             },
-            body : JSON.stringify({ nick })
+            body : JSON.stringify(body)
         })
     }
 
-    handleOnNickChange = async (nick) => {
-        const { 
-            _setInputVal, 
-            _setInputIsTouched, 
-            _setInputErrMsg, 
-            _setInputIsValidated 
-        } = this
+    validateNick = async (nick) => {
+        const { _setInputVal, _setInputIsTouched, _setInputErrMsg, _setInputIsValidated } = this
         _setInputVal('nick', nick)
-        if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
-        if(!this.state.nick.isTouched){ _setInputIsTouched('nick', true) }
-        if(this.state.nick.errMsg){ _setInputErrMsg('nick', null) }
-
+        _setInputIsValidated('nick', false)
+        _setInputIsTouched('nick', true)
+        _setInputErrMsg('nick', null)
         if(nick === ''){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', '닉네임은 필수 항목입니다.')
         }
         if(!textValidator.validateBlank(nick)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', '닉네임에 공백을 포함할수 없습니다.')
         }
         if(!textValidator.validateMinLength(nick, userConfig.NICK_CHAR_MIN)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', `닉네임은 ${userConfig.NICK_CHAR_MIN}자 이상이어야 합니다.`)           
         }
         if(!textValidator.validateMaxLength(nick, userConfig.NICK_CHAR_MAX)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', `닉네임은 최대 ${userConfig.NICK_CHAR_MAX}자 까지 가능합니다.`)
         }
 
-        const { 
-            _setInputIsFetching, 
-            _doubleCheckNick 
-        } = this
-
+        const { _setInputIsFetching, _doubleCheckNick } = this
         _setInputIsFetching('nick', true)
         const response = await _doubleCheckNick(nick)
-
-        // fetch error
         if(!response) { return }
-
         if(response.isAvailable){
             _setInputIsValidated('nick', true)
         } else {
@@ -156,7 +131,21 @@ class PreSocialLoginPageContainer extends React.PureComponent {
         _setInputIsFetching('nick', false)
     }
 
-    handleOnSexClick = (sex) => { this._setInputVal('sex', sex) }
+    getPreUser = () => {
+        return fetchCreator('/api/auth/social/preUser', {
+            method : "GET"
+        }, '소셜로그인 정보요청')
+    }
+
+    openPreUserErrorPopup = () => {
+        this.props.popupsActions.openPopup({
+            popupType : "ALERT",
+            imgName : 'warning',
+            icon : '블라',
+            title : '소셜로그인 에러',
+            description : `소셜로그인 정보를 불러올수 없습니다.`
+        })     
+    }
 
     socialJoin = async () => {
         const nick = this.state.nick.val
@@ -191,43 +180,14 @@ class PreSocialLoginPageContainer extends React.PureComponent {
         history.push(redirectUrl)        
     }
 
-    async componentDidMount(){
-        const response = await this._getPreUser()
-        //fetch error
-        if(!response){ return }
-
-        const { preUser } = response
-        if(!preUser){
-            this.props.popupsActions.openPopup({
-                popupType : "ALERT",
-                imgName : 'warning',
-                icon : '블라',
-                title : '소셜로그인 에러',
-                description : `소셜로그인 정보를 불러올수 없습니다.`
-            })
-            console.log('그다음 원래 들어온곳으로 리다이렉트 시켜야데는데')
-        }
-        if(preUser.isMember){
-            // login directly
-        } else {
-            // join process
-            this.handleOnNickChange(preUser.nick)
-            this._setInputVal('sex', preUser.sex || '')
-            this._setProfileImgSrc(preUser.profileImgSrc)
-            this._setIsLoadedPreUser(true)
-        }
-    }
-
     render() {
         return (
             <PreSocialLoginPage
-            isLoadedPreUser={this.state.isLoadedPreUser}
+            getPreUser={this.getPreUser}
+            openPreUserErrorPopup={this.openPreUserErrorPopup}
             nickState={this.state.nick}
-            sexState={this.state.sex}
-            profileImgSrc={this.state.profileImgSrc}
-
-            handleOnSexClick={this.handleOnSexClick}
-            handleOnNickChange={this.handleOnNickChange}
+            validateNick={this.validateNick}
+            socialJoin={this.socialJoin}
             />
         )
     }

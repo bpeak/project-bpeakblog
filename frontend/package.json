@@ -31,7 +31,7 @@
 		"html-to-draftjs": "^1.4.0",
 		"immutable": "^3.8.2",
 		"prop-types": "^15.6.2",
-		"react": "^16.4.1",
+		"react": "^16.5.2",
 		"react-dom": "^16.4.1",
 		"react-draft-wysiwyg": "^1.12.13",
 		"react-helmet": "^5.2.0",

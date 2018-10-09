@@ -72,7 +72,7 @@ class MainTemplate extends Component{
         return(
             <Fragment>
                 <Helmet>
-                    <title>{title ? `BPEAK BLOG - ${title}` : 'BPEAK BLOG'}</title>
+                    <title>{title ? `${title} - Bpeak Blog` : 'BPEAK BLOG'}</title>
                 </Helmet>
                 <div className={cx('MainTemplate')}>
                     <header className={cx('header')}>

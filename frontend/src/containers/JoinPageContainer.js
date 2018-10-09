@@ -12,7 +12,7 @@ import * as popupActionCreators from '~redux/popups/actionCreators'
 //configs
 import userConfig from '~configs/user.config.json'
 
-class JoinPageContainer2 extends Component {
+class JoinPageContainer extends Component {
     constructor(){
         super()
         this.state = {
@@ -322,4 +322,4 @@ const mapDispatchToProps = (dispatch) => ({
     popupsActions : { openPopup : (payload) => dispatch(popupActionCreators.openPopup(payload)) }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoinPageContainer2)
+export default connect(mapStateToProps, mapDispatchToProps)(JoinPageContainer)

@@ -116,6 +116,49 @@
         }
     }
 
+    div.bundle-sex{
+        margin: 1em 0;
+        display: flex;
+        height: cacl(3.5em / 2);
+        .checkbox-container{
+            flex-grow: 1;
+            flex-shrink: 1;
+            display: flex;
+            justify-content: center;
+            input{
+                margin: 0 0.5em;
+                height: 100%;
+                width: 1.3em;
+            }
+            label{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 80%;
+                color: #0D1B49;
+                font-weight: bold;
+            }
+        }
+        .icon-container{
+            padding: 0.3em;
+            height: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            i{
+                font-size: 1.3em;
+            }
+            &.active{
+                opacity: 1;
+                i{
+                    color: green;
+                }
+            }
+        }
+    }    
+
     button.submit{
         margin-top: 1em;
         margin-bottom: 1em;

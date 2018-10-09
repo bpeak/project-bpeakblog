@@ -8,9 +8,11 @@ import ScrollResetWithRouter from '~routes/ScrollResetWithRouter'
 import PostsPageRoute from '~routes/PostsPageRoute'
 //components
 import HomePage from '~components/pages/HomePage/HomePage'
-import PostsPage from '~components/pages/PostsPage/PostsPage'
+import NotFoundPage from '~components/pages/NotFoundPage/NotFoundPage'
 import AdminPage from '~components/pages/AdminPage/AdminPage'
+import AboutMePage from '~components/pages/AboutMePage/AboutMePage'
 //containers
+import VisitorsPageContainer from '~containers/VisitorsPageContainer'
 import PostPageContainer from '~containers/PostPageContainer'
 import PostsPageContainer from '~containers/PostsPageContainer'
 import JoinPageContainer from '~containers/JoinPageContainer'
@@ -28,15 +30,18 @@ const App = () => {
                 <ScrollResetWithRouter>
                     <Switch>
                         <Route exact path="/" component={HomePage}/>
+                        <Route exact path="/AboutMe" component={AboutMePage}/>
                         <Route exact path="/posts/" component={PostsPageRoute}/>
                         <Route exact path="/posts/:category(all|dev|life|tag|search)" component={PostsPageRoute}/>
                         <Route exact path="/posts/:category(all|dev|life|tag|search)/page/:pageIndex" component={PostsPageRoute}/>
                         <Route exact path="/post/:_id" component={PostPageContainer}/>
+                        <Route exact path="/visitors" component={VisitorsPageContainer}/>
                         <Route exact path="/join" component={JoinPageContainer}/>
                         <Route exact path="/login" component={LoginPageContainer}/>
                         <Route path="/admin" component={AdminPage}/>
                         <Route path="/preSocialLogin" component={PreSocialLoginPageContainer}/>
-                        {/* <Route component={Test}/> */}
+                        <Route path="/test" component={Test}/>
+                        <Route component={NotFoundPage}/>
                     </Switch>
                 </ScrollResetWithRouter>
                 </RecordHistoryWithRouterContainer>
@@ -47,8 +52,3 @@ const App = () => {
 }
 
 export default App
-
-const arr = [{ a:  1 }, { a : 3 } , { a : 6 }, { a : 1}]
-
-const c = arr.findIndex(x => x.a === 1)
-console.log(c)

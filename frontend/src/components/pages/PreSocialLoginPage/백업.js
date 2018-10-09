@@ -12,12 +12,21 @@ class PreSocialLoginPage extends Component {
     constructor(){
         super()
         this.state = {
+            preUser : undefined,
             remainingTime : {
                 m : 3,
                 s : 0
             }
         }
     }
+
+    _setPreUser = (preUser) => { this.setState(() => ({ preUser }))}
+    _setPreUserNick = (nick) => { this.setState((state) => ({
+        preUser : {
+            ...state.preUser,
+            nick
+        }
+    }))}
 
     _setMinute = (m) => {
         this.setState((state) => ({
@@ -73,60 +82,73 @@ class PreSocialLoginPage extends Component {
         return nextRemainingTime
     }
 
-    _onInputNickChange = (e) => {
+    _handleOnNickChange = (e) => {
         const nick = e.currentTarget.value
-        console.log('닉컨트롤')
+        this._setPreUserNick(nick)
+        this.props.validateNick(nick)
     }
 
-    _onBtnSubmitClick = (e) => {
+    _handleOnBtnSubmitClick = (e) => {
         e.preventDefault()
-        console.log('전송한덴다')
+        this.props.socialJoin()
     }
 
-    _onInputSexClick = (e) => {
-        console.log('전송한덴다')
-    }
+    async componentDidMount(){
+        try{
+            const response = await this.props.getPreUser()
+            if(!response) { return }
+            const { preUser } = response
+            if(!preUser){
+                this.props.openPreUserErrorPopup()
+                const { storeState } = this.props
+                return console.log('여기서 리다이렉트 시켜야되는데 로컬스토리지에 urlHistory 도 저장해야겟네이거 아니면 없잔아')
+            }
 
-    componentDidMount(){
-        setInterval(() => {
-            const prevRemainingTime = this.state.remainingTime
-            const nextPreminingTime = this._getNextRemainingTime(prevRemainingTime)
-            this._setMinute(nextPreminingTime.m)
-            this._setSecond(nextPreminingTime.s)
-        }, 1000)
+            console.log(preUser, '프리유저')
+
+            if(preUser.isMember) {
+                console.log('바로로그인 밖으로 리다이렉트')
+            } else {
+                this._setPreUser(preUser)
+                this.props.validateNick(preUser.nick)
+            }
+
+            setInterval(() => {
+                const prevRemainingTime = this.state.remainingTime
+                const nextPreminingTime = this._getNextRemainingTime(prevRemainingTime)
+                this._setMinute(nextPreminingTime.m)
+                this._setSecond(nextPreminingTime.s)
+            }, 1000)
+        }
+        catch(err){
+            console.log(err)
+        }
     }
 
     render() {
 
         const { 
+            _handleOnNickChange,
+            _handleOnBtnSubmitClick,
             _getFrontTimeSecond, 
-            _getEndTimeSecond,
-
-            _onInputNickChange,
-            _onInputSexClick,
-            _onBtnSubmitClick
+            _getEndTimeSecond
         } = this
-
-        const {
-            isLoadedPreUser,
-            profileImgSrc,
-            nickState,
-            sexState
-        } = this.props
+        const { preUser, remainingTime } = this.state
+        const { nickState } = this.props
 
         return (
             <MainTemplate>
                 <div className={cx('PreSocialLoginPage')}>
-                    {!isLoadedPreUser ? <div className={cx('spinner-container')}><LargeSpinner/></div> 
+                    {!preUser ? <div className={cx('spinner-container')}><LargeSpinner/></div> 
                     :<Fragment>
                     <h1>Welcome!</h1>
                     <div className={cx('ProfileImg-container')}>
-                        <ProfileImg isMember={true} imgSrc={profileImgSrc}/>
+                        <ProfileImg isMember={true} imgSrc={preUser.profileImgSrc}/>
                     </div>
-                    <span className={cx('nick')}>{nickState.val}</span>
+                    <span className={cx('nick')}>{preUser.nick}</span>
                     <form className={cx('form')}>
                         <div className={cx('bundle')}>
-                            <input defaultValue={nickState.val} onChange={_onInputNickChange} required/>
+                            <input defaultValue={preUser.nick} onChange={_handleOnNickChange} required/>
                             <label htmlFor="nick">Nick</label>
                             <div className={cx(
                                 'icon-container', 
@@ -136,13 +158,6 @@ class PreSocialLoginPage extends Component {
                             </div>
                         </div>
                         {nickState.isTouched && nickState.errMsg && !nickState.isFetching && <div className={cx('errMsg')}>{nickState.errMsg}</div>}
-                        <div className={cx('bundle-sex')}>
-                            <div className={cx('checkbox-container')}>
-                                <label htmlFor="M">Man</label><input onClick={_onInputSexClick} id="M" type="radio" name="sex" value="M"/>
-                                <label htmlFor="W">Woman</label><input onClick={_onInputSexClick} id="W" type="radio" name="sex" value="W"/>
-                            </div>
-                            <div className={cx('icon-container', { active : sexState.val !== '' })}><i className="fas fa-check-circle"></i></div>
-                        </div>                        
                         <div className={cx('remainingTime')}>
                             <div className={cx('time')}>
                                 <div>
@@ -158,7 +173,7 @@ class PreSocialLoginPage extends Component {
                             </div>
                             <div className={cx('msg')}>제한시간이 경과되면 BpeakBlog가 가지고있는 당신의 소셜정보를 파기합니다.</div>
                         </div>                                               
-                        <button onClick={_onBtnSubmitClick} disabled={!nickState.isValidated} className={cx('submit')}>SUBMIT</button>
+                        <button onClick={_handleOnBtnSubmitClick} disabled={!nickState.isValidated} className={cx('submit')}>SUBMIT</button>
                     </form>                             
                     </Fragment>}               
                 </div>

@@ -1,57 +1,53 @@
 import React, { Component } from 'react'
 import draftToHtml from 'draftjs-to-html'
 
-class Test extends Component {
+const b =123
+class Test extends React.PureComponent {
     constructor(){
         super()
+        // const bb = new A()
         this.state = {
-            file : undefined
+            file : 1
         }
     }
 
-    _handleOnBtnFileClick = () => { this.refs.input.click() }
-    _setFile = (file) => { this.setState(() => ({ file }))}
+    _handleOnBtnClick = () => {
+        console.log('클릭하빈다')
+        if(Math.random() < 0.5){
+            this.setState((state) => ({
+                file : state.file + 1
+            }))
+        } else {
+            this.setState((state) => ({
+                file : state.file
+            }))
+        }
 
-    _handleOnFileChange = () => {
-        const file = this.refs.input.files[0]
-        this._setFile(file)
     }
 
-    _handleOnBtnSubmitClick = () => {
-        const file = this.state.file
-        this._sendImgFile(file)
-    }
+    componentDidMount(){
 
-    _sendImgFile = (file) => {
-        const formData = new FormData()
-        formData.append('imgFile', file)
-        fetch('/api/admin/postImgFileUpload',{
-            method: 'post',
-            body: formData
-        })
-    }
-
-    async componentDidMount(){
-        const response = await fetch('/api/admin/test', {
-            method : "GET"
-        })
-        .then(data => data.json())
-        .then(json => JSON.parse(json))
-        console.log(draftToHtml(response.post.contentState))
     }
 
     render() {
 
-        const { _handleOnBtnFileClick, _handleOnFileChange, _handleOnBtnSubmitClick } = this
+        console.log('렌더링됩니다')
 
         return (
             <div>
-                <input onChange={_handleOnFileChange} ref="input" style={{ display : 'none' }} type="file" accept="image/*"/>
-                <button onClick={_handleOnBtnFileClick}>upload</button>
-                <button onClick={_handleOnBtnSubmitClick}>submit</button>
+                <div>{this.state.file}</div>
+                <button onClick={this._handleOnBtnClick}>버튼</button>
             </div>
         )
     }
 }
 
 export default Test
+
+function A(){
+    this.a = 1
+}
+
+function B(){
+    this.a = 1
+}

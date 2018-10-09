@@ -15,6 +15,7 @@
 }
 
 .shortMenu-container{
+    position: relative;
     display: none;
     align-items: center;
     height: 100%;
@@ -28,6 +29,11 @@
             width: 35px;
             height: 35px;
         }
+    }
+    nav{
+        position: absolute;
+        top: 0;
+        left: 0;
     }
 }
 
@@ -69,12 +75,13 @@
 .user-container{
     display: flex;
     align-items: center;
-    .ProfileImg-container{
+    padding-right: 0.15em;
+    div.ProfileImg-container{
         padding: 0.3em;
         width: 2.4em;
         height: 2.4em;
     }
-    .nick{
+    span.nick{
         padding-right: 0.5em;
         color: grey;
         font-weight: 800;

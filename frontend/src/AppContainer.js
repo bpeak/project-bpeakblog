@@ -27,10 +27,7 @@ class AppContainer extends Component {
             delete post.contentState
             return post
         })
-        const a = [ 1,2,3,4,5,6]
-        setTimeout(() => {
-            this.props.postReceived({ posts })
-        }, 1)
+        this.props.postReceived({ posts })
     }
 
     render() {

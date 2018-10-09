@@ -7,9 +7,14 @@ class RecordEnteringToAuthRoute extends React.Component {
 		const nextPathname = nextProps.location.pathname
 		if(
 			(nextPathname === '/join' || nextPathname === '/login') &&
-			(prevPathname !== '/join' && prevPathname !== '/login')
+			(prevPathname !== '/join' && prevPathname !== '/login') 
 		){
-			this.props.enterToAuthPage({ from : prevPathname })
+			const currentToAuthPageFrom = nextProps.urlHistoryState.toAuthPageFrom
+			const queryParams = decodeURIComponent(this.props.location.search)
+			const nextToAuthPageFrom = `${prevPathname}${queryParams}`
+			if(currentToAuthPageFrom !== nextToAuthPageFrom) {
+				this.props.enterToAuthPage({ from : nextToAuthPageFrom })
+			}
 		}
 	}
   

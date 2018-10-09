@@ -105,7 +105,7 @@ class PostPage extends Component {
         const { coverImgHeight } = this.state
         const { _isoDateToTimeText } = this
         return (
-            <MainTemplate title={"d"}>
+            <MainTemplate title={post && post.title}>
                 <div className={cx('PostPage')}>
                     {post === undefined ? <div className={cx('spinne-container')}><LargeSpinner/></div>
                     :<Fragment>
