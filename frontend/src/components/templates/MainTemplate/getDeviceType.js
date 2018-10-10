@@ -1,7 +1,7 @@
 import * as deviceTypes from './deviceTypes'
 
 const TABLET_MAX_WIDTH = 960
-const MOBILE_MAX_WIDTH = 480
+const MOBILE_MAX_WIDTH = 600
 
 const getDeviceType = (innerWidth) => {
     if(innerWidth > TABLET_MAX_WIDTH){

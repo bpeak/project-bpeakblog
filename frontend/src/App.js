@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Router, Route, Switch } from 'react-router-dom'
 //modules
 import history from '~modules/history'
@@ -11,21 +11,24 @@ import HomePage from '~components/pages/HomePage/HomePage'
 import NotFoundPage from '~components/pages/NotFoundPage/NotFoundPage'
 import AdminPage from '~components/pages/AdminPage/AdminPage'
 import AboutMePage from '~components/pages/AboutMePage/AboutMePage'
+import ProfilePage from '~components/pages/ProfilePage/ProfilePage'
 //containers
 import VisitorsPageContainer from '~containers/VisitorsPageContainer'
+import ProfilePageContainer from '~containers/ProfilePageContainer'
 import PostPageContainer from '~containers/PostPageContainer'
-import PostsPageContainer from '~containers/PostsPageContainer'
 import JoinPageContainer from '~containers/JoinPageContainer'
 import LoginPageContainer from '~containers/LoginPageContainer'
 import PopupContainer from '~containers/PopupContainer'
 import PreSocialLoginPageContainer from '~containers/PreSocialLoginPageContainer'
+import ModalContainer from '~containers/ModalContainer'
 
 import Test from '~components/pages/Test'
 
 const App = () => {
     return (
-        <React.Fragment>
+        <Fragment>
             <Router history={history}>
+                <Fragment>
                 <RecordHistoryWithRouterContainer>
                 <ScrollResetWithRouter>
                     <Switch>
@@ -36,6 +39,7 @@ const App = () => {
                         <Route exact path="/posts/:category(all|dev|life|tag|search)/page/:pageIndex" component={PostsPageRoute}/>
                         <Route exact path="/post/:_id" component={PostPageContainer}/>
                         <Route exact path="/visitors" component={VisitorsPageContainer}/>
+                        <Route exact path="/Profile" component={ProfilePageContainer}/>
                         <Route exact path="/join" component={JoinPageContainer}/>
                         <Route exact path="/login" component={LoginPageContainer}/>
                         <Route path="/admin" component={AdminPage}/>
@@ -45,9 +49,10 @@ const App = () => {
                     </Switch>
                 </ScrollResetWithRouter>
                 </RecordHistoryWithRouterContainer>
+                <ModalContainer/>
+                </Fragment>
             </Router>
-            <PopupContainer/>
-        </React.Fragment>
+        </Fragment>
     )
 }
 

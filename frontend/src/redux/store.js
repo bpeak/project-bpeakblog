@@ -3,6 +3,7 @@ import userReducer from './user/reducer'
 import postsReducer from './posts/reducer'
 import visitorCardsReducer from './visitorCards/reducer'
 import popupsReducer from './popups/reducer'
+import modalsReducer from './modals/reducer'
 import urlHistoryReducer from './urlHistory/reducer'
 
 import { createLogger } from 'redux-logger'
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     posts : postsReducer,
     visitorCards : visitorCardsReducer,
     popups : popupsReducer,
+    modals : modalsReducer,
     urlHistory : urlHistoryReducer
 })
 
@@ -30,9 +32,11 @@ const prevStoreState = (function () {
 const store = (function(){
     let store
     if(Object.keys(prevStoreState).length !== 0){
-        store = createStore(rootReducer, prevStoreState, applyMiddleware(logger))
+        // store = createStore(rootReducer, prevStoreState, applyMiddleware(logger))
+        store = createStore(rootReducer, prevStoreState)
     } else {
-        store = createStore(rootReducer, applyMiddleware(logger))
+        // store = createStore(rootReducer, applyMiddleware(logger))
+        store = createStore(rootReducer)
     }
     return store
 })()

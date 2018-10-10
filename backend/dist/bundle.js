@@ -370,7 +370,7 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst auth_1 = __webpack_require__(/*! ./auth */ \"./src/api/auth/index.ts\");\r\nconst posts_1 = __webpack_require__(/*! ./posts */ \"./src/api/posts/index.ts\");\r\nconst visitorCards_1 = __webpack_require__(/*! ./visitorCards */ \"./src/api/visitorCards/index.ts\");\r\nconst admin_1 = __webpack_require__(/*! ./admin */ \"./src/api/admin/index.ts\");\r\nconst api = express_1.Router();\r\napi.use('/auth', auth_1.default);\r\napi.use('/posts', posts_1.default);\r\napi.use('/visitorCards', visitorCards_1.default);\r\napi.use('/admin', admin_1.default);\r\nexports.default = api;\r\n\n\n//# sourceURL=webpack:///./src/api/index.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst auth_1 = __webpack_require__(/*! ./auth */ \"./src/api/auth/index.ts\");\r\nconst posts_1 = __webpack_require__(/*! ./posts */ \"./src/api/posts/index.ts\");\r\nconst visitorCards_1 = __webpack_require__(/*! ./visitorCards */ \"./src/api/visitorCards/index.ts\");\r\nconst users_1 = __webpack_require__(/*! ./users */ \"./src/api/users/index.ts\");\r\nconst admin_1 = __webpack_require__(/*! ./admin */ \"./src/api/admin/index.ts\");\r\nconst api = express_1.Router();\r\napi.use('/auth', auth_1.default);\r\napi.use('/posts', posts_1.default);\r\napi.use('/visitorCards', visitorCards_1.default);\r\napi.use('/users', users_1.default);\r\napi.use('/admin', admin_1.default);\r\nexports.default = api;\r\n\n\n//# sourceURL=webpack:///./src/api/index.ts?");
 
 /***/ }),
 
@@ -419,6 +419,18 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 
 "use strict";
 eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst ctrls = __webpack_require__(/*! ./ctrls */ \"./src/api/posts/ctrls/index.ts\");\r\nconst posts = express_1.Router();\r\nposts.get('/', ctrls.getAllPostsCtrl);\r\nposts.patch('/post/:_id/view', ctrls.viewUpPostCtrl);\r\nexports.default = posts;\r\n\n\n//# sourceURL=webpack:///./src/api/posts/index.ts?");
+
+/***/ }),
+
+/***/ "./src/api/users/index.ts":
+/*!********************************!*\
+  !*** ./src/api/users/index.ts ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst userConfig = __webpack_require__(/*! ~configs/user.config.json */ \"./src/configs/user.config.json\");\r\nconst textValidator_1 = __webpack_require__(/*! ~modules/textValidator */ \"./src/modules/textValidator.ts\");\r\nconst tokenValidationMiddleware_1 = __webpack_require__(/*! ~middlewares/tokenValidationMiddleware */ \"./src/middlewares/tokenValidationMiddleware.ts\");\r\nconst Encryption_1 = __webpack_require__(/*! ~modules/Encryption */ \"./src/modules/Encryption.ts\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst users = express_1.Router();\r\nusers.patch('/user/password', tokenValidationMiddleware_1.default, (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { password } = req.body;\r\n                const isBadRequest = ((!password) ||\r\n                    (password.constructor !== String) ||\r\n                    (!textValidator_1.default.validateBlank(password)) ||\r\n                    (!textValidator_1.default.validateMinLength(password, userConfig.PASSWORD_CHAR_MIN)) ||\r\n                    (!textValidator_1.default.validateMaxLength(password, userConfig.PASSWORD_CHAR_MAX)));\r\n                if (isBadRequest) {\r\n                    return res.sendStatus(400);\r\n                }\r\n                const user_oid = req.user._id;\r\n                const pwSet = Encryption_1.default.getPwSet(password);\r\n                const user = user_1.default.findOne({ _id: user_oid });\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                res.sendStatus(500);\r\n            }\r\n        });\r\n    })();\r\n});\r\nusers.patch('/user/details', (req, res) => {\r\n});\r\nexports.default = users;\r\n\n\n//# sourceURL=webpack:///./src/api/users/index.ts?");
 
 /***/ }),
 

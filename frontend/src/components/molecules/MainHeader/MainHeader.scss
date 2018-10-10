@@ -1,3 +1,12 @@
+.test{
+    z-index: 5;
+    background-color:blue;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+
 .MainHeader{
     z-index: 3;
     width: 100%;
@@ -15,11 +24,11 @@
 }
 
 .shortMenu-container{
-    position: relative;
-    display: none;
+    // display: none;
     align-items: center;
     height: 100%;
     .menuImg-container{
+        cursor: pointer;
         height: 100%;
         display: flex;
         justify-content: center;
@@ -30,11 +39,30 @@
             height: 35px;
         }
     }
-    nav{
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
+    // nav{
+    //     background-color: grey;
+    //     position: absolute;
+    //     width: 200px;
+    //     display: flex;
+    //     flex-direction: column;
+    //     top: 0;
+    //     left: -200px;
+    //     &.active{
+    //         left: 0;
+    //     }
+    //     .closeMenuImg-container{
+    //         cursor: pointer;
+    //         height: 100%;
+    //         display: flex;
+    //         justify-content: center;
+    //         align-items: center;
+    //         img{
+    //             padding: 0.4em;
+    //             width: 35px;
+    //             height: 35px;
+    //         }
+    //     }
+    // }
 }
 
 .longMenu-container{
@@ -48,7 +76,7 @@
             font-family: 'Abril Fatface';
             letter-spacing: 0;
             font-size: 135%;
-            margin-right: 0.5em;
+            margin-right: 0.35em;
             color: #1E306E;
         }
         a{
@@ -77,15 +105,20 @@
     align-items: center;
     padding-right: 0.15em;
     div.ProfileImg-container{
+        cursor: pointer;
         padding: 0.3em;
         width: 2.4em;
         height: 2.4em;
     }
     span.nick{
+        cursor: pointer;
         padding-right: 0.5em;
         color: grey;
         font-weight: 800;
         font-size: 80%;
+        &:hover{
+
+        }
     }
 }
 
@@ -161,12 +194,12 @@
         font-size: 15.5px;
     }
 
-    .shortMenu-container{
-        display: flex;
-    }
-    .longMenu-container{
-        display: none;
-    }
+    // .shortMenu-container{
+    //     display: flex;
+    // }
+    // .longMenu-container{
+    //     display: none;
+    // }
 }
 
 @media (max-width : 480px){

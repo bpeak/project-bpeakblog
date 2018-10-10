@@ -77,7 +77,7 @@ class MainTemplate extends Component{
                 <div className={cx('MainTemplate')}>
                     <header className={cx('header')}>
                         <div style={style["TopHeader-container"]} className={cx('TopHeader-container')}><TopHeader/></div>
-                        <div style={style["MainHeader-container"]} className={cx('MainHeader-container')}><MainHeaderContainer/></div>
+                        <div style={style["MainHeader-container"]} className={cx('MainHeader-container')}><MainHeaderContainer deviceType={deviceType}/></div>
                     </header>
                     <div style={style['contents']} className={cx('contents')}>
                         {children}
