@@ -13,7 +13,7 @@
 
     .contents{
         padding-right: 1.3em;
-        width: 67.5%;
+        width: 70%;
         display: flex;
         flex-direction: column;
         .title{
@@ -23,11 +23,10 @@
             font-size: 120%;
             font-weight: 900;
             margin-bottom: 0.5em;
-            flex-shrink: 0;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 2;
+            -webkit-line-clamp: 3;
             line-height: 138%;
             -webkit-box-orient: vertical;
             transition: color 0.2s ease;
@@ -36,42 +35,82 @@
             }
         }
         .intro{
-            cursor: pointer;
             flex-grow: 1;
-            flex-shrink: 1;
+            cursor: pointer;
             color: grey;
-            font-size: 77.5%;
+            font-size: 90%;
             overflow: hidden;
             word-wrap: break-word;
             word-break: keep-all;
             margin-bottom: 0.85em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-height: 160%;
+            -webkit-box-orient: vertical;            
         }
         .authorAndDate{
-            flex-shrink: 0;
             display: flex;
             align-items: center;
             margin-left: 0.2em;
             font-size: 75%;
             display: flex;
             div.ProfileImg-container{
-                width: 2.25em;
-                height: 2.25em;
+                width: 2.5em;
+                height: 2.5em;
                 margin-right: 0.5em;
             }
             span.nick{
-
+                cursor: pointer;
+                font-size: 130%;
+                font-weight: 900;
+                color: #003569;
+                transition: color 0.2s ease;
+                &:hover{
+                    color: #FF5252;
+                }                
             }
         }
     }
 
     img.cover{
         cursor: pointer;
-        width: 32.5%;
+        width: 30%;
         height: 100%;
-        transition: opacity 0.2s ease;
         &:hover{
             opacity: 0.75;
         }
     }
 
+}
+
+@media (max-width : 1280px){
+
+}
+
+@media (max-width : 1024px){
+
+}
+
+@media (max-width : 960px){
+
+}
+
+@media (max-width : 768px){
+
+}
+
+@media (max-width : 600px){
+
+}
+
+@media (max-width : 480px){
+    .PostHoriCard{
+        .contents{
+            .intro{
+                -webkit-line-clamp: 2;
+            }
+        }
+    }
 }
