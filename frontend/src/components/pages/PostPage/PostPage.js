@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
-import { Link } from 'react-router-dom'
 //modules
 import getImgSizeFromSrc from '~modules/getImgSizeFromSrc'
+import history from '~modules/history'
 //components
 import MainTemplate from '~components/templates/MainTemplate/MainTemplate'
 import ProfileImg from '~components/atoms/ProfileImg/ProfileImg'
+import PostComments from '~components/organisms/PostComments/PostComments'
 import LargeSpinner from '~components/atoms/spinners/LargeSpinner/LargeSpinner'
 //styles
 import classNames from 'classnames/bind'
@@ -34,6 +35,11 @@ class PostPage extends Component {
         const coverImgContainerWidth = coverImgContainerRect.width
         const coverImgHeight = coverImgContainerWidth * this.coverImgRatio
         this._setCoverImgHeight(coverImgHeight)
+    }
+
+    _handleOnBtnTagClick = (e) => {
+        const tag = e.currentTarget.id
+        history.push(`/posts/tag?keyword=${tag}`)
     }
 
     _isoDateToTimeText = (isoDate) => {
@@ -103,13 +109,17 @@ class PostPage extends Component {
     render() {
         const { post } = this.state
         const { coverImgHeight } = this.state
-        const { _isoDateToTimeText } = this
+        const { 
+            _isoDateToTimeText,
+            _handleOnBtnTagClick
+        } = this
+
         return (
             <MainTemplate title={post && post.title}>
                 <div className={cx('PostPage')}>
-                    {post === undefined ? <div className={cx('spinne-container')}><LargeSpinner/></div>
+                    {post === undefined ? <div className={cx('spinner-container')}><LargeSpinner/></div>
                     :<Fragment>
-                    {post === null ? <div>존재하지 않는 포스트입니다</div>
+                    {post === null ? <div className={cx('postNull-container')}>존재하지 않는 포스트입니다</div>
                     
                     : <article className={cx('post')}>
                         <div className={cx('authorAndDate')}>
@@ -129,10 +139,19 @@ class PostPage extends Component {
                         ref="coverImgContainer">
                         {coverImgHeight && <img src={post.coverImgSrc}/>}
                         </div>}
-                        
                         <div className={cx('intro')}>{post.intro}</div>
                         <div className={cx('description')} dangerouslySetInnerHTML={ {__html: post.description } }></div>
-                        <div className={cx('tags')}></div>
+                        <div className={cx('tags')}>
+                        {[...post.tags, ...post.tags,...post.tags, ...post.tags].map((tag, index) => {
+                                return <button id={tag} onClick={_handleOnBtnTagClick} key={index}>{tag}</button>
+                        })}       
+                        </div>
+                        <div className={cx('comments')}>
+                            <PostComments 
+                            post_id={post._id}
+                            comments={post.comments}
+                            />
+                        </div>
                     </article>}
                     
                     </Fragment>}

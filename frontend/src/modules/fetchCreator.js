@@ -28,6 +28,7 @@ const fetchedDataMiddleware = (data, fetchName) => {
     if(statusCode >= 200 && statusCode < 300){
         return data
     } else if (statusCode === 400){
+        console.log('이러면 열어야되는데?')
         throw new CustomError('BAD REQUEST', `"${fetchName}" 에 대한 작업이 잘못된 요청으로인해 수행되지 못했습니다.`)
     } else if (statusCode === 401){
         logoutSuccess()
@@ -61,6 +62,7 @@ async function fetchCreator  (fetchUrl, additionalFetchOptions, fetchName){
     }
     catch(err){
         if(err instanceof CustomError){
+            console.log('객체마즘?')
             openPopupForFetchError(err.name, err.message)
         } else {
             console.log(err)

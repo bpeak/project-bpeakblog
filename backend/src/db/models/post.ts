@@ -15,6 +15,7 @@ const postSchema = new Schema({
     editedDate : { type : Date, default : Date.now },
     isEdited : { type : Boolean, default : false },
     views : { type : Number, default : 0 },
+    comments : [{ type : Number, ref : 'comment' }],
 })
 
 const Post = mongoose.model('post', postSchema)

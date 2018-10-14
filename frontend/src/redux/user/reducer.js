@@ -2,7 +2,9 @@ import * as actionTypes from './actionTypes'
 
 const defaultState = {
     isLoggedIn : false,
-    unique_id : 111,
+    token : undefined,
+    isAdmin : false,
+    unique_id : undefined,
     nick : undefined,
     profileImgSrc : undefined
 }
@@ -12,6 +14,8 @@ const reducer = (state = defaultState, action) => {
         return ({
             ...state,
             isLoggedIn : true,
+            token : action.token,
+            isAdmin : action.isAdmin,
             unique_id : action.unique_id,
             nick : action.nick,
             profileImgSrc : action.profileImgSrc

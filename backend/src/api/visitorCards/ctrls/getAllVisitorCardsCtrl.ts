@@ -9,7 +9,6 @@ const getAllVisitorCardsCtrl = (req : Request, res : Response) : void => {
             const visitorCards = await VisitorCard.find()
             .sort(sortOption)
             .populate(populateOption)
-
             return res.status(200).json(JSON.stringify({ visitorCards }))
         }
         catch(err){

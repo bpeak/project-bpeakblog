@@ -1,0 +1,5 @@
+{
+    "PASSWORD_CHAR_MIN" : 1,
+    "PASSWORD_CHAR_MAX" : 16,
+    "DESCRIPTION_CHAR_MAX" : 1000
+}

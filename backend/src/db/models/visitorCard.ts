@@ -16,5 +16,3 @@ const visitorCardSchema = new Schema({
 
 const VisitorCard = mongoose.model('visitorCard', visitorCardSchema)
 export default VisitorCard
-autoIncrement.initialize(mongoose.connection)
-visitorCardSchema.plugin(autoIncrement.plugin, 'visitorCard')

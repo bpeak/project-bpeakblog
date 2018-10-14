@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 //modules
 import fetchCreator from '~modules/fetchCreator'
 import imgFileReader from '~modules/imgFileReader'
@@ -6,6 +7,10 @@ import imgFileReader from '~modules/imgFileReader'
 import PostEditor from '../components/molecules/PostEditor/PostEditor'
 
 const modeTypes = { edit : 'edit', write : 'write' }
+
+const mapStateToProps = (state) => ({
+    userState : state.user
+})
 
 class PostEditorContainer extends Component {
     constructor(props){
@@ -72,8 +77,12 @@ class PostEditorContainer extends Component {
         formData.append('intro', post.intro)
         formData.append('tags', JSON.stringify(post.tags))
         formData.append('contentState', JSON.stringify(post.contentState))
-        fetchCreator('/api/admin/post', {
+        const { userState } = this.props
+        return fetchCreator('/api/admin/post', {
             method : "POST",
+            headers : {
+                Authorization : `Bearer ${userState.token}`,
+            },
             body : formData
         })      
     }
@@ -119,4 +128,4 @@ class PostEditorContainer extends Component {
     }
 }
 
-export default PostEditorContainer
+export default connect(mapStateToProps, null)(PostEditorContainer)

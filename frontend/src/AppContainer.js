@@ -27,7 +27,12 @@ class AppContainer extends Component {
             delete post.contentState
             return post
         })
-        this.props.postReceived({ posts })
+
+        setTimeout(() => {
+            this.props.postReceived({ posts })
+        }, 1)
+
+        
     }
 
     render() {

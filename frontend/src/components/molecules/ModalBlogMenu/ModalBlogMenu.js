@@ -11,7 +11,8 @@ const modalRoot = document.getElementById('modal-root')
 
 const ModalBlogMenu = ({
     isOpend,
-    close
+    close,
+    userState
 }) => {
     return ReactDOM.createPortal(
         <div onClick={close} className={cx('ModalBlogMenu-wrapper', { active : isOpend } )}>
@@ -19,7 +20,7 @@ const ModalBlogMenu = ({
                 <Link to='/'>HOME</Link>
                 <Link to="/Posts">POSTS</Link>
                 <Link to="/Visitors">VISITORS</Link>
-                <Link to="/Admin">ADMIN</Link>
+                {userState.isAdmin && <Link to="/Admin">ADMIN</Link>}
             </nav>
         </div>,
         modalRoot

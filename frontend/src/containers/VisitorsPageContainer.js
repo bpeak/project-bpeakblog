@@ -8,9 +8,7 @@ import VisitorsPage from '~components/pages/VisitorsPage/VisitorsPage'
 
 const mapStateToProps = (state) => ({
     visitorCardsState : state.visitorCards,
-    userState : {
-        isLoggedIn : state.user.isLoggedIn
-    }
+    userState : state.user
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -45,10 +43,12 @@ class VisitorsPageContainer extends Component {
     }
 
     _fetchMemberVisitorCard = (comment) => {
+        const { userState } = this.props
         return fetchCreator('/api/visitorCards/forMember', {
             method : "POST",
             headers : {
-                'content-type' : 'application/json'
+                'content-type' : 'application/json',
+                'Authorization': 'Bearer ' + userState.token
             },
             body : JSON.stringify({ description : comment.description })
         }, 'visitorCard 작성(회원)')
@@ -56,11 +56,12 @@ class VisitorsPageContainer extends Component {
 
     handleNewVisitorCard = async (comment) => {
         this._setIsFetching(true)
-        console.log(comment, '보낼건딩')
-        const isLoggedIn = this.props.userState.isLoggedIn
+
+        const { isLoggedIn } = this.props.userState
         const response = isLoggedIn ? await this._fetchMemberVisitorCard(comment) : await this._fetchNonMemberVisitorCard(comment)
         if(!response){ return }
         this.props.visitorCardsActions.newVisitorCardReceived({ visitorCard : response.visitorCard })
+        
         this._setIsFetching(false)
     }
 

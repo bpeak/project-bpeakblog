@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from 'react'
-
-import ReactDOM from 'react-dom'
-
 import classNames from 'classnames/bind'
 import { Link, NavLink } from 'react-router-dom'
 //modules
@@ -32,9 +29,7 @@ const MainHeader = (props) => {
         window.location.href = e.currentTarget.href
     }
 
-    const _handleOnUserClick = () => {
-
-    }
+    const _handleOnUserClick = () => { history.push('/profile') }
 
     const _onHamburgerClick = () => { openModalBlogMenu() }
 
@@ -53,14 +48,14 @@ const MainHeader = (props) => {
                         <NavLink to="/AboutMe">ABOUT ME</NavLink>
                         <NavLink to="/posts" activeClassName={cx('active')}>POSTS</NavLink>
                         <NavLink to="/visitors" activeClassName={cx('active')}>VISITORS</NavLink>
-                        <NavLink to="/admin" activeClassName={cx('active')}>ADMIN</NavLink>                    
+                        {userState.isAdmin && <NavLink to="/admin" activeClassName={cx('active')}>ADMIN</NavLink>}                
                     </nav>
                 </div>}
                 {userState.isLoggedIn 
                 ?
                 <div className={cx('user-container')}>
-                    <div className={cx('ProfileImg-container')}><ProfileImg isMember={true} imgSrc={userState.profileImgSrc}/></div>
-                    <span className={cx('nick')}>{userState.nick}</span>
+                    <div onClick={_handleOnUserClick} className={cx('ProfileImg-container')}><ProfileImg isMember={true} imgSrc={userState.profileImgSrc}/></div>
+                    <span onClick={_handleOnUserClick} className={cx('nick')}>{userState.nick}</span>
                 </div>
                 :
                 <div className={cx('auth-container')}>

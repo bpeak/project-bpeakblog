@@ -31,10 +31,11 @@ const loginCtrl = (req : Request, res : Response) : void => {
     
             if(currentHash === dbHash){
                 const token = TokenManager.issue(user.unique_id)
-                res.cookie('token', token, { httpOnly: true })
                 return res.status(200).json(JSON.stringify({
                     isSuccess : true,
                     user : {
+                        token,
+                        isAdmin : user.isAdmin,
                         unique_id : user.unique_id,
                         nick : user.nick,
                         profileImgSrc : user.profileImgSrc

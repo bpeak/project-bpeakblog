@@ -53,11 +53,10 @@ const joinCtrl = (req : Request, res : Response) : void => {
             }).save()).toObject()
     
             const token = TokenManager.issue(user.unique_id)
-            res.cookie('token', token, { httpOnly: true })
-    
             return res.status(201).json(JSON.stringify({
                 isSuccess : true,
                 user : {
+                    token,
                     unique_id : user.unique_id,
                     nick : user.nick,
                     profileImgSrc : user.profileImgSrc,

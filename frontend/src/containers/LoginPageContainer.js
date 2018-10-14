@@ -60,6 +60,8 @@ class LoginPageContainer extends Component {
                 userActions, popupsActions 
             } = this.props
             userActions.loginSuccess({
+                token : user.token,
+                isAdmin : user.isAdmin,
                 unique_id : user.unique_id,
                 nick : user.nick,
                 profileImgSrc : user.profileImgSrc

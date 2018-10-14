@@ -6,6 +6,9 @@ import * as modalsActionCreators from '~redux/modals/actionCreators'
 import ModalBlogMenu from '~components/molecules/ModalBlogMenu/ModalBlogMenu'
 
 const mapStateToProps = (state) => ({
+    userState : {
+        isAdmin : state.user.isAdmin
+    },
     modalsState : {
         isOpendModalBlogMenu : state.modals.isOpendModalBlogMenu
     }
@@ -24,6 +27,7 @@ class ModalContainer extends React.PureComponent{
             <ModalBlogMenu
             isOpend={this.props.modalsState.isOpendModalBlogMenu}
             close={this.props.modalsActions.closeModalBlogMenu}
+            userState={this.props.userState}
             />
         )
     }

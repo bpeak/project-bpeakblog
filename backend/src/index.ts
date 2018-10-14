@@ -1,3 +1,21 @@
+import Post from '~db/models/post'
+
+// 105 10
+// 104 9
+// 103 8
+// 102 7
+// 101 6
+// 100 6
+// 99 6
+// 80 100
+
+const conditions = { _id : 98 }
+const update = { views : 300 }
+Post.findOneAndUpdate(conditions, update, () => {
+
+})
+
+
 console.log('SERVER STARTING.....')
 
 import * as path from 'path'

@@ -7,36 +7,23 @@ const doubleCheckNickCtrl = (req : Request, res : Response) : void => {
     (async function() : Promise<Response>{
         try{
             const { nick } = req.body
-
             const isBadRequset = (
                 !nick ||
+                nick.constructor !== String ||
                 !textValidator.validateBlank(String(nick)) ||
                 !textValidator.validateMinLength(String(nick), userConfig.NICK_CHAR_MIN) ||
                 !textValidator.validateMaxLength(String(nick), userConfig.NICK_CHAR_MAX)
             )
-        
-            if(isBadRequset){
-                return res.status(400).json({
-                    isSuccess : false,
-                    errMsg : '잘못된 요청입니다.'
-                })
-            }
+            if(isBadRequset){ return res.sendStatus(400) }
             
-            const condition = { nick : String(nick) }
+            const condition = { nick }
             const userByNick = await User.findOne(condition).lean()
             const isAvailable = userByNick === null ? true : false
-
-            return res.json(JSON.stringify({
-                isSuccess : true,
-                isAvailable
-            }))
+            return res.status(200).json(JSON.stringify({ isAvailable }))
         }
         catch(err){
             console.log(err)
-            return res.status(500).json({
-                isSuccess : false,
-                errMsg : '서버오류입니다.'
-            })
+            return res.sendStatus(500)
         }
     })()
 }

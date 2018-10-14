@@ -1,0 +1,86 @@
+@keyframes slidein {
+    from {
+        top: -5.5em;
+    }
+    to {
+        top: 0;
+    }
+}
+
+.PostCommentsForm{
+    padding: 0.75em 0;
+    display: flex;
+    flex-direction: column;
+    div.anonymousNotifier{
+        color: #496898;
+        font-size: 80%;
+        font-weight: 900;
+        margin-bottom: 0.6em;
+    }
+
+    textarea.description{
+        width: 100%;
+        font-size: 100%;
+        border: none;
+        border-radius: 0.15em;
+        // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+        padding: 0.5em; 
+        resize: none;
+        font-weight: 900;
+        margin-bottom: 0.5em;
+        &:focus{
+            outline: none !important;
+            box-shadow: 0 0 0.5em #496898;
+        }
+    }
+
+    input.password{
+        width: 100%;
+        border: none;
+        border-radius: 0.15em;
+        box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+        // border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        // box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        font-size: 100%;
+        font-weight: 900;
+        padding: 0.5em;
+        margin-bottom: 0.5em;
+        &:focus{
+            outline: none !important;
+            box-shadow: 0 0 10px #496898;
+        }
+    }
+
+    button.submit{
+        width: 100%;
+        position: relative;
+        animation-timing-function: ease;
+        animation-duration: 0.3s;
+        animation-name: slidein;
+        animation-fill-mode: forwards;
+        border-radius: 0.15em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        color: white;
+        font-size: 100%;
+        font-weight: 900;
+        padding: 0.5em;
+        border: none;
+        background-color: #2A416F;
+        transition: all 0.2s ease;
+        &:enabled:hover{
+            cursor: pointer;
+            background-color: #4285F4;
+        }
+        &:disabled{
+            opacity: 0.7;
+        }
+    }
+    
+    .btnSubmit-container{
+
+
+    }
+}

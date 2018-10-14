@@ -13,6 +13,7 @@ import AdminPage from '~components/pages/AdminPage/AdminPage'
 import AboutMePage from '~components/pages/AboutMePage/AboutMePage'
 import ProfilePage from '~components/pages/ProfilePage/ProfilePage'
 //containers
+import HomePageContainer from '~containers/HomePageContainer'
 import VisitorsPageContainer from '~containers/VisitorsPageContainer'
 import ProfilePageContainer from '~containers/ProfilePageContainer'
 import PostPageContainer from '~containers/PostPageContainer'
@@ -32,7 +33,7 @@ const App = () => {
                 <RecordHistoryWithRouterContainer>
                 <ScrollResetWithRouter>
                     <Switch>
-                        <Route exact path="/" component={HomePage}/>
+                        <Route exact path="/" component={HomePageContainer}/>
                         <Route exact path="/AboutMe" component={AboutMePage}/>
                         <Route exact path="/posts/" component={PostsPageRoute}/>
                         <Route exact path="/posts/:category(all|dev|life|tag|search)" component={PostsPageRoute}/>
@@ -44,12 +45,13 @@ const App = () => {
                         <Route exact path="/login" component={LoginPageContainer}/>
                         <Route path="/admin" component={AdminPage}/>
                         <Route path="/preSocialLogin" component={PreSocialLoginPageContainer}/>
-                        <Route path="/test" component={Test}/>
+                        <Route exact path="/dd" component={Test}/>
                         <Route component={NotFoundPage}/>
                     </Switch>
                 </ScrollResetWithRouter>
                 </RecordHistoryWithRouterContainer>
                 <ModalContainer/>
+                <PopupContainer/>
                 </Fragment>
             </Router>
         </Fragment>

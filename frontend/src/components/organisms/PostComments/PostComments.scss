@@ -1,0 +1,97 @@
+@keyframes slidein {
+    from {
+        top: -6em;
+    }
+    to {
+        top: 0;
+    }
+}
+
+.PostComments{
+    border-radius: 0.2em;
+    padding: 1em;
+    background-color: #EEEEEE;
+    width: 100%;
+}
+
+.PostComment{
+    padding-bottom: 1.35em; // 얘랑 위에거랑 아예안주는거랑 고민중
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    div.comment{
+        display: flex;
+        .profileImg-container{
+            flex-shrink: 0;
+            margin-left: 0.25em;
+            margin-top: 0.2em;
+            padding: 0.25em;
+            width: 4.2em;
+            height: 4.2em;
+        }
+        .contents{
+            width: 1px;
+            flex-grow: 1;
+            flex-shrink: 1;
+            display: flex;
+            flex-direction: column;
+            div.authorAndDate{
+                height: 3em;
+                display: flex;
+                align-items: center;
+                .author{
+                    color: #1F3050;
+                    padding: 0.3em;
+                    font-size: 130%;
+                    font-weight: 900;
+                }
+                .date{
+                    color: #999;
+                    padding: 0.3em;
+                    font-size: 100%;
+                    font-weight: 900;
+                }
+            }
+            .description{
+                word-wrap: break-word;
+                word-break: keep-all;
+                font-weight: 900;
+                padding: 0.4em;
+                line-height: 160%;
+            }
+            .btnWrite{
+                margin-top: 1em;
+                button{
+                    cursor: pointer;
+                    border-radius: 0.15em;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+                    color: white;
+                    font-size: 110%;
+                    font-weight: 900;
+                    padding: 0.5em;
+                    border: none;
+                    background-color: #2A416F;
+                    transition: background-color 0.15s ease;
+                    &:hover{
+                        background-color: #4285F4;
+                    }
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+
+    .form-container{
+        padding: 0 1.5em;
+        padding-top: 0.5em;
+    }
+
+    .replies-container{
+        margin: 1em 0;
+        width: 85%;
+        align-self: flex-end;
+    }
+}

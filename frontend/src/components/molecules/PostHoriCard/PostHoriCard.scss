@@ -1,0 +1,77 @@
+.PostHoriCard{
+    width: 100%;
+    display: flex;
+    font-size: 100%;
+
+    .spinner-container{
+        width: 100%;
+        height: 111px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .contents{
+        padding-right: 1.3em;
+        width: 67.5%;
+        display: flex;
+        flex-direction: column;
+        .title{
+            cursor: pointer;
+            word-wrap: break-word;
+            word-break: keep-all;
+            font-size: 120%;
+            font-weight: 900;
+            margin-bottom: 0.5em;
+            flex-shrink: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-height: 138%;
+            -webkit-box-orient: vertical;
+            transition: color 0.2s ease;
+            &:hover{
+                color: #3498db;
+            }
+        }
+        .intro{
+            cursor: pointer;
+            flex-grow: 1;
+            flex-shrink: 1;
+            color: grey;
+            font-size: 77.5%;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break: keep-all;
+            margin-bottom: 0.85em;
+        }
+        .authorAndDate{
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            margin-left: 0.2em;
+            font-size: 75%;
+            display: flex;
+            div.ProfileImg-container{
+                width: 2.25em;
+                height: 2.25em;
+                margin-right: 0.5em;
+            }
+            span.nick{
+
+            }
+        }
+    }
+
+    img.cover{
+        cursor: pointer;
+        width: 32.5%;
+        height: 100%;
+        transition: opacity 0.2s ease;
+        &:hover{
+            opacity: 0.75;
+        }
+    }
+
+}

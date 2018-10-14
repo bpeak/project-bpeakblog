@@ -25,13 +25,15 @@ const writeMemberVisitorCardCtrl = (req : Request, res : Response) : void => {
             
             return res.status(201).json(JSON.stringify({
                 visitorCard : {
+                    _id : visitorCard._id,
                     isMember : visitorCard.isMember,
                     isAdmin : visitorCard.isAdmin,
                     description : visitorCard.description,
                     memberAuthor : {
                         nick : user.nick,
                         profileImgSrc : user.profileImgSrc
-                    }
+                    },
+                    createdDate : visitorCard.createdDate
                 }
             }))
         }

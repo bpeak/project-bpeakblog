@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import draftToHtml from 'draftjs-to-html'
+import fetchCreator from '~modules/fetchCreator'
 
 const b =123
 class Test extends React.PureComponent {
@@ -25,8 +26,16 @@ class Test extends React.PureComponent {
 
     }
 
-    componentDidMount(){
-
+    async componentDidMount(){
+        console.log('실행안햐냐?')
+        const response = fetchCreator('/api/auth/doubleCheckNick', {
+            method : "POST",
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify({nick : '123'})
+        })
+        console.log(response)
     }
 
     render() {
@@ -43,11 +52,3 @@ class Test extends React.PureComponent {
 }
 
 export default Test
-
-function A(){
-    this.a = 1
-}
-
-function B(){
-    this.a = 1
-}

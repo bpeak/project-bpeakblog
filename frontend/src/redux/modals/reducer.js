@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes'
 
-const defaultState = { isOpendModalBlogMenu : true }
+const defaultState = { isOpendModalBlogMenu : false }
 
 const reducer = (state = defaultState, action) => {
     if(action.type === actionTypes.OPEN_MODAL_BLOG_MENU){

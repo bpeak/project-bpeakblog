@@ -103,7 +103,7 @@ class PostCard extends Component {
                         <div className={cx('title')} onClick={_handleOnShowPostClick}>
                             <h2>{title}</h2>
                         </div>
-                        <div className={cx('intro')}>{intro}</div>
+                        <div className={cx('intro')}  onClick={_handleOnShowPostClick}>{intro}</div>
                         <div className={cx('author')}>
                             <div className={cx('profileImg-container')}>
                                 <ProfileImg imgSrc={author.profileImgSrc} isMember={true}/>
@@ -118,6 +118,7 @@ class PostCard extends Component {
 }
 
 PostCard.propTypes = {
+    _id : PropTypes.number.isRequired,
     author : PropTypes.object.isRequired,
     category : PropTypes.string.isRequired,
     coverImgSrc : PropTypes.string,

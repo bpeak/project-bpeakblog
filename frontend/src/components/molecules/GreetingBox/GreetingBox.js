@@ -21,7 +21,39 @@ class GreetingBox extends Component {
     }
 
     _handleOnBtnShowContentsClick = () => {
+        const box = this.refs.box
+        const boxRect = box.getBoundingClientRect()
 
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+        const headerHeight = Math.abs(Math.abs(scrollTop) - Math.abs(boxRect.top))
+        const canvasRemainHeight = boxRect.height - scrollTop
+
+        console.log(headerHeight, '헤더헤이트')
+        console.log(boxRect.height, '박스높이')
+        console.log(boxRect.top, '박스탑')
+
+        console.log('낙은 박스 높이 : ', boxRect.height + boxRect.top)
+
+        window.scrollBy(0, boxRect.top + boxRect.height)
+
+        // window.scrollBy(0, boxRect.height + boxRect.top - headerHeight)
+
+        // window.scrollTo(0, headerHeight + boxRect.height)
+
+        const h = boxRect.height
+        const y = window.scrollY
+        // console.log(boxRect)
+    
+        // const rect = greetingBox.getBoundingClientRect()
+        // const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+        // // console.log(`rect.top : ${rect.top} scrollTop : ${scrollTop}`)
+        // const headerHeight = Math.abs(Math.abs(scrollTop) - Math.abs(rect.top))
+        // const canvasRemainHeight = rect.height - scrollTop
+
+        // const ddr = headerHeight + rect.height
+
+        // scrollBy(0, canvasRemainHeight)
+        // animateScrollBy(0, canvasRemainHeight, 1000)
     }
 
     _setBoxHeight = (boxHeight) => { this.setState(() => ({ boxHeight })) }
