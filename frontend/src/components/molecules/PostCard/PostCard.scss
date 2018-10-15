@@ -63,7 +63,7 @@
                 background-color: #4267B2;
                 color: #ffffff;
                 font-weight: 600;
-                font-size: 100%;
+                font-size: 110%;
                 margin-right: 0.8em;
             }
             div.date{
@@ -82,7 +82,7 @@
                 width: fit-content;
                 transition: color 0.2s ease;
                 font-size: 0;
-                font-size: 150%;
+                font-size: 145%;
                 cursor: pointer;
                 transition: color 0.2s ease;
                 overflow: hidden;
@@ -107,6 +107,7 @@
             flex-grow: 1;
             flex-shrink: 1;
             font-size: 100%;
+            line-height: 160%;
         }
         div.author{
             padding-top: 0.6em;

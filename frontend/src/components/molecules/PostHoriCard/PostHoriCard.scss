@@ -60,11 +60,14 @@
                 width: 2.5em;
                 height: 2.5em;
                 margin-right: 0.5em;
+                img{
+                    cursor: pointer;
+                }
             }
             span.nick{
                 cursor: pointer;
                 font-size: 130%;
-                font-weight: 900;
+                font-weight: 600;
                 color: #003569;
                 transition: color 0.2s ease;
                 &:hover{
@@ -75,9 +78,11 @@
     }
 
     img.cover{
+        border-radius: 0.1em;
         cursor: pointer;
         width: 30%;
         height: 100%;
+        transition: opacity 0.2s ease;
         &:hover{
             opacity: 0.75;
         }

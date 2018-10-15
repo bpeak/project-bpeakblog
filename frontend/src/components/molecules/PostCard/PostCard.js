@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 //imgs
-import coverDefaultImgSrc from '~assets/nemo.png'
+import coverDefaultImgSrc from '~assets/fullLogo.png'
 //styles
 import classNames from 'classnames/bind'
 import styles from './PostCard.scss'

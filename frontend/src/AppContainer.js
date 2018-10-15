@@ -29,7 +29,10 @@ class AppContainer extends Component {
         })
 
         setTimeout(() => {
-            this.props.postReceived({ posts })
+            this.props.postReceived({ 
+                posts, 
+                date : Number(new Date()) 
+            })
         }, 1)
 
         

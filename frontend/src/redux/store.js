@@ -32,11 +32,11 @@ const prevStoreState = (function () {
 const store = (function(){
     let store
     if(Object.keys(prevStoreState).length !== 0){
-        // store = createStore(rootReducer, prevStoreState, applyMiddleware(logger))
-        store = createStore(rootReducer, prevStoreState)
+        store = createStore(rootReducer, prevStoreState, applyMiddleware(logger))
+        // store = createStore(rootReducer, prevStoreState)
     } else {
-        // store = createStore(rootReducer, applyMiddleware(logger))
-        store = createStore(rootReducer)
+        store = createStore(rootReducer, applyMiddleware(logger))
+        // store = createStore(rootReducer)
     }
     return store
 })()

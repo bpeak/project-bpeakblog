@@ -3,6 +3,7 @@ import fetch from 'node-fetch'
 import naverConfig from '~configs/secret/naver.config'
 import uniqueStringMaker from '~modules/uniqueStringMaker'
 import User from '~db/models/user'
+import TokenManager from '~modules/TokenManager'
 import * as memberTypes from '~constants/memberTypes'
 import * as redis from 'redis'
 const redisClient = redis.createClient()
@@ -36,27 +37,23 @@ const naverCallbackCtrl = (req : Request, res : Response) : void => {
             const gender = response.response.gender
             const profileImgSrc = response.response.profile_image
 
-            const userBySocialId : any | null = await User.findOne({ social_id })
+            const filterOptions = { memberType : memberTypes.NAVER, social_id : social_id }
+            const userBySocial_id : any | null = await User.findOne(filterOptions)
 
-            const preUser = (function(){
-                if(userBySocialId){
-                    return ({
-                        isMember : true,
-                        unique_id : userBySocialId.unique_id,
-                        nick : userBySocialId.nick,
-                        isAdmin : userBySocialId.isAdmin,
-                        profileImgSrc : userBySocialId.profileImgSrc
-                    })
-                } else {
-                    return ({
-                        isMember : false,
-                        social_id,
-                        nick,
-                        isAdmin : false,
-                        profileImgSrc  
-                    })
-                }
-            })()
+            const preUser = userBySocial_id ? {
+                isMember : true,
+                unique_id : userBySocial_id.unique_id,
+                nick : userBySocial_id.nick,
+                isAdmin : userBySocial_id.isAdmin,
+                profileImgSrc : userBySocial_id.profileImgSrc,
+                token : TokenManager.issue(userBySocial_id.unique_id)
+            } : {
+                isMember : false,
+                social_id,
+                nick,
+                profileImgSrc,
+                gender
+            }
 
             const preSocialUser_key : string = uniqueStringMaker()
             res.cookie('preSocialUser_key', preSocialUser_key, { httpOnly : true })

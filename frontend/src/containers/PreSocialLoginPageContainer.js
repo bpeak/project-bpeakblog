@@ -104,7 +104,7 @@ class PreSocialLoginPageContainer extends React.PureComponent {
                 'content-type' : 'application/json'
             },
             body : JSON.stringify({ nick })
-        })
+        }, '닉네임 중복검사')
     }
 
     handleOnNickChange = async (nick) => {
@@ -115,24 +115,24 @@ class PreSocialLoginPageContainer extends React.PureComponent {
             _setInputIsValidated 
         } = this
         _setInputVal('nick', nick)
-        if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
-        if(!this.state.nick.isTouched){ _setInputIsTouched('nick', true) }
-        if(this.state.nick.errMsg){ _setInputErrMsg('nick', null) }
+        _setInputIsValidated('nick', false)
+        _setInputIsTouched('nick', true)
+        _setInputErrMsg('nick', null)
 
         if(nick === ''){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', '닉네임은 필수 항목입니다.')
         }
         if(!textValidator.validateBlank(nick)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', '닉네임에 공백을 포함할수 없습니다.')
         }
         if(!textValidator.validateMinLength(nick, userConfig.NICK_CHAR_MIN)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', `닉네임은 ${userConfig.NICK_CHAR_MIN}자 이상이어야 합니다.`)           
         }
         if(!textValidator.validateMaxLength(nick, userConfig.NICK_CHAR_MAX)){
-            if(this.state.nick.isValidated){ _setInputIsValidated('nick', false) }
+            _setInputIsValidated('nick', false)
             return _setInputErrMsg('nick', `닉네임은 최대 ${userConfig.NICK_CHAR_MAX}자 까지 가능합니다.`)
         }
 
@@ -143,7 +143,6 @@ class PreSocialLoginPageContainer extends React.PureComponent {
 
         _setInputIsFetching('nick', true)
         const response = await _doubleCheckNick(nick)
-
         // fetch error
         if(!response) { return }
 
@@ -207,8 +206,15 @@ class PreSocialLoginPageContainer extends React.PureComponent {
             })
             console.log('그다음 원래 들어온곳으로 리다이렉트 시켜야데는데')
         }
-        if(preUser.isMember){
-            // login directly
+        if(preUser.isMember){         
+            // direct login
+            this.props.userActions.loginSuccess({
+                unique_id : preUser.unique_id,
+                isAdmin : preUser.isAdmin,
+                nick : preUser.nick,
+                profileImgSrc : preUser.profileImgSrc,
+                token : preUser.token
+            })
         } else {
             // join process
             this.handleOnNickChange(preUser.nick)

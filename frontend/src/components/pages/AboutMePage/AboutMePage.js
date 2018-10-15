@@ -5,7 +5,7 @@ import MainTemplate from '~components/templates/MainTemplate/MainTemplate'
 const AboutMePage = () => {
     return (
         <MainTemplate title="About Me">
-            <div>어바웃미ㅇ</div>
+            <div>About Me Page ... 미구현</div>
         </MainTemplate>
     )
 }

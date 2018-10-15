@@ -90,7 +90,7 @@
         }
     }
     div.bundle-sex{
-        margin: 1em 0;
+        margin: 0.35em 0;
         display: flex;
         height: cacl(3.5em / 2);
         .checkbox-container{
@@ -164,10 +164,24 @@
 
 .toLogin-container{
     margin: 1em 0;
-    font-size: 90%;
+    font-size: 85%;
     a{
         color: #3897f0;
         font-weight: 600;
+    }
+}
+
+div.social{
+    display: flex;
+    align-items: center;
+    span{
+        font-size: 85%;
+        margin-right: 0.5em;
+    }
+    img{
+        margin-right: 0.5em;
+        width: 1.55em;
+        height: 1.55em;
     }
 }
 

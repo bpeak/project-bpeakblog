@@ -37,14 +37,15 @@ class PostCommentForm extends React.PureComponent {
         this.refs.textarea.value = ""
     }
 
-    _handleOnBtnSubmitClick = async (e) => {
-        try{
-            e.preventDefault()
-            
-        }
-        catch(err){
-            console.log(err)
-        }
+    _handleOnBtnSubmitClick = (e) => {
+        e.preventDefault()
+        console.log('보낼그야')
+        const description = this.state.description
+        const password = this.state.password
+        this.props.handleNewComment({
+            description,
+            password
+        })
     }
 
     render() {
@@ -95,7 +96,8 @@ class PostCommentForm extends React.PureComponent {
 }
 
 PostCommentForm.propTypes = {
-    isLoggedIn : PropTypes.bool.isRequired
+    isLoggedIn : PropTypes.bool.isRequired,
+    handleNewComment : PropTypes.func.isRequired
 }
 
 export default PostCommentForm

@@ -35,18 +35,16 @@ const kakaoCallbackCtrl = (req : Request, res : Response) : void => {
             const preSocialUser_key = uniqueStringMaker()
             res.cookie('preSocialUser_key', preSocialUser_key, { httpOnly : true })
             const conditions = { social_id, memberType : memberTypes.KAKAO }
-            const userBySocialId : any = await User.findOne(conditions)
-
-            console.log(userBySocialId, '이거널이야?')
+            const userBySocial_id : any = await User.findOne(conditions)
 
             const preUser = (function(){
-                if(userBySocialId){
+                if(userBySocial_id){
                     return ({
                         isMember : true,
                         social_id,
-                        unique_id : userBySocialId.unique_id,
-                        nick : userBySocialId.nick,
-                        profileImgSrc : userBySocialId.profileImgSrc
+                        unique_id : userBySocial_id.unique_id,
+                        nick : userBySocial_id.nick,
+                        profileImgSrc : userBySocial_id.profileImgSrc
                     })
                 } else {
                     return ({

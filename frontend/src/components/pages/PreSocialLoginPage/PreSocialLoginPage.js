@@ -75,7 +75,7 @@ class PreSocialLoginPage extends Component {
 
     _onInputNickChange = (e) => {
         const nick = e.currentTarget.value
-        console.log('닉컨트롤')
+        this.props.handleOnNickChange(nick)
     }
 
     _onBtnSubmitClick = (e) => {
@@ -84,7 +84,8 @@ class PreSocialLoginPage extends Component {
     }
 
     _onInputSexClick = (e) => {
-        console.log('전송한덴다')
+        const sex = e.currentTarget.value
+        this.props.handleOnSexChange(sex)
     }
 
     componentDidMount(){
@@ -106,6 +107,10 @@ class PreSocialLoginPage extends Component {
             _onInputSexClick,
             _onBtnSubmitClick
         } = this
+
+        const {
+            remainingTime
+        } = this.state
 
         const {
             isLoadedPreUser,
