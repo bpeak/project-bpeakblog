@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+//modules
+import dateConverter from '~modules/dateConverter'
 //components
 import ProfileImg from '~components/atoms/ProfileImg/ProfileImg'
 //containers
@@ -12,7 +14,6 @@ const cx = classNames.bind(styles)
 const PostComment = ({
     comment,
     isUseForm,
-    isUseReply,
     isFocused,
     handleOnBtnReplyClick
 }) => {
@@ -29,31 +30,63 @@ const PostComment = ({
                 <div className={cx('contents')}>
                     <div className={cx('authorAndDate')}>
                         <span className={cx('author')}>{comment.isMember ? comment.memberAuthor.nick : "익명" }</span>
-                        <span className={cx('date')}>3 days ago</span>
+                        <span className={cx('date')}>{dateConverter.getTimeAgoStamp(comment.createdDate)}</span>
                     </div>
                     <div className={cx('description')}>{comment.description}</div>
-                    {isUseForm && 
+                    {isUseForm && comment.replies.length === 0 &&
                     <div className={cx('btnWrite')}>
                         <button onClick={handleOnBtnReplyClick}>REPLY</button>
                     </div>}
                 </div>            
             </div>
-            {isUseForm && isFocused &&
-            <div className={cx('form-container')}>
-                <PostCommentFormContainer target={{ type : 'comment', _id : comment._id }}/>
-            </div>}
-            {isUseReply && comment.replies.length !== 0 &&
+            {isUseForm && comment.replies.length !== 0 &&
             <div className={cx('replies-container')}>
-                {comment.replies.map((reply) => {
+                {comment.replies.map((reply, index) => {
                     return (
-                        <PostCommentReply
+                        <PostReply
                         key={reply._id}
                         reply={reply}
+                        isLastReply={comment.replies.length - 1=== index}
                         handleOnBtnReplyClick={handleOnBtnReplyClick}
                         />
                     )
                 })}
+            </div>}            
+            {isUseForm && isFocused &&
+            <div className={cx('form-container')}>
+                <PostCommentFormContainer target={{ type : 'comment', _id : comment._id }}/>
             </div>}
+        </div>
+    )
+}
+
+const PostReply = ({
+    reply,
+    isLastReply,
+    handleOnBtnReplyClick
+}) => {
+    return (
+        <div className={cx('PostComment', 'reply')}>
+            <div className={cx('comment')}>
+                <div className={cx('profileImg-container')}>
+                    <ProfileImg 
+                    isMember={reply.isMember}
+                    isAdmin={reply.isAdmin}
+                    imgSrc={reply.isMember ? reply.memberAuthor.profileImgSrc : undefined}
+                    />
+                </div>
+                <div className={cx('contents')}>
+                    <div className={cx('authorAndDate')}>
+                        <span className={cx('author')}>{reply.isMember ? reply.memberAuthor.nick : "익명" }</span>
+                        <span className={cx('date')}>{dateConverter.getTimeAgoStamp(reply.createdDate)}</span>
+                    </div>
+                    <div className={cx('description')}>{reply.description}</div>
+                    {isLastReply &&
+                    <div className={cx('btnWrite')}>
+                        <button onClick={handleOnBtnReplyClick}>REPLY</button>
+                    </div>}
+                </div>            
+            </div>
         </div>
     )
 }
@@ -63,11 +96,23 @@ PostComment.propTypes = {
         isAdmin : PropTypes.bool.isRequired,
         isMember : PropTypes.bool.isRequired,
         description : PropTypes.string.isRequired,
-        memberAuthor : PropTypes.object
+        createdDate : PropTypes.string.isRequired,
+        memberAuthor : PropTypes.object,
     }).isRequired,
     isUseForm : PropTypes.bool.isRequired,
-    isUseReply : PropTypes.bool.isRequired,
     isFocused : PropTypes.bool,
+    handleOnBtnReplyClick : PropTypes.func
+}
+
+PostReply.propTypes = {
+    reply : PropTypes.shape({
+        isAdmin : PropTypes.bool.isRequired,
+        isMember : PropTypes.bool.isRequired,
+        description : PropTypes.string.isRequired,
+        createdDate : PropTypes.string.isRequired,
+        memberAuthor : PropTypes.object
+    }).isRequired,
+    isLastReply : PropTypes.bool.isRequired,
     handleOnBtnReplyClick : PropTypes.func
 }
 

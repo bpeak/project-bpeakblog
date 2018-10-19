@@ -53,12 +53,12 @@ article.post{
     }
 
     div.title{
-        font-size: 165%;
+        font-size: 170%;
         font-weight: 900;
         word-wrap: break-word;
         word-break: keep-all;
-        line-height: 155%;
-        margin: 0.75em 0;
+        line-height: 138%;
+        margin: 0.8em 0;
     }
 
     img.cover{
@@ -88,12 +88,20 @@ article.post{
             margin: 1em 0;
         }
 
-        h1{
-            font-size: 150%;
+        img{
+            border-radius: 0.14em;
+            max-width: 100%;
+            height: auto;
+        }
+
+        li{
+            list-style-position: inside;
+            font-weight: 600;
         }
 
         h2{
-            font-size: 140%;
+            font-size: 160%;
+            font-weight: 900;
         }
 
         p{ 

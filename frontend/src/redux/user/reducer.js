@@ -22,6 +22,11 @@ const reducer = (state = defaultState, action) => {
         })
     } else if(action.type === actionTypes.LOGOUT_SUCCESS){
         return defaultState
+    } else if(action.type === actionTypes.USER_PROFILE_IMG_CHANGED){
+        return ({
+            ...state,
+            profileImgSrc : action.profileImgSrc
+        })
     } else {
         return state
     }

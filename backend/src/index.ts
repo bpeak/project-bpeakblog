@@ -1,29 +1,44 @@
-import Post from '~db/models/post'
+// import { Request, Response, NextFunction } from 'express'
 
-// 105 10
-// 104 9
-// 103 8
-// 102 7
-// 101 6
-// 100 6
-// 99 6
-// 80 100
+// enum TargetModelNameOfBody {
+//     POST = 'post',
+//     COMMENT = 'comment'
+// }
 
-const conditions = { _id : 98 }
-const update = { views : 300 }
-Post.findOneAndUpdate(conditions, update, () => {
+// interface IbodyCheckOption {
+//     name : TargetModelNameOfBody,
+//     field : string[]
+// }
 
-})
+// const bodyCheckMiddleware = (bodyCheckOption : IbodyCheckOption | IbodyCheckOption[] ) => {
 
+//     console.log(bodyCheckOption)
+
+//     return (req : Request, res : Response, next : NextFunction) => {
+//         if(true){
+//             return next()
+//         } else {
+//             return res
+//         }
+//     }
+// }
+
+// bodyCheckMiddleware({
+//     name : TargetModelNameOfBody.POST,
+//     field : ['d']
+// })
 
 console.log('SERVER STARTING.....')
-
 import * as path from 'path'
 global.__rootDir = path.resolve(__dirname)
+
 import App from './App'
-import dbLauncher from './db/dbLauncher'
+import dbLauncher from '~db/dbLauncher'
 
 dbLauncher()
 const app = new App().app
 const PORT : number = Number(process.env.PORT) || 80
-app.listen(PORT, () : void => { console.log(`PORT ${PORT} CONNECTED SUCCESS`) })
+
+app.listen(PORT, () : void => { 
+    console.log(`PORT ${PORT} CONNECTED SUCCESS`) 
+})

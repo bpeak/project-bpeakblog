@@ -7,7 +7,7 @@ import classNames from 'classnames/bind'
 import styles from './PostCard.scss'
 const cx = classNames.bind(styles)
 //modules
-import isoDateToTimeText from '~modules/isoDateToTimeText'
+import dateConverter from '~modules/dateConverter'
 import getImgSizeFromSrc from '~modules/getImgSizeFromSrc'
 import history from '~modules/history'
 //components
@@ -98,7 +98,7 @@ class PostCard extends Component {
                     <div style={{ height : postCardHeight - coverImgHeight }} className={cx('contents')}>
                         <div className={cx('categoryAndDate')}>
                             <span className={cx('category')}>{category}</span>
-                            <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>{isoDateToTimeText(createdDate)}</span></div>
+                            <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>{dateConverter.getFullTimeStamp(createdDate)}</span></div>
                         </div>
                         <div className={cx('title')} onClick={_handleOnShowPostClick}>
                             <h2>{title}</h2>

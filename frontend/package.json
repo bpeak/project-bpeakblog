@@ -30,6 +30,8 @@
 		"draftjs-to-html": "^0.8.4",
 		"html-to-draftjs": "^1.4.0",
 		"immutable": "^3.8.2",
+		"lodash": "^4.17.11",
+		"moment": "^2.22.2",
 		"prop-types": "^15.6.2",
 		"react": "^16.5.2",
 		"react-dom": "^16.4.1",

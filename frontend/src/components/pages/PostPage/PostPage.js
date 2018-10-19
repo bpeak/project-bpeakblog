@@ -1,13 +1,14 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 //modules
-import getImgSizeFromSrc from '~modules/getImgSizeFromSrc'
+import dateConverter from '~modules/dateConverter'
 import history from '~modules/history'
 //components
 import MainTemplate from '~components/templates/MainTemplate/MainTemplate'
 import ProfileImg from '~components/atoms/ProfileImg/ProfileImg'
 import PostComments from '~components/organisms/PostComments/PostComments'
 import LargeSpinner from '~components/atoms/spinners/LargeSpinner/LargeSpinner'
+import SmallSpinner from '~components/atoms/spinners/SmallSpinner/SmallSpinner'
 //styles
 import classNames from 'classnames/bind'
 import styles from './PostPage.scss'
@@ -19,20 +20,13 @@ class PostPage extends React.PureComponent{
         history.push(`/posts/tag?keyword=${tag}`)
     }
 
-    _isoDateToTimeText = (isoDate) => {
-        const date = new Date(isoDate)
-        const year = date.getFullYear()
-        const month = date.getMonth() + 1
-        const day = date.getDate()
-
-        const timeText = `${year}년 ${month}월 ${day}일`
-        return timeText
-    }
-
     render() {
-        const { post } = this.props
         const { 
-            _isoDateToTimeText,
+            post,
+            comments,
+            replies
+        } = this.props
+        const {
             _handleOnBtnTagClick
         } = this
 
@@ -50,7 +44,7 @@ class PostPage extends React.PureComponent{
                             </div> 
                             <div className={cx('nickAndDate')}>
                                 <span className={cx('nick')}>{post.author.nick}</span>
-                                <span className={cx('date')}>{_isoDateToTimeText(post.createdDate)}</span>
+                                <span className={cx('date')}>{dateConverter.getFullTimeStamp(post.createdDate)}</span>
                             </div>
                         </div>
                         <div className={cx('title')}>{post.title}</div>
@@ -65,9 +59,9 @@ class PostPage extends React.PureComponent{
                         })}       
                         </div>
                         <div className={cx('comments')}>
-                            <PostComments 
-                            post_id={post._id}
-                            comments={post.comments}
+                            <PostComments
+                                post_id={post._id}
+                                comments={post.comments}
                             />
                         </div>
                     </article>}
@@ -80,11 +74,9 @@ class PostPage extends React.PureComponent{
 }
 
 PostPage.propTypes = {
-    post : PropTypes.object
-}
-
-PostPage.defaultProps = {
-    
+    post : PropTypes.object,
+    comments : PropTypes.array,
+    replies : PropTypes.array
 }
 
 export default PostPage

@@ -49,7 +49,9 @@ const writeCommentForNonMemberCtrl = (req : Request, res : Response) : void => {
                     _id : comment._id,
                     isMember : comment.isMember,
                     isAdmin : comment.isAdmin,
-                    description : comment.description
+                    description : comment.description,
+                    replies : comment.replies,
+                    createdDate : comment.createdDate
                 }
             }))
         }

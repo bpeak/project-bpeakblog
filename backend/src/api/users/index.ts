@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import * as ctrls from './ctrls'
 
 import fileToBufferMiddleware from '~middlewares/fileToBufferMiddleware'
 import * as userConfig from '~configs/user.config.json'
@@ -9,6 +10,9 @@ import User from '~db/models/user'
 
 const users : Router = Router()
 
+users.use('*', tokenValidationMiddleware)
+
+users.patch('/me/profileImgSrc', fileToBufferMiddleware.single('profileImgFile'), ctrls.updateUserProfileImgCtrl)
 users.patch('/user/password', tokenValidationMiddleware, (req, res) => {
     (async function () {
         try{

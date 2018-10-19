@@ -3,89 +3,148 @@ import { connect } from 'react-redux'
 //components
 import PostPage from '~components/pages/PostPage/PostPage'
 
-
-import * as postsActionCreators from '~redux/posts/actionCreators'
-
-
-
 const mapStateToProps = (state) => ({
     postsState : state.posts
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    a : () => { dispatch(postsActionCreators.postReceieved('이겜다은거라', '이게뉴데이트라구'))}
-})
-
-let a = 1
-
 class PostPageContainer extends React.Component{
     constructor(props){
-        console.log('포페컨테이너 컨스트럭터 실해중')
-        a = a + 1
         super(props)
         const posts = props.postsState.items
         const currentPost_id = Number(this.props.match.params._id)
-        const post = posts ? this._getPost(posts, currentPost_id) : undefined
+        const currentPost = posts ? this._getPost(posts, currentPost_id) : undefined
+        
+        const allComments = props.postsState.comments
+        const currentComments = currentPost && allComments ? this._getComments(allComments, currentPost.comments) : undefined
+
+        const allReplies = props.postsState.replies
+        // const currentReplies = currentPost && currentComments && currentComments.length !== 0 
+
         this.state = { 
-            post,
-            a : a,
-            posts : posts 
+            post : currentPost,
+            comments : currentComments,
+            replies : undefined,
+            isUpdatedView : false
         }
     }
 
     _setPost = (post) => { this.setState(() => ({ post }))}
-
+    _setComments = (comments) => { this.setState(() => ({ comments }))}
+    _setReplies = (replies) => { this.setState(() => ({ replies }))}
+    _setIsUpdatedView = (isUpdatedView) => { this.setState(() => ({ isUpdatedView }))} 
     _getPost = (posts, post_id) => {
-        console.log('게또 포스트')
         const postIndex = posts.findIndex(post => post._id === post_id)
         const post = postIndex === -1 ? null : posts[postIndex]
         return post
     }
+    _getComments = (allComments, comments_ids) => {
+        const comments = comments_ids.reduce((comments, _id) => {
+            const commentIndex = allComments.findIndex((comment) => {
+                return _id === comment._id
+            })
+            if(commentIndex === -1) { return comments }
+            const newComments = [allComments[commentIndex], ...comments]
+            return newComments
+        }, [])
+
+        const commentsByCreatedDate = [...comments].sort((a, b) => {
+            return new Date(b.createdDate) - new Date(a.createdDate)
+        })
+
+        return commentsByCreatedDate
+    }
+
+    _getReplies = (allReplies, comments) => {
+        const replies_ids = comments.reduce((replies_ids, comment) => {
+            const newReplies_ids = [...replies_ids, ...comment.replies]
+            return newReplies_ids
+        }, [])
+
+        const replies = replies_ids.reduce((replies, _id) => {
+            const replyIndex = allReplies.findIndex((reply) => {
+                return _id === reply._id
+            })
+            if(replyIndex === -1) { return replies }
+            const newReplies = [allReplies[replyIndex], ...replies]
+            return newReplies
+        }, [])
+
+        const repliesByCreatedDate = [...replies].sort((a, b) => {
+            return new Date(b.createdDate) - new Date(a.createdDate)
+        })
+
+        return repliesByCreatedDate
+    }
+
+    _updatePostView = () => {
+        const post_id = this.props.match.params._id
+        fetch(`/api/posts/${post_id}/view`, {
+            method : "PATCH"
+        })
+    }
 
     shouldComponentUpdate(nextProps, nextState){
-        // const prevPost = this.state.post
-        // const nextPost = nextState.post
-        // console.log(prevPost, nextPost, '프리브랑 넥스트 비교함')
-        // console.log(prevPost === nextPost)
-        // return prevPost !== nextPost
-        return true
+        const prevPost = this.state.post
+        const nextPost = nextState.post
+        const prevComments = this.state.comments
+        const nextComments = nextState.comments
+        return (
+            ( prevPost !== nextPost ) ||
+            ( prevComments !== nextComments )
+        )
     }
 
     componentWillReceiveProps(nextProps){
-        console.log(this.state, '현제스테이트')
-        console.log(nextProps, '넥스프프롭스')
-        // console.log(this.state.post, '리스프프롭할때의 포스트')
-        // console.log('리덕스포스트스에 상태변화가 감지되었습니다.!')
-        // const posts = nextProps.postsState.items
-        // if(!posts) { return }
+        const posts = nextProps.postsState.items
+        if(!posts) { return }
 
-        // console.log('현재 스테이트는 이것입니다', this.state.post)
-        // console.log('다음포스트는 이것입니다 : ', this._getPost(posts, Number(nextProps.match.params._id)))
+        
+        const Post = this._getPost(posts, currentPost_id)
 
-        // const currentPost_id = Number(nextProps.match.params._id)
+        const currentPost_id = Number(nextProps.match.params._id)
+        const prevPost = this.state.post
+        const nextPost = this._getPost(posts, currentPost_id)
 
-        // const prevPost = this.state.post
-        // const nextPost = this._getPost(posts, currentPost_id)
-        // console.log(prevPost, '원래이거네')
-        // console.log(nextPost, '이걸로 새로업뎃뎀')
-        // if(prevPost !== nextPost){ this._setPost(nextPost) }
+        const prevComments = this.state.comments
+        const nextComments = nextPost ? this._getComments(nextProps.postsState.comments, nextPost.comments) : undefined
+
+        const prevReplies = this.state.replies
+        const nextReplies = (
+            nextPost && 
+            nextComments && 
+            nextComments.length !== 0 
+            ? this._getReplies(nextProps.postsState.replies, nextComments) 
+            : undefined
+        )
+
+        // state update
+        console.log('포스트 동일여부', prevPost === nextPost)
+        console.log(prevPost, nextPost, '프리브포스트랑 넥스트포스트')
+        console.log('코멘트 동일여부', prevComments === nextComments)
+        console.log('리플라이동일여부', prevReplies === nextReplies)
+
+        if(prevComments !== nextComments){ this._setComments(nextComments) }
+        if(prevPost !== nextPost){ this._setPost(nextPost) }
+        if(prevReplies !== nextReplies){ this._setReplies(nextReplies) }
+
+        // view update
+        if(nextPost && !this.state.isUpdatedView){ this._updatePostView() }
     }
 
     componentDidMount(){
-        setTimeout(() => {
-            this.props.a()
-        }, 3000)
+        // view update
+        const { post, isUpdatedView } = this.state
+        if(post && !isUpdatedView){ this._updatePostView() }
     }
 
     render(){
-        console.log(this.state.post, '현재포스트')
+        console.log(this.state.replies)
         return (
-            <div>
-                와씨바
-            </div>
-            // <PostPage
-            // post={this.state.post}
-            // />
+            <PostPage
+            post={this.state.post}
+            comments={this.state.comments}
+            replies={this.state.replies}
+            />
         )
     }
 }

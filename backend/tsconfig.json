@@ -13,9 +13,7 @@
             "./global.d.ts"
         ],
         "paths": {
-            "~src/*" : [ "./*" ],
             "~db/*" : [ "db/*" ],
-            // "~db" : [ "db/index.ts" ],
             "~constants/*" : [ "constants/*" ],
             "~modules/*" : [ "modules/*" ], 
             "~configs/*" : [ "configs/*" ],

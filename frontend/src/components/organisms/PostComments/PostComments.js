@@ -11,9 +11,13 @@ import styles from './PostComments.scss'
 const cx = classNames.bind(styles)
 
 class PostComments extends Component {
-    state = { currentFocusedComment_id : undefined }
+    state = { 
+        // currentFocusedTarget : un
+        currentFocusedComment_id : undefined 
+    }
 
     _setCurrentFocusedComment_id = (currentFocusedComment_id) => { this.setState(() => ({ currentFocusedComment_id }))}
+    
     handleOnBtnReplyClick = (comment_id) => { this._setCurrentFocusedComment_id(comment_id) }
 
     render() {
@@ -22,6 +26,7 @@ class PostComments extends Component {
             post_id
         } = this.props
         const { currentFocusedComment_id } = this.state
+
         return (
             <div className={cx('PostComments')}>
                 <PostCommentFormContainer target={{ type : 'post', _id : post_id }}/>
@@ -30,7 +35,7 @@ class PostComments extends Component {
                         <PostComment
                         key={comment._id}
                         isUseForm={true}
-                        isUseReply={true}
+                        isHadReplies={comment.length !== 0}
                         isFocused={currentFocusedComment_id === comment._id}
                         handleOnBtnReplyClick={ () => this.handleOnBtnReplyClick(comment._id) }
                         comment={comment}
@@ -41,55 +46,6 @@ class PostComments extends Component {
         )
     }
 }
-
-// const PostComment = ({
-//     comment,
-//     isUseForm,
-//     isUseReply,
-//     isFocused,
-//     handleOnBtnReplyClick
-// }) => {
-//     return (
-//         <div className={cx('PostComment')}>
-//             <div className={cx('comment')}>
-//                 <div className={cx('profileImg-container')}>
-//                     <ProfileImg 
-//                     isMember={comment.isMember}
-//                     isAdmin={comment.isAdmin}
-//                     imgSrc={comment.isMember ? comment.memberAuthor.profileImgSrc : undefined}
-//                     />
-//                 </div>
-//                 <div className={cx('contents')}>
-//                     <div className={cx('authorAndDate')}>
-//                         <span className={cx('author')}>{comment.isMember ? comment.memberAuthor.nick : "익명" }</span>
-//                         <span className={cx('date')}>3 days ago</span>
-//                     </div>
-//                     <div className={cx('description')}>{comment.description}</div>
-//                     {isUseForm && 
-//                     <div className={cx('btnWrite')}>
-//                         <button onClick={handleOnBtnReplyClick}>REPLY</button>
-//                     </div>}
-//                 </div>            
-//             </div>
-//             {isUseForm && isFocused &&
-//             <div className={cx('form-container')}>
-//                 <PostCommentFormContainer target={{ type : 'comment', _id : comment._id }}/>
-//             </div>}
-//             {isUseReply && comment.replies.length !== 0 &&
-//             <div className={cx('replies-container')}>
-//                 {comment.replies.map((reply) => {
-//                     return (
-//                         <PostCommentReply
-//                         key={reply._id}
-//                         reply={reply}
-//                         handleOnBtnReplyClick={handleOnBtnReplyClick}
-//                         />
-//                     )
-//                 })}
-//             </div>}
-//         </div>
-//     )
-// }
 
 const PostReply = ({
     reply
@@ -135,19 +91,8 @@ const PostReply = ({
 }
 
 PostComments.propTypes = {
-    comments : PropTypes.array.isRequired,
-    post_id : PropTypes.number.isRequired
+    post_id : PropTypes.number.isRequired,
+    comments : PropTypes.array.isRequired
 }
-
-// PostComment.propTypes = {
-//     comment : PropTypes.shape({
-//         isAdmin : PropTypes.bool.isRequired,
-//         isMember : PropTypes.bool.isRequired,
-//         description : PropTypes.string.isRequired,
-//         memberAuthor : PropTypes.object
-//     }).isRequired,
-//     isFocused : PropTypes.bool.isRequired,
-//     handleOnBtnReplyClick : PropTypes.func.isRequired
-// }
 
 export default PostComments

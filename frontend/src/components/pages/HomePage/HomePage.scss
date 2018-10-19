@@ -57,6 +57,9 @@
     }
     .comments{
         margin-top: 0.6em;
+        .PostComment-container{
+            cursor: pointer;
+        }
         h3{
             letter-spacing: 0.05em;
             font-family: 'Oswald';

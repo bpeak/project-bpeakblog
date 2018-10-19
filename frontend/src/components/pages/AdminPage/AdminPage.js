@@ -8,6 +8,7 @@ const cx = classNames.bind(styles)
 import MainTemplate from '~components/templates/MainTemplate/MainTemplate'
 //admin containers
 import PostEditorContainer from './containers/PostEditorContainer'
+import ResourceManagerContainer from './containers/ResourceManagerContainer'
 
 const AdminPage = () => {
     return (
@@ -16,11 +17,11 @@ const AdminPage = () => {
             <header>ADMIN</header>
             <nav>
                 <NavLink to="/admin/write" activeClassName={cx('active')}>새글</NavLink>
-                <NavLink to="/admin/posts" activeClassName={cx('active')}>포스트관리</NavLink>
+                <NavLink to="/admin/resourceManager" activeClassName={cx('active')}>리로스관리</NavLink>
             </nav>
             <main>
                 <Route exact path="/admin/:mode(write|edit)/:post_id?" component={PostEditorContainer}/>
-                <Route exact path="/admin/posts" render={() => ( <div>z123dd</div>)}/>
+                <Route exact path="/admin/resourceManager" component={ResourceManagerContainer}/>
             </main>
         </div>
         </MainTemplate>

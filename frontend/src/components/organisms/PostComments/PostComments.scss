@@ -15,6 +15,11 @@
 }
 
 .PostComment{
+    background-color: red;
+    animation-name: fadeIn;
+    animation-timing-function: ease;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
     padding-bottom: 1.35em; // 얘랑 위에거랑 아예안주는거랑 고민중
     background-color: #FFFFFF;
     display: flex;

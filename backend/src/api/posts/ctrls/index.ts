@@ -7,3 +7,6 @@ export { default as editCommentForNonMemberCtrl } from './editCommentForNonMembe
 
 export { default as createCommentForMemberCtrl } from './createCommentForMemberCtrl'
 export { default as deleteCommentForMemberCtrl } from './deleteCommentForMemberCtrl'
+
+export { default as createReplyForNonMemberCtrl } from './createReplyForNonMemberCtrl'
+export { default as createReplyForMemberCtrl } from './createReplyForMemberCtrl'

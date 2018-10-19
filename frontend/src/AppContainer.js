@@ -7,8 +7,15 @@ import fetchCreator from '~modules/fetchCreator'
 //actions
 import * as postsActionCreators from '~redux/posts/actionCreators'
 
+const mapStateToProps = (state) => ({
+    postsState : state.posts
+})
+
 const mapDispatchToProps = (dispatch) => ({
-    postReceived : (payload) => dispatch(postsActionCreators.postReceived(payload))
+    postsActions : {
+        postsReceived : (payload) => dispatch(postsActionCreators.postsReceived(payload)),
+        commentsReceived : (payload) => dispatch(postsActionCreators.commentsReceived(payload))
+    }
 })
 
 
@@ -22,6 +29,7 @@ class AppContainer extends Component {
     async componentDidMount(){
         const response = await this._getPosts()
         if(!response) { return }
+
         const posts = response.posts.map((post) => {
             post.description = draftToHtml(post.contentState)
             delete post.contentState
@@ -29,13 +37,13 @@ class AppContainer extends Component {
         })
 
         setTimeout(() => {
-            this.props.postReceived({ 
+            this.props.postsActions.postsReceived({
                 posts, 
-                date : Number(new Date()) 
+                comments : response.comments,
+                replies : response.replies,
+                date : Number(new Date()),
             })
         }, 1)
-
-        
     }
 
     render() {
@@ -43,4 +51,4 @@ class AppContainer extends Component {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AppContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer)

@@ -53,6 +53,7 @@ const joinCtrl = (req : Request, res : Response) : void => {
             }).save()).toObject()
     
             const token = TokenManager.issue(user.unique_id)
+
             return res.status(201).json(JSON.stringify({
                 isSuccess : true,
                 user : {

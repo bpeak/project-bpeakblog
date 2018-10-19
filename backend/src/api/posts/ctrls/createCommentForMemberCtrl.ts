@@ -44,11 +44,13 @@ const createCommentForMember = async (req : Request, res : Response) : Promise<R
                 isMember : comment.isMember,
                 isAdmin : comment.isAdmin,
                 description : comment.description,
+                createdDate : comment.createdDate,
                 memberAuthor : {
                     nick : user.nick,
                     profileImgSrc : user.profileImgSrc,
                     unique_id : user.unique_id
-                }
+                },
+                replies : comment.replies
             }
         }))
     }

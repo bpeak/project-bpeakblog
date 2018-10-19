@@ -1,5 +1,20 @@
+@keyframes fadeIn {
+    from {
+        opacity: 0.2;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 .PostComment{
-    padding-bottom: 1.35em; // 얘랑 위에거랑 아예안주는거랑 고민중
+    background-color: red;
+    animation-name: fadeIn;
+    animation-timing-function: ease;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+
+    padding-bottom: 1.25em; // 얘랑 위에거랑 아예안주는거랑 고민중
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -10,8 +25,8 @@
             margin-left: 0.25em;
             margin-top: 0.2em;
             padding: 0.25em;
-            width: 4.2em;
-            height: 4.2em;
+            width: 4em;
+            height: 4em;
         }
         .contents{
             width: 1px;
@@ -24,13 +39,14 @@
                 flex-wrap: wrap;
                 display: flex;
                 align-items: center;
+                margin-top: 0.3em;
                 margin-left: 0.3em;
                 .author{
                     color: #1F3050;
                     font-size: 130%;
                     font-weight: 900;
                     padding: 0.3em 0;
-                    margin-right: 0.3em;
+                    margin-right: 0.35em;
                 }
                 .date{
                     overflow: hidden;
@@ -46,18 +62,19 @@
                 font-weight: 900;
                 padding: 0.4em;
                 line-height: 160%;
+                white-space: pre-line;
             }
             .btnWrite{
-                margin-top: 1em;
+                margin-top: 0.5em;
                 button{
                     cursor: pointer;
                     border-radius: 0.15em;
                     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
                     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
                     color: white;
-                    font-size: 110%;
+                    font-size: 100%;
                     font-weight: 900;
-                    padding: 0.5em;
+                    padding: 0.45em;
                     border: none;
                     background-color: #2A416F;
                     transition: background-color 0.15s ease;
@@ -78,8 +95,21 @@
     }
 
     .replies-container{
-        margin: 1em 0;
-        width: 85%;
-        align-self: flex-end;
+        padding-left: 4.5em;
+
+        // margin-left: 0.25em;
+        // margin-top: 0.2em;
+        // padding: 0.25em;
+        // width: 4em;
+        // height: 4em;
+        // margin: 1em 0;
+        // width: 85%;
+        // align-self: flex-end;
+    }
+}
+
+.PostComment{
+    &.reply{
+        padding-top: 0.5em;
     }
 }

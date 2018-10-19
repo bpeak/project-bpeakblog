@@ -25,7 +25,7 @@ class PostCommentForm extends React.PureComponent {
         this._setDescription(description)
 
         const prevIsOpend = this.state.isOpend
-        const nextIsOpend = description !== ''
+        const nextIsOpend = true
         if(prevIsOpend !== nextIsOpend){ this._setIsOpend(nextIsOpend) }
     }
     _handleOnPasswordChange = (e) => {
@@ -39,13 +39,15 @@ class PostCommentForm extends React.PureComponent {
 
     _handleOnBtnSubmitClick = (e) => {
         e.preventDefault()
-        console.log('보낼그야')
         const description = this.state.description
         const password = this.state.password
         this.props.handleNewComment({
             description,
             password
         })
+        this._setDescription('')
+        this._setPassword('')
+        this._setIsOpend(false)
     }
 
     render() {
@@ -67,19 +69,21 @@ class PostCommentForm extends React.PureComponent {
                 && <div className={cx('anonymousNotifier')}>로그인이 되어있지 않아 익명으로 작성됩니다.</div>
                 }
                 <textarea
-                className={cx('description')} 
+                className={cx('description')}
+                value={description}
                 maxLength={commentConfig.DESCRIPTION_CHAR_MAX}
                 onChange={_handleOnTextareaChange} 
-                placeholder="comment...">
+                placeholder={`comment ${!isLoggedIn ? " ( 비회원도 작성하실수 있습니다. )" : ''}`}>
                 </textarea>
                 {isOpend && !isLoggedIn 
                 && <input
                 className={cx('password')}
+                value={password}
                 onChange={_handleOnPasswordChange}
                 minLength={commentConfig.PASSWORD_CHAR_MIN}
                 maxLength={commentConfig.PASSWORD_CHAR_MAX}
                 type="password" 
-                placeholder="비밀번호를 입력해주세요. ( 삭제, 수정시에 사용됩니다. )">
+                placeholder="password ( 삭제, 수정시에 사용됩니다. )">
                 </input>
                 }
                 {isOpend 

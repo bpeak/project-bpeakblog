@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { EditorState, convertToRaw, ContentBlock, convertFromRaw } from 'draft-js'
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
-import draftToHtml from 'draftjs-to-html'
-import htmlToDraft from 'html-to-draftjs'
 //components
 import LargeSpinner from '~components/atoms/spinners/LargeSpinner/LargeSpinner'
 //styles
@@ -17,81 +15,138 @@ import tagController from '~modules/tagController'
 class PostEditor extends Component {
     constructor(props){
         super(props)
-        const mode = props.match.params.mode
         this.state = {
-            mode,
-            isLoaded : mode === 'edit' ? false : true,
-            cover : undefined,
+            isLoaded : props.mode === 'edit' ? false : true,
+            cover : null,
+            category : '',
+            title : '',
+            intro : '',
             tags : [],
+            tagsOriginalString : '',
             editorState : EditorState.createEmpty(),
-            contentState : undefined,
-            raw : undefined
+            isPublished : false
         }
     }
 
     _setCover = (cover) => { this.setState(() => ({ cover }))}
+    _setCategory = (category) => { this.setState(() => ({ category }))}
+    _setTitle = (title) => { this.setState(() => ({ title }))}
+    _setIntro = (intro) => { this.setState(() => ({ intro }))}
     _setTags = (tags) => { this.setState(() => ({ tags }) )}
-    _setContentState = (contentState) => { this.setState(() => ({ contentState }))}
+    _setTagsOriginalString = (tagsOriginalString) => { this.setState(() => ({ tagsOriginalString }))}
     _setEditorState = (editorState) => { this.setState(() => ({ editorState })) }
+    _setIsPublished = (isPublished) => { this.setState(() => ({ isPublished }))}
+    _setIsLoaded = (isLoaded) => { this.setState(() => ({ isLoaded }))}
 
     _handleOnSelectCoverClick = () => { this.refs.cover.click() }
-    _handleOnDeleteCoverClick = () => { this.setState(() => ({ cover : null }))}
-    _handleOnEditorStateChange = (editorState) => { this._setEditorState(editorState) }
-
+    _handleOnDeleteCoverClick = () => { this._setCover(null) }
     _handleOnInputCoverChange = async () => {
         const coverImgFile = this.refs.cover.files[0]
         const coverImgDataUrl = await imgFileReader(coverImgFile)
         const cover = { imgFile : coverImgFile, imgSrc : coverImgDataUrl }
         this._setCover(cover)
     }
+    _handleOnSelectBoxCategoryChange = (e) => {
+        const category = e.currentTarget.value
+        this._setCategory(category)
+    }
+    _handleOnTitleChange = (e) => {
+        const title = e.currentTarget.value
+        this._setTitle(title)
+    }
     _handleOnTextareaTagsChange = (e) => {
-        const value = e.currentTarget.value
-        const hashtags = tagController.extract(value)
+        const tagsOriginalString = e.currentTarget.value
+        const hashtags = tagController.extract(tagsOriginalString)
         const tags = tagController.getTagsFromHashtags(hashtags)
+        this._setTagsOriginalString(tagsOriginalString)
         this._setTags(tags)
     }
-
+    _handleOnInputIntroChange = (e) => {
+        const intro = e.currentTarget.value
+        this._setIntro(intro)
+    }
+    _handleOnEditorStateChange = (editorState) => { this._setEditorState(editorState) }
+    _handleOnInputPublishChange = (e) => {
+        const chekced = e.currentTarget.value
+        console.log(chekced)
+    }
     _handleOnPublishClick = () => {
-        const coverImgFile = this.state.cover ? this.state.cover.imgFile : null
-        const category = this.refs.category.value
-        const title = this.refs.title.value
-        const intro = this.refs.intro.value
-        const tags = this.state.tags
-        const contentState = convertToRaw(this.state.editorState.getCurrentContent())
-        this.props.publish({
-            coverImgFile,
+        const {
+            cover,
             category,
             title,
             intro,
             tags,
-            contentState
+            editorState
+        } = this.state
+
+        if(!category || !title){ return alert('카테고리와 타이틀은 필수항목입니다.') }
+
+        if(!cover){
+            const result = confirm('커버이미지 없이 진행하시겠습니까?')
+            if(!result){ return }
+        }
+
+        const contentState = convertToRaw(editorState.getCurrentContent())
+        this.props.publish({
+            coverImgFile : cover ? cover.imgFile : null,
+            category,
+            title,
+            intro,
+            tags,
+            contentState,
         })
     }
 
     _handleOnSaveClick = () => {
-        const coverImgFile = this.state.cover ? this.state.cover.imgFile : null
-        const category = this.refs.category.value
-        const title = this.refs.title.value
-        const intro = this.refs.intro.value
-        const tags = this.state.tags
-        const contentState = convertToRaw(this.state.editorState.getCurrentContent())
-        this.props.save({
-            coverImgFile,
+        const {
+            cover,
             category,
             title,
             intro,
             tags,
-            contentState
-        })        
+            editorState
+        } = this.state
+
+        if(!category || !title){ return alert('카테고리와 타이틀은 필수항목입니다.') }
+
+        if(!cover){
+            const result = confirm('커버이미지 없이 진행하시겠습니까?')
+            if(!result){ return }
+        }
+
+        const contentState = convertToRaw(editorState.getCurrentContent())
+
+        this.props.save({
+            coverImgFile : cover ? cover.imgFile : null,
+            category,
+            title,
+            intro,
+            tags,
+            contentState,
+        })     
     }
 
     _handleOnEditClick = () => {
-        const isPublished = this.refs.isPublished.checked
-        const category = this.refs.category.value
-        const title = this.refs.title.value
-        const intro = this.refs.intro.value
-        const tags = this.state.tags
-        const contentState = convertToRaw(this.state.editorState.getCurrentContent())
+        const {
+            cover,
+            category,
+            title,
+            intro,
+            tags,
+            editorState,
+            isPublished,
+        } = this.state
+
+        if(!category || !title){ return alert('카테고리와 타이틀은 필수항목입니다.') }
+
+        if(!cover){
+            const result = confirm('커버이미지 없이 진행하시겠습니까?')
+            if(!result){ return }
+        }
+
+        const contentState = convertToRaw(editorState.getCurrentContent())
+
         const post = {
             isPublished,
             category,
@@ -100,7 +155,7 @@ class PostEditor extends Component {
             tags,
             contentState
         }
-        const cover = this.state.cover
+
         if(cover && cover.imgFile){ 
             post.coverImgFile = cover.imgFile
         }
@@ -114,32 +169,27 @@ class PostEditor extends Component {
     }
 
     async componentDidMount(){
-        const { mode } = this.state
-        if(mode !== 'edit') { return }
-        const post_id = this.props.match.params.post_id
+        if(this.props.mode !== 'edit') { return }
         const response = await this.props.getPostForEdit()
         if(!response) { return }
         const { post } = response
-        const category = post.category
-        const title = post.title
-        const intro = post.intro
-        const tags = post.tags
-        const hashtags = tags.map((tag) => { return '#' + tag })
-        const joinedTextTags = hashtags.join(" ")
+        const hashtags = post.tags.map((tag) => { return '#' + tag })
+        const tagsOriginalString = hashtags.join(" ")
 
-        this.refs.category.value = category
-        this.refs.title.value = title
-        this.refs.intro.value = intro
-        this.refs.tags.value = joinedTextTags
-        this.refs.isPublished.checked = post.isPublished
-        if(post.coverImgSrc){ this.setState(() => ({ cover : { imgSrc : post.coverImgSrc }}))}
-        this._setTags(tags)
+        this._setCategory(post.category)
+        this._setTitle(post.title)
+        this._setIntro(post.intro)
+        this._setTags(post.tags)
+        this._setTagsOriginalString(tagsOriginalString)
+        this._setIsPublished(post.isPublished)
         this._setEditorState(EditorState.createWithContent(convertFromRaw(post.contentState)))
-        this.setState(() => ({ isLoaded : true }))
+        if(post.coverImgSrc){ this.setState(() => ({ cover : { imgSrc : post.coverImgSrc }}))}
+        this._setIsLoaded(true)
     }
 
     render() {
         const { 
+            mode,
             imgFileUploadCallback
         } = this.props
         const { 
@@ -150,13 +200,22 @@ class PostEditor extends Component {
             _handleOnSaveClick,
             _handleOnPublishClick,
             _handleOnEditClick,
-            _handleOnEditorStateChange
+            _handleOnEditorStateChange,
+            _handleOnInputIntroChange,
+            _handleOnSelectBoxCategoryChange,
+            _handleOnTitleChange,
+            _handleOnInputPublishChange,
          } = this
         const { 
             isLoaded,
             cover,
+            category,
+            title,
+            intro,
             tags,
-            editorState
+            tagsOriginalString,
+            editorState,
+            isPublished,
          } = this.state
 
         return (
@@ -164,67 +223,83 @@ class PostEditor extends Component {
                 { !isLoaded && <div className={cx('spinner-container')}><LargeSpinner/></div> }
                 { cover && <img className={cx('coverPreview')} src={cover.imgSrc}/> }
                 <input
-                className={cx('cover')}
-                ref="cover"
-                type="file" accept="image/*"
-                onChange={_handleOnInputCoverChange}/>
+                    className={cx('cover')}
+                    ref="cover"
+                    type="file" accept="image/*"
+                    onChange={_handleOnInputCoverChange}/>
                 <div className={cx('btns-cover')}>
                     <button 
-                    className={cx('selectCover')}
-                    onClick={_handleOnSelectCoverClick} >
+                        className={cx('selectCover')}
+                        onClick={_handleOnSelectCoverClick} >
                     { cover ? "커버이미지 변경" : "커버이미지 선택"}
                     </button>
                     { cover && 
                     <button
-                    className={cx('deleteCover')}
-                    onClick={_handleOnDeleteCoverClick}>
-                    커버이미지 삭제
+                        className={cx('deleteCover')}
+                        onClick={_handleOnDeleteCoverClick}>
+                        커버이미지 삭제
                     </button>}      
                 </div>
-                <select className={cx('category')} ref="category" name="category" defaultValue="">
+                <select 
+                    className={cx('category')}
+                    onChange={_handleOnSelectBoxCategoryChange}
+                    name="category" 
+                    value={category}>
                     <option disabled value="">select category</option>
                     <option value="dev">dev</option>
                     <option value="life">life</option>
                 </select>                
                 <input
-                className={cx('title')} ref="title" type="text" placeholder="title"/>
-                <textarea className={cx('intro')} ref="intro" placeholder="intro"></textarea>
+                    className={cx('title')} 
+                    onChange={_handleOnTitleChange}
+                    value={title}
+                    type="text" 
+                    placeholder="title"/>
+                <textarea 
+                    className={cx('intro')} 
+                    onChange={_handleOnInputIntroChange}
+                    value={intro}
+                    placeholder="intro">
+                </textarea>
                 { tags.length !== 0 &&
                 <div className={cx('tags')}>{tags.map((tag, index) => {
                     return <span key={index}>{tag}</span>
                 })}</div>}
-                <textarea onChange={_handleOnTextareaTagsChange} className={cx('tags')} ref="tags" placeholder="tags"></textarea>
+                <textarea 
+                    className={cx('tags')} 
+                    value={tagsOriginalString}
+                    onChange={_handleOnTextareaTagsChange} 
+                    placeholder="tags">
+                </textarea>
                 <Editor
-                editorState={editorState}
-                onEditorStateChange={_handleOnEditorStateChange}
-                // onEditorStateChange={(EditorState) => {
-                //     console.log(EditorState.getCurrentContent().createFromBlockArray
-                //     )
-                // }}
-                // onContentStateChange={_handleOnContentStateChange}
-                toolbar={{
-                    inline: { inDropdown: false },
-                    list: { inDropdown: false },
-                    textAlign: { inDropdown: false },
-                    link: { inDropdown: true },
-                    history: { inDropdown: true },
-                    image: { 
-                        uploadCallback : imgFileUploadCallback,
-                        alt: { present: true, mandatory: true },
-                        previewImage: true
-                    },
-                }}        
-                />
-                {this.state.mode === 'write' &&
+                    editorState={editorState}
+                    onEditorStateChange={_handleOnEditorStateChange}
+                    toolbar={{
+                        inline: { inDropdown: false },
+                        list: { inDropdown: false },
+                        textAlign: { inDropdown: false },
+                        link: { inDropdown: true },
+                        history: { inDropdown: true },
+                        image: { 
+                            uploadCallback : imgFileUploadCallback,
+                            alt: { present: true, mandatory: true },
+                            previewImage: true
+                        },
+                    }}/>
+                {mode === 'write' &&
                 <div className={cx('btns')}>
                     <button  className={cx('publish')} onClick={_handleOnPublishClick}>PUBLISH</button>
                     <button className={cx('save')} onClick={_handleOnSaveClick}>SAVE</button>
                 </div>}
-                {this.state.mode === 'edit' &&
+                {mode === 'edit' &&
                 <Fragment>
                     <div className={cx('isPublished-container')}>
                         <span>Do you want to publish?</span>
-                        <input ref="isPublished" type="checkbox" name="isPublished"/>
+                        <input
+                            onChange={_handleOnInputPublishChange}
+                            checked={isPublished}
+                            type="checkbox" 
+                            name="isPublished"/>
                     </div>
                     <button className={cx('edit')} onClick={_handleOnEditClick}>EDIT</button>
                 </Fragment>}

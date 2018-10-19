@@ -17,3 +17,10 @@ export const logoutSuccess = () => {
     })
 }
 
+export const userProfileImgChanged = (payload) => {
+    return ({
+        type :actionTypes.USER_PROFILE_IMG_CHANGED,
+        profileImgSrc : payload.profileImgSrc
+    })
+}
+

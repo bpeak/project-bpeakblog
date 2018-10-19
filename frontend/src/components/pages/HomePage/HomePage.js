@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
+//modules
+import history from '~modules/history'
 //styles
 import classNames from 'classnames/bind'
 import styles from './HomePage.scss'
@@ -45,12 +47,16 @@ const HomePage = ({
                     : <Fragment>
                         {recentComments.map((comment) => {
                             return (
-                                <PostComment
-                                key={comment._id}
-                                comment={comment}
-                                isUseForm={false}
-                                isUseReply={false}
-                                />
+                                <div 
+                                className={cx('PostComment-container')}
+                                onClick={() => {history.push(`/post/${comment.post_id}`)}}
+                                key={comment._id}>
+                                    <PostComment
+                                    comment={comment}
+                                    isUseForm={false}
+                                    isUseReply={false}
+                                    />
+                                </div>
                             )
                         })}
                     </Fragment>

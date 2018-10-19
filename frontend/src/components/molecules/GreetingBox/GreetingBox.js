@@ -103,7 +103,7 @@ class GreetingBox extends Component {
                 </div>}
                 <div className={cx('contents')}>
                     <h2>
-                        {"LET'S DEVELOPME \n TO BE A BETTER DEVELOPER".split('\n').map((line, index) => {
+                        {"LET'S DEVELOP ME \n TO BE A BETTER DEVELOPER".split('\n').map((line, index) => {
                         return <div key={index}>{line}</div>})}
                     </h2>
                     <h3>개발 블로그 입니다.</h3>

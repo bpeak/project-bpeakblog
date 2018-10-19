@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import naverImgSrc from '~assets/naver.png'
 import kakaoImgSrc from '~assets/kakao.png'
 //styles
-import styles from './style.scss'
+import styles from './JoinPage.scss'
 const cx = classNames.bind(styles)
 //components
 import MainTemplate from '~components/templates/MainTemplate/MainTemplate'

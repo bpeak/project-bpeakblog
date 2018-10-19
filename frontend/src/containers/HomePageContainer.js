@@ -11,10 +11,12 @@ class HomePageContainer extends Component {
     constructor(props){
         super(props)
         const posts = props.postsState.items
+        const comments = props.postsState.comments
+        console.log(comments, '코멘트가 왜 이거밖에 없어?')
         this.state = {
             popularPosts : posts ? this._getPopularPosts(posts) : undefined,
             recentPost : posts ? this._getRecentPost(posts) : undefined,
-            recentComments : posts ? this._getRecentComments(posts) : undefined
+            recentComments : comments ? this._getRecentComments(comments) : undefined
         }
     }
 
@@ -77,18 +79,30 @@ class HomePageContainer extends Component {
         return popularPosts
     }    
 
-    _getRecentComments = (posts) => {
-        const { RECENT_COMMENTS_COUNT } = this
-        const comments = posts.reduce((comments, post) => {
-            return [...comments, ...post.comments]
-        }, [])
-
-        const commentsByDate = [...comments].sort((a, b) => {
+    _getRecentComments = (comments) => {
+        const commentsByCreatedDate = [...comments].sort((a, b) => {
             return new Date(b.createdDate) - new Date(a.createdDate)
         })
 
-        const recentComments = commentsByDate.slice(0, RECENT_COMMENTS_COUNT)
+        const recentComments = commentsByCreatedDate.slice(0, this.RECENT_COMMENTS_COUNT)
         return recentComments
+    }
+
+    shouldComponentUpdate(nextProps, nextState){
+        const prevPopularPosts = this.state.popularPosts
+        const nextPopularPosts = nextState.popularPosts
+
+        const prevRecentPost = this.state.recentPost
+        const nextRecentPost = nextState.recentPost
+
+        const prevRecentComments = this.state.prevRecentComments
+        const nextRecentComments = nextState.nextRecentComments
+
+        return (
+            (prevPopularPosts !== nextPopularPosts) ||
+            (prevRecentPost !== nextRecentPost) ||
+            (prevRecentComments !== nextRecentComments)
+        )
     }
 
     componentWillReceiveProps(nextProps){
@@ -103,8 +117,9 @@ class HomePageContainer extends Component {
         const nextRecentPost = this._getRecentPost(posts)
         if(prevRecentPost !== nextRecentPost) { this._setRecentPost(nextRecentPost) }
 
+        const comments = nextProps.postsState.comments
         const prevRecentComments = this.state.recentComments
-        const nextRecentComments = this._getRecentComments(posts)
+        const nextRecentComments = comments ? this._getRecentComments(comments) : prevRecentComments
         if(prevRecentComments !== nextRecentComments){ this._setRecentComments(nextRecentComments) }
     }
 

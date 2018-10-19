@@ -3,84 +3,82 @@ import * as fs from 'fs'
 import * as redis from 'redis'
 import * as path from 'path'
 import Post from '~db/models/post'
-const redisClient = redis.createClient()
 
-const writePostCtrl = (req : Request, res : Response) : void => {
-    (async function () : Promise<Response> {
-        try{
-            const author = 123
-            const isPublished = req.body.isPublished
-            const category = req.body.category
-            const title = req.body.title
-            const intro = req.body.intro
-            const tags = JSON.parse(req.body.tags)
-            const post = await new Post({
-                author : req.user._id,
-                isPublished,
-                category,
-                title,
-                intro,
-                tags
-            }).save()
+const createPostCtrl = async (req : Request, res : Response) : Promise<Response> => {
+    try{
+        const {
+            isPublished,
+            category, 
+            title, 
+            intro, 
+        } = req.body
+        const tags = JSON.parse(req.body.tags)
+        const contentState = JSON.parse(req.body.contentState)
+        const { 
+            user
+        } = req
+        const post = await new Post({
+            author : user._id,
+            isPublished,
+            category,
+            title,
+            intro,
+            tags
+        }).save()
 
-            const uploadPath = path.join(global.__rootDir, `/public/postImgs/${post._id}`)
-            fs.mkdirSync(uploadPath)
-            const coverImgFileUploadPath = path.join(uploadPath + '/cover')
-            fs.mkdirSync(coverImgFileUploadPath)
+        // make post img directory
+        fs.mkdirSync(path.join(global.__rootDir, `/public/postImgs/${post._id}`))
+        fs.mkdirSync(path.join(global.__rootDir, `/public/postImgs/${post._id}/cover`))
 
-            const coverImgFile = req.file
-            let coverImgSrc = null
-            if(coverImgFile){
-                const timeStamp = Date.now()
-                const originalname = coverImgFile.originalname
-                const fileName = timeStamp + '-' + originalname
-                coverImgSrc = `/public/postImgs/${post._id}/cover/${fileName}`
-                fs.writeFileSync(`${coverImgFileUploadPath}/${fileName}`, coverImgFile.buffer, "binary")
-            }
+        // coverImg
+        const coverImgFile = req.file
+        const coverImgSrc = !coverImgFile ? null : (function() : string {
+            const fileName = Date.now() + '-' + coverImgFile.originalname
+            const coverImgSrc = `/public/postImgs/${post._id}/cover/${fileName}`
+            fs.writeFileSync(path.join(global.__rootDir, coverImgSrc), coverImgFile.buffer, "binary")
+            return coverImgSrc
+        })()
+        
+        // contentState
+        const tempImgFileNames = fs.readdirSync(path.join(global.__rootDir, '/public/temporary/postImgs'))
+        const { entityMap } = contentState
+
+        for(let key in entityMap){
+            const tempImgSrc = entityMap[key].data.src
+            const pieces = tempImgSrc.split('/')
+            const imgFileName = pieces[pieces.length -1]
             
-            let contentState = JSON.parse(req.body.contentState)
-            let { entityMap } = contentState
-            const postTempJsonImgs = await getPostTempJsonImgsFromRedis()
-            for(let key in entityMap){
-                const postImgDataUrl = entityMap[key].data.src
-                postTempJsonImgs.forEach((postTempJsonImg : string) => {
-                    const postTempImg = JSON.parse(postTempJsonImg)
-                    if(postImgDataUrl === postTempImg.dataUrl){
-                        const originalname = postTempImg.file.originalname
-                        const timeStamp = Date.now()
-                        const fileName = timeStamp + '-' + originalname
-                        const imgSrc = `/public/postImgs/${post._id}/${fileName}`
-                        entityMap[key].data.src = imgSrc
-                        fs.writeFileSync(`${uploadPath}/${fileName}`, Buffer.from(postTempImg.file.buffer), "binary")
-                    }
-                })
-            }
+            // is not exist img ?
+            if(tempImgFileNames.indexOf(imgFileName) === -1){ return res.sendStatus(410) }
 
-            contentState.entityMap = entityMap
-            await post.update({ $set : { 
-                contentState,
-                coverImgSrc
-            }})
-
-            redisClient.del('postTempJsonImg')
-
-            return res.status(200).json(JSON.stringify({}))
+            const imgSrc = `/public/postImgs/${post._id}/${imgFileName}`
+            const oldPath = path.join(global.__rootDir, tempImgSrc)
+            const newPath = path.join(global.__rootDir, imgSrc)
+            fs.renameSync(oldPath, newPath)
+            entityMap[key].data.src = imgSrc
         }
-        catch(err){
-            console.log(err)
-            return res.status(500).json(JSON.stringify({}))
-        }
-    })()
+        contentState.entityMap = entityMap
+
+        // delete temp imgs
+        const remainingTempImgFiles = fs.readdirSync(path.join(global.__rootDir, '/public/temporary/postImgs'))
+        console.log(remainingTempImgFiles, '이거돌면서 지울건데')
+        remainingTempImgFiles.forEach((tempImgFileName) => {
+            fs.unlinkSync(path.join(global.__rootDir, '/public/temporary/postImgs', tempImgFileName))
+        })
+
+        await post.update({ $set : { 
+            contentState,
+            coverImgSrc
+        }})
+
+        return res.status(201).json(JSON.stringify({
+            post : { _id : post._id }
+        }))
+    }
+    catch(err){
+        console.log(err)
+        return res.sendStatus(200)
+    }
 }
 
-export default writePostCtrl
-
-function getPostTempJsonImgsFromRedis () : Promise<string[]> {
-    return new Promise((resolve, reject) => {
-        redisClient.lrange('postTempJsonImgs', 0, -1, (err, arr) => {
-            if(err) { return reject(new Error('getPostTempJsonImgsFromRedis : 에러발생'))}
-            const postTempJsonImgs = arr
-            return resolve(postTempJsonImgs)
-        })                
-    })
-}
+export default createPostCtrl
