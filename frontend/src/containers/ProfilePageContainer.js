@@ -46,6 +46,23 @@ class ProfilePageContainer extends React.PureComponent {
             body : formData
         })
     }
+
+    updatePassword = (prevPassword, newPassword) => {
+        const { userState } = this.props
+        console.log(userState.token, '유저트세이트야')
+        console.log(prevPassword, newPassword)
+        return fetchCreator('/api/users/me/password', {
+            method : 'PATCH',
+            headers : {
+                Authorization : `Bearer ${userState.token}`,
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify({
+                prevPassword,
+                newPassword
+            })
+        })
+    }
     
     handleOnInputProfileImgChange = async (e) => {
         try{
@@ -79,6 +96,7 @@ class ProfilePageContainer extends React.PureComponent {
             userState={userState}
             handleOnInputProfileImgChange={this.handleOnInputProfileImgChange}
             profileImgStatus={this.state.profileImg}
+            updatePassword={this.updatePassword}
             />
         )
     }
