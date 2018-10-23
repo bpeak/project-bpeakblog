@@ -3,7 +3,7 @@
 }
 
 .contents{
-    width: 80%;
+    width: 65%;
     transition: width 0.2s ease;
     margin: 0 auto;
     display: flex;
@@ -17,14 +17,23 @@
         flex-direction: column;
         align-items: center;
 
+        div.PostHoriCard-container{
+            margin-bottom: 4em;
+        }
+
         div.post-info{
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             // border-top: 1px solid grey;
+            // margin-top: 0.5em;
             border-bottom: 1px solid grey;
+            margin-bottom: 1em;
             h3{
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 font-family: 'Oswald';
                 letter-spacing: 0.05em;
                 color: #0D1B49;
@@ -32,6 +41,11 @@
                 padding: 0.4em;
                 border-radius: 0.2em;
                 font-size: 120%;
+                img{
+                    width: 1em;
+                    height: 1em;
+                    margin-left: 0.3em;
+                }
             }
             a{
                 color: #757575;
@@ -46,10 +60,6 @@
                     color: #FF5252;
                 }
             }
-        }
-
-        & > * {
-            margin: 1.5em 0;
         }
         & > .post-info{
             width: 100%;

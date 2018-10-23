@@ -3,21 +3,25 @@
     width: 100%;
     height: 100%;
     font-size: 19px;
-    background-color:#FAFAFA;
     main{
         background-color: white;
-        border: 1px solid red;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+        border-radius: 0.2em;
         width: 50%;
         margin: 0 auto;
 
         display: flex;
         nav{
+            border-right: 1px solid rgb(219, 219, 219);
             flex-shrink: 1;
             flex-grow: 0;
             min-width: fit-content;
             display: flex;
             flex-direction: column;
+            font-weight: 600;
             a{
+                transition: color 0.2s ease;
                 color: #262626;
                 padding: 0.85em;
                 &:hover{
@@ -54,9 +58,76 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    .ProfileImg-container{
-        width: 2em;
-        height: 2em;
+    & > * {
+        margin: 0.38em 0;
+    }
+    div.ProfileImg-container{
+        cursor: pointer;
+        position: relative;
+        width: 5em;
+        height: 5em;
+    }
+    input.profileImg{ display: none; }
+    button.profileImg{
+        cursor: pointer;
+        background: none;
+        border: none;
+        outline: none;
+        font-size: 100%;
+        color: #3897f0;
+        font-weight: 900;
+    }    
+    div.nick{
+        label{
+            font-weight: 600;
+            margin-right: 0.3em;
+        }
+        input{
+            padding: 0.2em;
+            border: none;
+            height: 2em;
+            border-bottom: 1px solid grey;
+            &:focus{
+                font-weight: 600;
+            }
+        }
+    }
+    div.sex{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        label{
+            font-weight: 600;
+            margin-right: 0.25em;
+        }
+        input{
+            width: 1.4em;
+            height: 1.4em;
+            margin-right: 1em;
+        }
+    }
+    button.submit{
+        outline: none;
+        border: none;
+        color: white;
+        border-radius: 0.2em;
+        padding: 0.6em 0.85em;
+        font-weight: 600;
+        font-size: 110%;
+        background-color: #1E306E;
+        transition: background-color 0.2s ease;
+        &:disabled{
+            background-color: #8c91ab;;
+        }
+        &:enabled:hover{
+            cursor: pointer;
+            background-color: #3F4DB8;
+        }
+    }
+    .errMsg{
+        color: red;
+        font-size: 85%;
+        font-weight: 900;
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import classNames from 'classnames/bind'
 //styles
-import styles from './style.scss'
+import styles from './TopHeader.scss'
 const cx = classNames.bind(styles)
 
 class TopHeader extends React.Component{
@@ -57,7 +57,6 @@ class TopHeader extends React.Component{
 
         return (
             <div className={cx('TopHeader')}>
-                <div className={cx('exex')}>..</div>
                 <div className={cx('clock')}>
                     <div className={cx('bundle')}>
                         <span>{_getFrontTimeLetter(time.h)}</span>

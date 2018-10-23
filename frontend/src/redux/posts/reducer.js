@@ -45,10 +45,17 @@ const reducer = handleActions({
     },
     [actionTypes.POST_COMMENT_REPLY_ADDED] : (state, action) => {
         const newReply = Object.assign({}, action.payload.reply)
+        // console.log('추가될 리플라이')
+        console.log('new R!!! :', newReply)
         const nextReplies = [newReply, ...state.replies]
+        // console.log('prevPreplies : ', state.replies)
+        // console.log('nextReplies : ', nextReplies)
         const nextComments = state.comments.map((comment) => {
+            // console.log('new R!!! :', newReply)
+            // console.log(comment._id, newReply.comment_id, newReply, '머야이거')
             if(comment._id !== newReply.comment_id){ return comment }
             const nextCommentReplies = [newReply._id, ...comment.replies]
+            // console.log(nextCommentReplies, '이게추가된건데리플리즈?')
             return ({
                 ...comment,
                 replies : nextCommentReplies

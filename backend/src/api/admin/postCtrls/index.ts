@@ -1,5 +1,8 @@
-export { default as getPostCtrl } from './getPostCtrl'
-export { default as editPostCtrl } from './editPostCtrl'
-export { default as writePostCtrl } from './writePostCtrl'
-export { default as preUploadPostImgFileCtrl } from './preUploadPostImgFileCtrl'
-export { default as readPostsCtrl } from './readPostsCtrl'
+export { default as readPosts } from './readPosts'
+
+export { default as createPost } from './createPost'
+export { default as readPost } from './readPost'
+export { default as updatePost } from './updatePost'
+export { default as deletePost } from './deletePost'
+
+export { default as preUploadPostImgFile } from './preUploadPostImgFile'

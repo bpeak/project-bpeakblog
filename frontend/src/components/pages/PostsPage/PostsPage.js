@@ -80,6 +80,8 @@ class PostsPage extends Component{
         const nextCategorizedPosts = this._getCategorizedPosts(nextAllPosts, nextCategory, nextKeyword)
         const prevCategorizedPosts = this.state.categorizedPosts
         if(prevCategorizedPosts !== nextCategorizedPosts){ this._setCategorizedPosts(nextCategorizedPosts) }
+
+        console.log(this.forceUpdate)
     }
 
     _renderPagenation = () => {
@@ -153,6 +155,7 @@ class PostsPage extends Component{
                         <div key={post._id} className={cx('PostCard-container')}>
                             <PostCard
                             _id={post._id}
+                            isPublished={post.isPublished}
                             author={post.author}
                             category={post.category}
                             coverImgSrc={post.coverImgSrc || undefined}

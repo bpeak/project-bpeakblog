@@ -15,10 +15,11 @@ const PostComment = ({
     comment,
     isUseForm,
     isFocused,
-    handleOnBtnReplyClick
+    handleOnBtnReplyClick,
+    userState,
 }) => {
     return (
-        <div className={cx('PostComment')}>
+        <div className={cx('PostComment', { admin : true })}>
             <div className={cx('comment')}>
                 <div className={cx('profileImg-container')}>
                     <ProfileImg 
@@ -35,7 +36,8 @@ const PostComment = ({
                     <div className={cx('description')}>{comment.description}</div>
                     {isUseForm && comment.replies.length === 0 &&
                     <div className={cx('btnWrite')}>
-                        <button onClick={handleOnBtnReplyClick}>REPLY</button>
+                        <button className={cx('reply')} onClick={handleOnBtnReplyClick}>REPLY</button>
+                        {userState.isAdmin && <button className={cx('delete')}>삭제</button>}
                     </div>}
                 </div>            
             </div>
@@ -71,7 +73,6 @@ const PostReply = ({
                 <div className={cx('profileImg-container')}>
                     <ProfileImg 
                     isMember={reply.isMember}
-                    isAdmin={reply.isAdmin}
                     imgSrc={reply.isMember ? reply.memberAuthor.profileImgSrc : undefined}
                     />
                 </div>
@@ -83,7 +84,7 @@ const PostReply = ({
                     <div className={cx('description')}>{reply.description}</div>
                     {isLastReply &&
                     <div className={cx('btnWrite')}>
-                        <button onClick={handleOnBtnReplyClick}>REPLY</button>
+                        <button className={cx('reply')} onClick={handleOnBtnReplyClick}>REPLY</button>
                     </div>}
                 </div>            
             </div>
@@ -93,6 +94,7 @@ const PostReply = ({
 
 PostComment.propTypes = {
     comment : PropTypes.shape({
+        unique_id : PropTypes.string,
         isAdmin : PropTypes.bool.isRequired,
         isMember : PropTypes.bool.isRequired,
         description : PropTypes.string.isRequired,

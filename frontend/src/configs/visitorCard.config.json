@@ -1,0 +1,5 @@
+{
+    "NICK_CHAR_MIN" : 2,
+    "NICK_CHAR_MAX" : 10,
+    "DESCRIPTION_CHAR_MAX" : 1000
+}

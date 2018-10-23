@@ -12,7 +12,6 @@ class HomePageContainer extends Component {
         super(props)
         const posts = props.postsState.items
         const comments = props.postsState.comments
-        console.log(comments, '코멘트가 왜 이거밖에 없어?')
         this.state = {
             popularPosts : posts ? this._getPopularPosts(posts) : undefined,
             recentPost : posts ? this._getRecentPost(posts) : undefined,
@@ -21,7 +20,7 @@ class HomePageContainer extends Component {
     }
 
     POPULAR_POSTS_COUNT = 5
-    RECENT_COMMENTS_COUNT = 5
+    RECENT_COMMENTS_COUNT = 10
 
     _setPopularPosts = (popularPosts) => { this.setState(() => ({ popularPosts }))}
     _setRecentPost = (recentPost) => { this.setState(() => ({ recentPost }))}
@@ -33,51 +32,16 @@ class HomePageContainer extends Component {
     }
 
     _getPopularPosts = (posts) => {
-        const { POPULAR_POSTS_COUNT } = this
-        const popularPosts = posts.reduce((popularPosts, post) => {
-            // just push for popularPostsCount
-            if(popularPosts.length < POPULAR_POSTS_COUNT) {
-                popularPosts.push(post)
-                return popularPosts
-            }
-            
-            const minPopularPostOfPopularPosts = popularPosts.reduce((currentMinPopularPost, post) => {
-                if(
-                    (currentMinPopularPost.views > post.views) ||
-                    (
-                        (currentMinPopularPost.views === post.views) 
-                        &&
-                        (Number(new Date(currentMinPopularPost.createdDate)) - Number(new Date(post.createdDate)) > 0)
-                    )
-                ){
-                    return post
-                } else {
-                    return currentMinPopularPost
-                }
-            })
-
-            // compare update
-            if(
-                (post.views > minPopularPostOfPopularPosts.views) ||
-                (
-                    (post.views === minPopularPostOfPopularPosts.views)
-                    &&
-                    (Number(new Date(post.createdDate)) - Number(new Date(post.createdDate)) > 0)
-                )
-            ){
-                const beReplacedPostIndex = popularPosts.findIndex((popularPost) => {
-                    return popularPost._id === minPopularPostOfPopularPosts._id
-                })
-
-                popularPosts.splice(beReplacedPostIndex, 1, post)
-                return popularPosts
+        const postsByViewsAndDate = [...posts].sort((a, b) => {
+            if(a.views !== b.views){
+                return b.views - a.views
             } else {
-                return popularPosts
+                return new Date(a.createdDate) - new Date(b.createdDate)
             }
-        }, [])
-
+        })
+        const popularPosts = postsByViewsAndDate.slice(0, this.POPULAR_POSTS_COUNT)
         return popularPosts
-    }    
+    }
 
     _getRecentComments = (comments) => {
         const commentsByCreatedDate = [...comments].sort((a, b) => {

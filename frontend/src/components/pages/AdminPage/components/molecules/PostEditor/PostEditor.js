@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js'
 import { Editor } from 'react-draft-wysiwyg'
 //components
@@ -17,6 +18,7 @@ class PostEditor extends Component {
         super(props)
         this.state = {
             isLoaded : props.mode === 'edit' ? false : true,
+            isPublished : false,
             cover : null,
             category : '',
             title : '',
@@ -24,7 +26,6 @@ class PostEditor extends Component {
             tags : [],
             tagsOriginalString : '',
             editorState : EditorState.createEmpty(),
-            isPublished : false
         }
     }
 
@@ -66,10 +67,7 @@ class PostEditor extends Component {
         this._setIntro(intro)
     }
     _handleOnEditorStateChange = (editorState) => { this._setEditorState(editorState) }
-    _handleOnInputPublishChange = (e) => {
-        const chekced = e.currentTarget.value
-        console.log(chekced)
-    }
+    _handleOnInputPublishChange = () => { this._setIsPublished(!this.state.isPublished) }
     _handleOnPublishClick = () => {
         const {
             cover,
@@ -156,14 +154,11 @@ class PostEditor extends Component {
             contentState
         }
 
-        if(cover && cover.imgFile){ 
+        if(cover && cover.imgFile){
             post.coverImgFile = cover.imgFile
         }
         if(cover && !cover.imgFile && cover.imgSrc){
-            post.isExistCoverImg = true
-        }
-        if(!cover){
-            post.isExistCoverImg = false
+            post.isMaintainingCover = true
         }
         this.props.edit(post)        
     }
@@ -306,6 +301,15 @@ class PostEditor extends Component {
             </div>
         )
     }
+}
+
+PostEditor.propTypes = {
+    mode : PropTypes.string.isRequired,
+    getPostForEdit : PropTypes.func.isRequired,
+    imgFileUploadCallback : PropTypes.func.isRequired,
+    publish : PropTypes.func.isRequired,
+    save : PropTypes.func.isRequired,
+    edit : PropTypes.func.isRequired,
 }
 
 export default PostEditor

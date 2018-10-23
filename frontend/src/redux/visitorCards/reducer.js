@@ -1,25 +1,21 @@
 import * as actionTypes from './actionTypes'
+import { handleActions } from 'redux-actions'
 
 const defaultState = {
     items : undefined,
     lastUpdatedDate : undefined
 }
 
-const reducer = (state = defaultState, action) => {
-    if(action.type === actionTypes.VISITORCARDS_RECEIVED){
-        return ({
-            ...state,
-            items : action.visitorCards,
-            lastUpdatedDate : '미규현'
-        })
-    } else if (action.type === actionTypes.NEW_VISITORCARD_RECEIVED){
-        return ({
-            ...state,
-            items : [action.visitorCard, ...state.items]
-        })
-    } else {
-        return state
-    }
-}
+const reducer = handleActions({
+    [actionTypes.VISITORCARDS_RECEIVED] : (state, action) => ({
+        ...state,
+        items : action.payload.visitorCards,
+        lastUpdatedDate : '미구현'
+    }),
+    [actionTypes.NEW_VISITORCARD_RECEIVED] : (state, action) => ({
+        ...state,
+        items : [action.payload.visitorCard, ...state.items]
+    })
+}, defaultState)
 
 export default reducer

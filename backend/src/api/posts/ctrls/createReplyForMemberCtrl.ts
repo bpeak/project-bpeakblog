@@ -36,15 +36,18 @@ const createReplyForMemberCtrl = async (req : Request, res : Response) : Promise
         if(updateResult.ok !== 1){ return res.sendStatus(500) }
 
         return res.status(201).json(JSON.stringify({
-            _id : reply._id,
-            comment_id : reply.comment_id,
-            isMember : reply.isMember,
-            isAdmin : reply.isAdmin,
-            createdDate : reply.createdDate,
-            memberAuthor : {
-                unique_id : user.unique_id,
-                nick : user.nick,
-                profileImgSrc : user.profileImgSrc
+            reply : {
+                _id : reply._id,
+                comment_id : reply.comment_id,
+                isMember : reply.isMember,
+                isAdmin : reply.isAdmin,
+                createdDate : reply.createdDate,
+                description : reply.description,
+                memberAuthor : {
+                    unique_id : user.unique_id,
+                    nick : user.nick,
+                    profileImgSrc : user.profileImgSrc
+                }
             }
         }))
     }

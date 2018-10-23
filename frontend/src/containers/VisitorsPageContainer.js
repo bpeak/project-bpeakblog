@@ -65,6 +65,22 @@ class VisitorsPageContainer extends Component {
         this._setIsFetching(false)
     }
 
+    deleteVisitorCard = async (_id) => {
+        const { userState } = this.props
+        const confirmed = confirm(`visitorCard(${_id}) 를 정말 삭제하시겠습니까?`)
+        if(!confirmed){ return }
+        const response = await fetchCreator(`/api/admin/visitorCards/${_id}`, {
+            method : "DELETE",
+            headers : {
+                Authorization : `Bearer ${userState.token}`
+            },
+        }, `visitorCard(${_id}) 삭제`)
+        if(!response){ return }
+        if(response.isSuccess){
+            alert('삭제완료')
+        }
+    }
+
     async componentDidMount(){
         if(this.props.visitorCardsState.items !== undefined) { return }
 
@@ -77,9 +93,10 @@ class VisitorsPageContainer extends Component {
         return (
             <VisitorsPage
             visitorCards={this.props.visitorCardsState.items}
-            isLoggedIn={this.props.userState.isLoggedIn}
+            userState={this.props.userState}
             isFetching={this.state.isFetching}
             handleNewVisitorCard={this.handleNewVisitorCard}
+            deleteVisitorCard={this.deleteVisitorCard}
             />
         )
     }

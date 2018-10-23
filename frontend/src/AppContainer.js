@@ -8,7 +8,8 @@ import fetchCreator from '~modules/fetchCreator'
 import * as postsActionCreators from '~redux/posts/actionCreators'
 
 const mapStateToProps = (state) => ({
-    postsState : state.posts
+    postsState : state.posts,
+    userState : state.user,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -23,11 +24,25 @@ class AppContainer extends Component {
     _getPosts = () => {
         return fetchCreator('/api/posts', {
             method : "GET"
-        }, '포스트요청')
+        }, 'Posts 요청')
+    }
+
+    _getPostsForAdmin = () => {
+        const { userState } = this.props
+        return fetchCreator('/api/admin/posts', {
+            method : "GET",
+            headers : {
+                Authorization : `Bearer ${userState.token}`
+            }
+        }, 'Posts (for admin) 요청')
     }
 
     async componentDidMount(){
-        const response = await this._getPosts()
+        const { userState } = this.props
+        const response = userState.isAdmin && confirm('작성중인 글도 불러올까요?') 
+        ? await this._getPostsForAdmin() 
+        : await this._getPosts()
+        
         if(!response) { return }
 
         const posts = response.posts.map((post) => {

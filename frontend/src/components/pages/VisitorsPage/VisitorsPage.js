@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 //styles
 import classNames from 'classnames/bind'
 import styles from './VisitorsPage.scss'
@@ -13,30 +14,35 @@ const VisitorsPage = (props) => {
     const { 
         visitorCards,
         handleNewVisitorCard,
-        isLoggedIn,
-        isFetching
+        userState,
+        isFetching,
+        deleteVisitorCard,
     } = props
     return (
         <MainTemplate title="Visitors">
             <div className={cx('VisitorsPage')}>
-                {visitorCards === undefined ? <LargeSpinner/> : 
+                {visitorCards === undefined ? <div className={cx('spinner-container')}><LargeSpinner/></div> : 
                 <Fragment>
                 <div className={cx('VisitorCardForm-container')}>
                     <VisitorCardForm 
-                    isLoggedIn={isLoggedIn}
-                    isFetching={isFetching}
-                    handleNewVisitorCard={handleNewVisitorCard}/>
+                        isLoggedIn={userState.isLoggedIn}
+                        isFetching={isFetching}
+                        handleNewVisitorCard={handleNewVisitorCard}
+                    />
                 </div>
                 <main className={cx('visitorCards')}>
                     {visitorCards.map((visitorCard) => (
                     <div className={cx('visitorCard-container')} key={visitorCard._id}>
                         <VisitorCard
-                        isMember={visitorCard.isMember}
-                        isAdmin={visitorCard.isAdmin}
-                        nick={visitorCard.isMember ? visitorCard.memberAuthor.nick : visitorCard.nonMemberAuthor.nick}
-                        profileImgSrc={visitorCard.isMember ? visitorCard.memberAuthor.profileImgSrc : undefined}
-                        description={visitorCard.description}
-                        createdDate={visitorCard.createdDate}
+                            _id={visitorCard._id}
+                            isMember={visitorCard.isMember}
+                            isAdmin={visitorCard.isAdmin}
+                            userState={userState}
+                            nick={visitorCard.isMember ? visitorCard.memberAuthor.nick : visitorCard.nonMemberAuthor.nick}
+                            profileImgSrc={visitorCard.isMember ? visitorCard.memberAuthor.profileImgSrc : undefined}
+                            description={visitorCard.description}
+                            createdDate={visitorCard.createdDate}
+                            deleteVisitorCard={deleteVisitorCard}
                         />
                     </div>
                     ))}
@@ -45,6 +51,13 @@ const VisitorsPage = (props) => {
             </div>
         </MainTemplate>
     )
+}
+
+VisitorsPage.propTypes = {
+    visitorCards : PropTypes.array,
+    userState : PropTypes.object.isRequired,
+    isFetching : PropTypes.bool.isRequired,
+    handleNewVisitorCard : PropTypes.func.isRequired,
 }
 
 export default VisitorsPage

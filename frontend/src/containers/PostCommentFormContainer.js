@@ -49,7 +49,7 @@ class PostCommentFormContainer extends Component {
             description : comment.description,
             password : comment.password
         }
-        return fetchCreator(`/api/posts/post/comment/${comment_id}/reply?isMember=${userState.isLoggedIn}`, {
+        return fetchCreator(`/api/posts/post/comment/${comment_id}/reply?isAsMember=${userState.isLoggedIn}`, {
             method : "POST",
             headers : {
                 'content-type' : 'application/json',
@@ -68,6 +68,7 @@ class PostCommentFormContainer extends Component {
         } else if ( target.type === 'comment'){
             const response = await this._createReply(comment)
             if(!response) { return }
+            console.log(response, '이게레스폰스야?')
             this.props.postsActions.postCommentReplyAdded({ reply : response.reply })
         }
     }

@@ -12,11 +12,9 @@ const users : Router = Router()
 
 users.use('*', tokenValidationMiddleware)
 
-users.patch('/me/profileImgSrc', fileToBufferMiddleware.single('profileImgFile'), ctrls.updateUserProfileImgCtrl)
+users.get('/me', tokenValidationMiddleware, ctrls.readUserProfileCtrl)
+users.patch('/me/profileImgSrc', tokenValidationMiddleware, fileToBufferMiddleware.single('profileImgFile'), ctrls.updateUserProfileImgCtrl)
 users.patch('/me/password', tokenValidationMiddleware, ctrls.updateUserPasswordCtrl)
-
-users.patch('/user/details', (req, res) => {
-
-})
+users.patch('/me/details', tokenValidationMiddleware, ctrls.updateUserDetailsCtrl)
 
 export default users

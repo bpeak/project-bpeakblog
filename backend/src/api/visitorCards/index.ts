@@ -4,7 +4,7 @@ import tokenValidationMiddleware from '~middlewares/tokenValidationMiddleware'
 
 const visitorCards : Router = Router()
 
-visitorCards.get('/', ctrls.getAllVisitorCardsCtrl)
+visitorCards.get('/', ctrls.readAllVisitorCards)
 visitorCards.post('/forMember', tokenValidationMiddleware, ctrls.writeMemberVisitorCardCtrl)
 visitorCards.post('/forNonMember', ctrls.writeNonMemberVisitorCardCtrl)
 

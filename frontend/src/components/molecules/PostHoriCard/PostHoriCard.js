@@ -38,8 +38,8 @@ class PostHoriCard extends React.PureComponent {
                     <div className={cx('title')} onClick={_handleOnShowPostClick}>{post.title}</div>
                     <div className={cx('intro')} onClick={_handleOnShowPostClick}>{post.intro}</div>
                     <div className={cx('authorAndDate')}>
-                        <div className={cx('ProfileImg-container')}>
-                            <ProfileImg onClick={_handleOnAuthorClick} imgSrc={post.author.profileImgSrc} isMember={true}/>
+                        <div onClick={_handleOnAuthorClick} className={cx('ProfileImg-container')}>
+                            <ProfileImg imgSrc={post.author.profileImgSrc} isMember={true}/>
                         </div>
                         <span className={cx('nick')} onClick={_handleOnAuthorClick}>{post.author.nick}</span>
                     </div>

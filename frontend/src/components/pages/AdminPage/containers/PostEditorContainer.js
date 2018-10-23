@@ -10,7 +10,7 @@ import fetchCreator from '~modules/fetchCreator'
 import PostEditor from '../components/molecules/PostEditor/PostEditor'
 
 const mapStateToProps = (state) => ({
-    user : state.user
+    userState : state.user
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -27,18 +27,17 @@ class PostEditorContainer extends Component {
             cover : null,
             title : '',
             intro : '',
-            // text
         }
     }
 
     _uploadPostImgFile = (imgFile) => {
         const formData = new FormData()
         formData.append('imgFile', imgFile)
-        const { user } = this.props
+        const { userState } = this.props
         return fetchCreator('/api/admin/postImgFile', {
             method : "POST",
             headers : {
-                Authorization : `Bearer ${user.token}`,
+                Authorization : `Bearer ${userState.token}`,
             },            
             body : formData
         })
@@ -48,7 +47,7 @@ class PostEditorContainer extends Component {
         try{
             const response = await this._uploadPostImgFile(imgFile)
             if(!response) { return }
-            return ({ data : { link : response.fileTemporaryPath } })
+            return ({ data : { link : response.imgTempSrc } })
         }
         catch(err){
             console.log(err)
@@ -62,27 +61,46 @@ class PostEditorContainer extends Component {
     }
 
     _createPost = (post, isPublished) => {
-        const { user } = this.props
+        const { userState } = this.props
         const formData = new FormData()
-        formData.append('isPublished', isPublished)
+        formData.append('isPublished', JSON.stringify(isPublished))
         formData.append('category', post.category)
         formData.append('coverImgFile', post.coverImgFile)
         formData.append('title', post.title)
         formData.append('intro', post.intro)
         formData.append('tags', JSON.stringify(post.tags))
         formData.append('contentState', JSON.stringify(post.contentState))        
-        return fetchCreator('/api/admin/post', {
+        return fetchCreator('/api/admin/posts', {
             method : "POST",
             headers : {
-                Authorization : `Bearer ${user.token}`,
+                Authorization : `Bearer ${userState.token}`,
             },
             body : formData
         })
     }
 
-    _editPost = (post, isPublished) => {
-        // const { user } = this.props
-        // const formDate = new 
+    _updatePost = (post) => {
+        const formData = new FormData()
+        if(post.coverImgFile){
+            formData.append('coverImgFile', post.coverImgFile)
+        } else {
+            formData.append('isMaintainingCover', post.isMaintainingCover || false)
+        }
+        formData.append('isPublished', post.isPublished)
+        formData.append('category', post.category)
+        formData.append('title', post.title)
+        formData.append('intro', post.intro)
+        formData.append('tags', JSON.stringify(post.tags))
+        formData.append('contentState', JSON.stringify(post.contentState))
+        const post_id = this.props.match.params.post_id
+        const { userState } = this.props
+        return fetchCreator(`/api/admin/posts/${post_id}`, {
+            method : "PATCH",
+            headers : {
+                Authorization : `Bearer ${userState.token}`,
+            },
+            body : formData
+        })      
     }
 
     _fetchNewPost = async (post, isPublished) => {
@@ -110,34 +128,10 @@ class PostEditorContainer extends Component {
         history.push(`/post/${responseContainingPost.post._id}`) 
     }
 
-    _updatePost = (post) => {
-        const post_id = this.props.match.params.post_id
-        const formData = new FormData()
-        if(post.coverImgFile){ 
-            formData.append('coverImgFile', post.coverImgFile) 
-        } else {
-            formData.append('isExistCoverImg', JSON.stringify(post.isExistCoverImg))
-        }
-        formData.append('isPublished', post.isPublished)
-        formData.append('category', post.category)
-        formData.append('title', post.title)
-        formData.append('intro', post.intro)
-        formData.append('tags', JSON.stringify(post.tags))
-        formData.append('contentState', JSON.stringify(post.contentState))
-        const { user } = this.props
-        return fetchCreator(`/api/admin/post/${post_id}`, {
-            method : "PATCH",
-            headers : {
-                Authorization : `Bearer ${user.token}`,
-            },
-            body : formData
-        })      
-    }
-
     _fetchEditedPost = async (post) => {
         const response = await this._updatePost(post)
         if(!response){ return }
-        if(!post.isPublished){ return alert('save success')}
+        if(!post.isPublished){ return alert('save success') }
         
         const responseContainingPosts = await this._getPosts()
         if(!responseContainingPosts){ return }
@@ -162,26 +156,21 @@ class PostEditorContainer extends Component {
 
     getPostForEdit = () => {
         const post_id = this.props.match.params.post_id
-        const { user } = this.props
-        return fetchCreator(`/api/admin/post/${post_id}`, {
+        const { userState } = this.props
+        return fetchCreator(`/api/admin/posts/${post_id}`, {
             method : "GET",
             headers : {
-                Authorization : `Bearer ${user.token}`
+                Authorization : `Bearer ${userState.token}`
             }
         })
-    }
-
-    componentDidMount(){
-    
     }
 
     render() {
         return ( 
             <PostEditor
             mode={this.state.mode}
-            match={this.props.match}
-            imgFileUploadCallback={this.imgFileUploadCallback}
             getPostForEdit={this.getPostForEdit}
+            imgFileUploadCallback={this.imgFileUploadCallback}
             publish={(post) => this._fetchNewPost(post, true)}
             save={(post) => this._fetchNewPost(post, false)}
             edit={this._fetchEditedPost}

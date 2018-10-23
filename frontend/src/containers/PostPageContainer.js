@@ -1,5 +1,8 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import fp from 'lodash/fp'
+//modules
+import fetchCreator from '~modules/fetchCreator'
 //components
 import PostPage from '~components/pages/PostPage/PostPage'
 
@@ -21,14 +24,11 @@ const getComments = (allComments, comments_ids, allReplies) => {
 
     const commentsWithReplies = comments.map((comment) => {
         const replies_ids = comment.replies
-        console.log(replies_ids, '이게  리플리즈아이디스')
         const replies = replies_ids.reduce((replies, reply_id) => {
             const replyIndex = allReplies.findIndex((reply) => {
                 return reply._id === reply_id
             })
             if(replyIndex === -1){ return replies }
-            console.log('reliyindex : ', replyIndex)
-            console.log('해당 reply : ', allReplies[replyIndex])
             return [allReplies[replyIndex], ...replies]
         }, [])
 
@@ -54,24 +54,43 @@ const mapStateToProps = (state, ownProps) => {
         const allPosts = fp.cloneDeep(state.posts.items)
         const currentPost_id = Number(ownProps.match.params._id)
         const currentPost = getPost(allPosts, currentPost_id)
-        
+        if(!currentPost){ return null }
+
         const allComments = fp.cloneDeep(state.posts.comments)
         const allReplies = fp.cloneDeep(state.posts.replies)
         const currentComments = getComments(allComments, currentPost.comments, allReplies)
         
         currentPost.comments = currentComments
-
-        console.log(currentComments, '이게완성된 코멘트인데?')
-
         return currentPost
     })()
 
-
     return ({
-        post : currentPost
+        post : currentPost,
+        userState : state.user,
     })
 }
 
-const PostPageContainer = connect(mapStateToProps, null)(PostPage)
+class PostPageContainer extends Component {
+    deletePost = () => {
+        const { userState } = this.props
+        const { post } = this.props
+        return fetchCreator(`/api/admin/posts/${post._id}`, {
+            method : "DELETE",
+            headers : {
+                Authorization : `Bearer ${userState.token}`,
+            },
+        })
+    }
 
-export default PostPageContainer
+    render() {
+        return (
+            <PostPage
+            post={this.props.post}
+            userState={this.props.userState}
+            deletePost={this.deletePost}
+            />
+        )
+    }
+}
+
+export default connect(mapStateToProps, null)(PostPageContainer)

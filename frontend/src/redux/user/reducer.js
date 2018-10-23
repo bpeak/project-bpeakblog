@@ -27,6 +27,11 @@ const reducer = (state = defaultState, action) => {
             ...state,
             profileImgSrc : action.profileImgSrc
         })
+    } else if(action.type === actionTypes.USER_PROFILE_DETAILS_CHANGED){
+        return ({
+            ...state,
+            nick : action.nick,
+        })
     } else {
         return state
     }

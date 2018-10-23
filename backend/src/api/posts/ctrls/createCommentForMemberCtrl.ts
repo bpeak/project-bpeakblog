@@ -26,6 +26,7 @@ const createCommentForMember = async (req : Request, res : Response) : Promise<R
         const { user } = req
         const comment = (await new Comment({
             post_id : post._id ,
+            unique_id : user.unique_id,
             isMember : true,
             isAdmin : user.isAdmin,
             description,

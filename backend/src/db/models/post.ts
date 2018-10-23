@@ -13,7 +13,7 @@ interface IPost extends mongoose.Document {
     title : string,
     intro : string,
     tags : string[],
-    contentState : object,
+    contentState : any,
     createdDate : string,
     editedDate : string,
     isEdited : boolean,

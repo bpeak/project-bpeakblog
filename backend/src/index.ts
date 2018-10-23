@@ -1,32 +1,19 @@
-// import { Request, Response, NextFunction } from 'express'
+// import Post from '~db/models/post'
 
-// enum TargetModelNameOfBody {
-//     POST = 'post',
-//     COMMENT = 'comment'
-// }
-
-// interface IbodyCheckOption {
-//     name : TargetModelNameOfBody,
-//     field : string[]
-// }
-
-// const bodyCheckMiddleware = (bodyCheckOption : IbodyCheckOption | IbodyCheckOption[] ) => {
-
-//     console.log(bodyCheckOption)
-
-//     return (req : Request, res : Response, next : NextFunction) => {
-//         if(true){
-//             return next()
-//         } else {
-//             return res
-//         }
+// Post.findOne({_id : 219}, (err, post) => {
+//     if(post){
+//         post.views = 900
+//         post.save()
 //     }
-// }
-
-// bodyCheckMiddleware({
-//     name : TargetModelNameOfBody.POST,
-//     field : ['d']
 // })
+
+const a = [1,2,3,2,3,3,4,2,5]
+
+a.sort((a,b) => {
+    return a-b
+})
+
+console.log(a)
 
 console.log('SERVER STARTING.....')
 import * as path from 'path'

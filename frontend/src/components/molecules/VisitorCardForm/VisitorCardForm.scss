@@ -44,6 +44,16 @@
             opacity: 0.5;
         }
 
+        .errMsg{
+            padding-left: 0.5em;
+            padding-top: 0.5em;
+            display: flex;
+            align-items: center;
+            color: red;
+            font-size: 80%;
+            font-weight: 900;
+        }
+
         width: 700px;
         margin: 0 auto;
         position: relative;
@@ -91,7 +101,7 @@
             }
         }
         textarea{
-            margin: 1em;
+            margin-top: 1em;
             background-color: #EEEEEE;
             font-weight: 700;
             padding: 0.5em 0.5em;
@@ -109,7 +119,7 @@
             }
         }
         div.btns{
-            margin-bottom: 1em;
+            margin: 1em 0;
             display: flex;
             justify-content: space-between;
             button{

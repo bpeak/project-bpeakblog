@@ -6,6 +6,7 @@ interface IComment extends mongoose.Document {
     isMember : boolean
     isAdmin : boolean
     memberAuthor? : string
+    unique_id? : string
     key? : {
         hash : string
         salt : string
@@ -21,6 +22,7 @@ const commentSchema = new Schema({
     isMember : { type : Boolean, required : true },
     isAdmin : { type : Boolean, required : true },
     memberAuthor : { type : mongoose.Schema.Types.ObjectId, ref : 'user' },
+    unique_id : { type : String },
     key : {
         hash : { type : String },
         salt : { type : String }

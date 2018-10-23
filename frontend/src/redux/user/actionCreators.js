@@ -24,3 +24,10 @@ export const userProfileImgChanged = (payload) => {
     })
 }
 
+export const userProfileDetailsChanged = (payload) => {
+    return ({
+        type : actionTypes.USER_PROFILE_DETAILS_CHANGED,
+        nick : payload.nick,
+    })
+}
+

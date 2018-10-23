@@ -2,7 +2,7 @@
     position: relative;
     font-size: 18px;
     font-weight: lighter;
-    padding: 1em;
+    width: 73%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -173,5 +173,49 @@
         &:hover{
             background-color: #262626;
         }
+    }
+}
+
+@media (max-width : 1280px){
+    .PostEditor{
+        font-size: 17.5px;
+    }
+}
+
+@media (max-width : 1024px){
+    .PostEditor{
+        font-size: 17px;
+    }
+}
+
+@media (max-width : 960px){
+    .PostEditor{
+        font-size: 16px;
+        width: 90%;
+    }
+}
+
+@media (max-width : 768px){
+    .PostEditor{
+        font-size: 15.5px;
+    }
+}
+
+@media (max-width : 600px){
+    .PostEditor{
+        font-size: 15px;
+    }
+}
+
+@media (max-width : 480px){
+    .PostEditor{
+        font-size: 14.5px;
+        width: 95%;
+    }
+}
+
+@media (max-width : 400px){
+    .PostEditor{
+        font-size: 14px;
     }
 }

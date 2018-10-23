@@ -259,13 +259,23 @@ class GreetingCanvas extends Component {
             drawMain(canvas.main.ctx)
         }
 
+        let id
+
         const loop = () => {
             update()
             draw()
-            requestAnimationFrame(loop)
-        }
+            id = requestAnimationFrame(loop)
+        }   
 
         loop()
+
+        this.cancelLoop = () => {
+            cancelAnimationFrame(id)
+        }
+    }
+
+    componentWillUnmount(){
+        this.cancelLoop()
     }
 
     render() {

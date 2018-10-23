@@ -1,0 +1,1 @@
+export { default as deleteVisitorCard } from './deleteVisitorCard'

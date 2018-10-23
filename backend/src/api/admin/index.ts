@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import * as postCtrls from './postCtrls'
+import * as visitorCardCtrls from './visitorCardCtrls'
 import tokenValidationMiddleware from '~middlewares/tokenValidationMiddleware'
 import fileToBufferMiddleware from '~middlewares/fileToBufferMiddleware'
 import adminValidationMiddleware from './adminValidationMiddleware'
@@ -8,23 +9,15 @@ const admin = Router()
 admin.use('*', tokenValidationMiddleware)
 admin.use('*', adminValidationMiddleware)
 
-admin.get('/posts', postCtrls.readPostsCtrl)
-admin.get('/post/:_id', postCtrls.getPostCtrl)
-admin.post('/postImgFile', fileToBufferMiddleware.single('imgFile'), postCtrls.preUploadPostImgFileCtrl)
-admin.post('/post', fileToBufferMiddleware.single('coverImgFile'), postCtrls.writePostCtrl)
-admin.patch('/post/:_id', fileToBufferMiddleware.single('coverImgFile'), postCtrls.editPostCtrl)
+// posts
+admin.get(   '/posts', postCtrls.readPosts)
+admin.post(  '/posts', fileToBufferMiddleware.single('coverImgFile'), postCtrls.createPost)
+admin.get(   '/posts/:_id', postCtrls.readPost)
+admin.delete('/posts/:_id', postCtrls.deletePost)
+admin.patch( '/posts/:_id', fileToBufferMiddleware.single('coverImgFile'), postCtrls.updatePost)
+admin.post(  '/postImgFile', fileToBufferMiddleware.single('imgFile'), postCtrls.preUploadPostImgFile)
 
-import { Request, Response } from 'express'
-admin.post('/post2', async (req : Request, res : Response) : Promise<Response> => {
-    try{
-        const { category, title, intro, tags, contentState } = req.body
-        console.log(category, title, intro, tags, contentState)
-        return res
-    }
-    catch(err){
-        console.log(err)
-        return res.sendStatus(500)
-    }
-})
+// visitorCards
+admin.delete('/visitorCards/:_id', visitorCardCtrls.deleteVisitorCard)
 
 export default admin

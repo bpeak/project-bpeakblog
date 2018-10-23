@@ -60,6 +60,7 @@
         word-break: keep-all;
         word-wrap:break-word;
         overflow: auto;
+        white-space: pre-line;
     }
     div.date-container{
         display: flex;
@@ -68,6 +69,19 @@
             font-size: 100%;
             padding: 0.4em;
             color: #525252;
+        }
+        button.delete{
+            background: none;
+            border: none;
+            cursor: pointer;
+            background: red;
+            color: white;
+            font-weight: 900;
+            border-radius: 0.2em;
+            padding: 0 0.3em;
+            &:hover{
+                background-color: blue;
+            }
         }
     }
 }

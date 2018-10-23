@@ -31,6 +31,8 @@ class PostCard extends Component {
     _setCoverImgHeight = (coverImgHeight) => { this.setState(() => ({ coverImgHeight }))}
     _setIsLoaded = (isLoaded) => { this.setState(() => ({ isLoaded }))}
 
+    _handleOnAuthorClick = () => { history.push('/AboutMe') }
+
     _handleOnWindowReSize = () => {
         const postCard = this.refs.postCard
         const postCardRect = postCard.getBoundingClientRect()
@@ -71,20 +73,22 @@ class PostCard extends Component {
     render() {
         const { 
             _handleOnShowPostClick,
-            _postCardDefaultHeight
+            _postCardDefaultHeight,
+            _handleOnAuthorClick,
         } = this
         const { isLoaded, 
             postCardHeight,
             coverImgHeight 
         } = this.state
         const { 
+            isPublished,
             author, 
             category, 
             coverImgSrc, 
             title, 
             intro, 
             tags, 
-            createdDate 
+            createdDate,
         } = this.props
 
         return (
@@ -93,11 +97,11 @@ class PostCard extends Component {
             style={{ height : postCardHeight || _postCardDefaultHeight }}
             ref="postCard">
                 {!isLoaded ? <div className={cx('spinner-container')}><SmallSpinner/></div> 
-                : <article className={cx('PostCard')}>
+                : <article className={cx('PostCard', { unPublished : !isPublished })}>
                     <div className={cx('coverImg-container')} onClick={_handleOnShowPostClick} style={{ height : coverImgHeight }}><img src={coverImgSrc}/></div>
                     <div style={{ height : postCardHeight - coverImgHeight }} className={cx('contents')}>
                         <div className={cx('categoryAndDate')}>
-                            <span className={cx('category')}>{category}</span>
+                            <span className={cx('category', category)}>{category}</span>
                             <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>{dateConverter.getFullTimeStamp(createdDate)}</span></div>
                         </div>
                         <div className={cx('title')} onClick={_handleOnShowPostClick}>
@@ -105,10 +109,10 @@ class PostCard extends Component {
                         </div>
                         <div className={cx('intro')}  onClick={_handleOnShowPostClick}>{intro}</div>
                         <div className={cx('author')}>
-                            <div className={cx('profileImg-container')}>
+                            <div className={cx('profileImg-container')} onClick={_handleOnAuthorClick}>
                                 <ProfileImg imgSrc={author.profileImgSrc} isMember={true}/>
                             </div>
-                            <span onClick={() => history.push('/AboutMe')} className={cx('nick')}>{author.nick}</span>
+                            <span onClick={_handleOnAuthorClick} className={cx('nick')}>{author.nick}</span>
                         </div>
                     </div>
                 </article>}
@@ -118,6 +122,7 @@ class PostCard extends Component {
 }
 
 PostCard.propTypes = {
+    isPublished : PropTypes.bool.isRequired,
     _id : PropTypes.number.isRequired,
     author : PropTypes.object.isRequired,
     category : PropTypes.string.isRequired,
@@ -125,7 +130,7 @@ PostCard.propTypes = {
     title : PropTypes.string.isRequired,
     intro : PropTypes.string.isRequired,
     tags : PropTypes.array.isRequired,
-    createdDate : PropTypes.string.isRequired
+    createdDate : PropTypes.string.isRequired,
 }
 
 PostCard.defaultProps = {

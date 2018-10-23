@@ -23,7 +23,8 @@ class PostComments extends Component {
     render() {
         const { 
             comments,
-            post_id
+            post_id,
+            userState,
         } = this.props
         const { currentFocusedComment_id } = this.state
 
@@ -34,6 +35,7 @@ class PostComments extends Component {
                     return (
                         <PostComment
                         key={comment._id}
+                        userState={userState}
                         isUseForm={true}
                         isHadReplies={comment.length !== 0}
                         isFocused={currentFocusedComment_id === comment._id}
@@ -47,52 +49,10 @@ class PostComments extends Component {
     }
 }
 
-const PostReply = ({
-    reply
-}) => {
-    return (
-        <div className={cx('PostComment')}>
-            <div className={cx('comment')}>
-                <div className={cx('profileImg-container')}>
-                    <ProfileImg 
-                    isMember={comment.isMember}
-                    isAdmin={comment.isAdmin}
-                    imgSrc={comment.isMember ? comment.memberAuthor.profileImgSrc : undefined}
-                    />
-                </div>
-                <div className={cx('contents')}>
-                    <div className={cx('authorAndDate')}>
-                        <span className={cx('author')}>{comment.isMember ? comment.memberAuthor.nick : "익명" }</span>
-                        <span className={cx('date')}>3 days ago</span>
-                    </div>
-                    <div className={cx('description')}>{comment.description}</div>
-                    <div className={cx('btnWrite')}>
-                        <button onClick={handleOnBtnReplyClick}>REPLY</button>
-                    </div>
-                </div>            
-            </div>
-            {isFocused && 
-            <div className={cx('form-container')}>
-                <PostCommentFormContainer target={{ type : 'comment', _id : comment._id }}/>
-            </div>}
-            {comment.replies.length !== 0 &&
-            <div className={cx('replies-container')}>
-                {comment.replies.map((reply) => {
-                    return (
-                        <PostCommentReply
-                        key={reply._id}
-                        reply={reply}
-                        />
-                    )
-                })}
-            </div>}
-        </div>
-    )
-}
-
 PostComments.propTypes = {
     post_id : PropTypes.number.isRequired,
-    comments : PropTypes.array.isRequired
+    comments : PropTypes.array.isRequired,
+    userState : PropTypes.object.isRequired,
 }
 
 export default PostComments

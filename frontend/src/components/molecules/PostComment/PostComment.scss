@@ -8,6 +8,7 @@
 }
 
 .PostComment{
+    border-radius: 0.15em;
     background-color: red;
     animation-name: fadeIn;
     animation-timing-function: ease;
@@ -76,14 +77,25 @@
                     font-weight: 900;
                     padding: 0.45em;
                     border: none;
-                    background-color: #2A416F;
                     transition: background-color 0.15s ease;
+                }
+                button.reply{
+                    background-color: #2A416F;
                     &:hover{
                         background-color: #4285F4;
                     }
                     &:focus{
                         outline: none;
+                    }                    
+                }
+                button.delete{
+                    background-color: red;
+                    &:hover{
+                        background-color: black;
                     }
+                    &:focus{
+                        outline: none;
+                    }         
                 }
             }
         }
@@ -108,8 +120,10 @@
     }
 }
 
-.PostComment{
-    &.reply{
-        padding-top: 0.5em;
-    }
+.PostComment.admin{
+    
+}
+
+.PostComment.reply{
+    padding-top: 0.5em;
 }

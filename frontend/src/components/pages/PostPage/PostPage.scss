@@ -50,9 +50,45 @@ article.post{
                 color: rgba(0,0,0,.54);
             }
         }
+        button.edit{
+            margin-left: 0.5em;
+            cursor: pointer;
+            border: none;
+            background: none;
+            background-color: #1E306E;
+            color: white;
+            font-weight: 900;
+            padding: 0.5em;
+            border-radius: 0.2em;
+            transition: background-color 0.2s ease;
+            &:hover{
+                background-color: black;
+            }
+            &:focus{
+                outline: none;
+            }
+        }
+        button.delete{
+            margin-left: 0.5em;
+            cursor: pointer;
+            border: none;
+            background: none;
+            background-color: red;
+            color: white;
+            font-weight: 900;
+            padding: 0.5em;
+            border-radius: 0.2em;
+            transition: background-color 0.2s ease;
+            &:hover{
+                background-color: black;
+            }
+            &:focus{
+                outline: none;
+            }
+        }
     }
 
-    div.title{
+    h1.title{
         font-size: 175%;
         font-weight: 900;
         word-wrap: break-word;
@@ -102,6 +138,14 @@ article.post{
         h2{
             font-size: 160%;
             font-weight: 900;
+        }
+
+        a{
+            color: #1a0dab;
+            font-weight: 600;
+            &:hover{
+                text-decoration: underline;
+            }
         }
 
         p{ 
