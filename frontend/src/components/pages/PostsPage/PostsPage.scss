@@ -155,6 +155,60 @@ nav.tag{
     }
 }
 
+@media (min-width : 1900px){
+    nav.category{
+        width: 65%;
+    }
+    div.SearchBar-container{
+        width: 65%;
+    }
+    main.cards{
+        width: 65%;
+    }
+    nav.pagenation{
+        width: 65%;
+    }
+    nav.tag{
+        width: 65%;
+    }
+}
+
+@media (max-width : 1600px) and (min-width : 1440px){
+    nav.category{
+        width: 70%;
+    }
+    div.SearchBar-container{
+        width: 70%;
+    }
+    main.cards{
+        width: 70%;
+    }
+    nav.pagenation{
+        width: 70%;
+    }
+    nav.tag{
+        width: 70%;
+    }
+}
+
+@media (max-width : 1600px) and (min-width : 1440px){
+    nav.category{
+        width: 75%;
+    }
+    div.SearchBar-container{
+        width: 75%;
+    }
+    main.cards{
+        width: 75%;
+    }
+    nav.pagenation{
+        width: 75%;
+    }
+    nav.tag{
+        width: 75%;
+    }
+}
+
 @media (max-width : 1280px){
     .PostsPage{
         font-size: 15.5px

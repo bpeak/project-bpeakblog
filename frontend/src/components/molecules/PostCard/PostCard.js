@@ -24,7 +24,7 @@ class PostCard extends Component {
         }
     }
 
-    _postCardRatio = 1.52
+    _postCardRatio = 1.73
     _postCardDefaultHeight = 400
 
     _setPostCardHeight = (postCardHeight) => { this.setState(() => ({ postCardHeight }))}
