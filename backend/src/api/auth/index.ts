@@ -1,7 +1,7 @@
 import { Router } from "express"
 import * as commonCtrls from './commonCtrls'
 import * as localCtrls from './localCtrls'
-import * as socialCtrls from './socialCtrls'
+// import * as socialCtrls from './socialCtrls'
 
 const auth : Router = Router()
 
