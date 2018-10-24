@@ -11,7 +11,7 @@ const mapDispatchToProps = (dispatch) => ({
     closePopup : (unique_id) => { dispatch(popupActionsCreators.closePopup(unique_id)) }
 })
 
-class popupContainer extends React.Component {
+class PopupContainer extends React.Component {
     render() {
         const { popups, closePopup } = this.props
         return popups.map((popup) => {
@@ -27,4 +27,4 @@ class popupContainer extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(popupContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PopupContainer)
