@@ -6,6 +6,7 @@ import * as userActionCreators from '~redux/user/actionCreators'
 //configs
 import userConfig from '~configs/user.config.json'
 //modules
+import uniqueStringMaker from '~modules/uniqueStringMaker'
 import history from '~modules/history'
 import fetchCreator from '~modules/fetchCreator'
 import textValidator from '~modules/textValidator'
@@ -180,11 +181,11 @@ class PreSocialLoginPageContainer extends React.PureComponent {
             profileImgSrc : user.profileImgSrc
         })
         popupsActions.openPopup({
+            unique_id : uniqueStringMaker(),
             popupType : "AUTO",
-            icon : '블라',
+            icon : 'clap',
             title : 'JOIN SUCCESS',
             description : `${user.nick}님 환영합니다.`,
-            imgName : 'clap'
         })
         const redirectUrl = storeState.urlHistory.toAuthPageFrom || '/'
         history.push(redirectUrl)        

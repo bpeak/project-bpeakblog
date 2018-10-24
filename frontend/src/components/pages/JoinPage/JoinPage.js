@@ -127,11 +127,11 @@ class JoinPage extends Component{
                         )} onClick={_handleOnBtnSubmitClick} className={cx('btnSubmit')}>Submit</button>
                     </form>
                     <div className={cx('toLogin-container')}>아이디가 있으신가요? <Link to="/login">로그인</Link></div>
-                    <div className={cx('social')}>
+                    {/* <div className={cx('social')}>
                         <span>소셜로그인으로 이용하기</span>
                         <img src={kakaoImgSrc}/>
                         <img src={naverImgSrc}/>
-                    </div>
+                    </div> */}
                 </div>
             </MainTemplate>
         )

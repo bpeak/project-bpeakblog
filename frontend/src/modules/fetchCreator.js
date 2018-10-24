@@ -1,4 +1,7 @@
 import store from '~redux/store'
+//modules
+import uniqueStringMaker from '~modules/uniqueStringMaker'
+//actions
 import * as userActionCreators from '~redux/user/actionCreators'
 import * as popupsActionCreators from '~redux/popups/actionCreators'
 
@@ -11,7 +14,7 @@ class CustomError {
 
 const openPopupForFetchError = (title, description) => {
     store.dispatch(popupsActionCreators.openPopup({
-        unique_id : String(Number(new Date())),
+        unique_id : uniqueStringMaker(),
         popupType : "ALERT",
         imgName : 'warning',
         title,

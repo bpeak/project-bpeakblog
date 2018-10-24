@@ -1,15 +1,15 @@
 import { withRouter } from 'react-router'
 import React from 'react'
 
-class ScrollResetWithRouter extends React.Component {
+class ScrollReset extends React.Component {
     componentDidUpdate(prevProps) {
 		const prevPathname = prevProps.location.pathname
 		const nextPathname = this.props.location.pathname
-		const prevKeyword = new URLSearchParams(prevProps.location.search).get('keyword')
-		const nextKeyword = new URLSearchParams(this.props.location.search).get('keyword')
+		const prevQueryParams = decodeURIComponent(prevProps.location.search)
+		const nextQueryParams = decodeURIComponent(this.props.location.search)
 		if(
 			(prevPathname !== nextPathname) ||
-			(prevKeyword !== nextKeyword)
+			(prevQueryParams!== nextQueryParams)
 		){
 			window.scrollTo(0, 0)
 		}
@@ -20,4 +20,4 @@ class ScrollResetWithRouter extends React.Component {
     }
 }
 
-export default withRouter(ScrollResetWithRouter)
+export default withRouter(ScrollReset)

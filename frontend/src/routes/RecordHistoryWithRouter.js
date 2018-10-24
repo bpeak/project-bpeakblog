@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router'
 import React from 'react'
 
-class RecordEnteringToAuthRoute extends React.Component {
+class RecordHistory extends React.PureComponent {
 	componentWillReceiveProps(nextProps) {
 		const prevPathname = this.props.location.pathname
 		const nextPathname = nextProps.location.pathname
@@ -23,4 +23,4 @@ class RecordEnteringToAuthRoute extends React.Component {
     }
 }
 
-export default withRouter(RecordEnteringToAuthRoute)
+export default withRouter(RecordHistory)

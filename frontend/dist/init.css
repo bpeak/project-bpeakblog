@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+@import url('https://fonts.googleapis.com/css?family=Oswald');
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon');
+
+/* 여백초기화 */
+body,button,dd,dl,dt,fieldset,form,h1,h2,h3,h4,h5,h6,
+input,legend,li,ol,p,select,table,td,textarea,th,ul{
+    margin:0;
+    padding:0
+}
+/* 보더 초기화 */
+fieldset, img{
+    border: 0 none;
+}
+/* 리스트 스타일 초기화 */
+dl, ul, ol, menu, li{
+    /* list-style: none; */
+}
+/* 링크 초기화 */
+a{
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+a:hover{
+    color: grey;
+}
+/* 폰트 초기화 */
+body, input, textarea, select, button, table {
+    color: #262626;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+/* 폰트 스타일 초기화 */
+address, caption, cite, code, dfn, em, var{
+    font-style: normal;
+    font-weight: normal;
+}
+/* 박스사이징 초기화 */
+*{
+    box-sizing: border-box;
+}
+/* 기본 bgc 초기화 */
+body{
+    background-color: rgb(250, 250, 250);
+    color: #262626;
+}

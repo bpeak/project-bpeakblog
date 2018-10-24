@@ -7,11 +7,12 @@ import * as popupImgSrcs from './popupImgSrcs'
 
 const Popup = (props) => {
     const { closePopup, popup } = props
+    console.log(popup)
     switch(props.type){
         case 'AUTO' :
         return (
             <AutoPopup
-            imgSrc={popupImgSrcs[popup.imgName]}
+            imgSrc={popupImgSrcs[popup.icon]}
             closePopup={closePopup}
             title={popup.title}
             description={popup.description}
@@ -20,7 +21,7 @@ const Popup = (props) => {
         case 'ALERT' :
         return (
             <AlertPopup
-            imgSrc={popupImgSrcs[popup.imgName]}
+            imgSrc={popupImgSrcs[popup.icon]}
             closePopup={closePopup}
             title={popup.title}
             description={popup.description}

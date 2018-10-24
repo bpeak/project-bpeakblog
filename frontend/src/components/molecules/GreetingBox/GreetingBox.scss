@@ -1,3 +1,14 @@
+@keyframes slide-in{
+    from{
+        opacity: 0;
+        top: 5em;
+    }
+    to{
+        opacity: 1;
+        top: 0;
+    }
+}
+
 .GreetingBox{
     position: relative;
     width: 100vw;
@@ -13,6 +24,10 @@
     }
 
     .contents{
+        animation-name: slide-in;
+        animation-timing-function: ease;
+        animation-duration: 0.85s;
+        animation-fill-mode: forwards;
         position: absolute;
         top: 0;
         left: 0;
@@ -27,7 +42,7 @@
         flex-direction: column;
         color: white;
         h2{
-            opacity: 0.9;
+            opacity: 0.95;
             letter-spacing: 0.04em;
             font-size: 100%;
             padding-bottom: 0.5em;
@@ -35,7 +50,7 @@
         }
         h3{
             font-size: 47.5%;
-            opacity: 0.6;
+            opacity: 0.65;
             font-family: 'Oswald', sans-serif;
             padding-bottom: 0.25em;
         }

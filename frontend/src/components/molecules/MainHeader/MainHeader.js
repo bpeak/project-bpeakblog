@@ -62,8 +62,8 @@ const MainHeader = (props) => {
                     {deviceType === 'PC' 
                     ? 
                     <Fragment>
-                        <a onClick={_onSocialLoginClick} className={cx('social')} href="/api/auth/social/kakao"><img src={kakaoImgSrc}/></a>
-                        <a onClick={_onSocialLoginClick} className={cx('social')} href="/api/auth/social/naver"><img src={naverImgSrc}/></a>
+                        {/* <a onClick={_onSocialLoginClick} className={cx('social')} href="/api/auth/social/kakao"><img src={kakaoImgSrc}/></a>
+                        <a onClick={_onSocialLoginClick} className={cx('social')} href="/api/auth/social/naver"><img src={naverImgSrc}/></a> */}
                         <Link className={cx('local')} to="/join">Join</Link> 
                         <Link className={cx('local')} to="/login">Login</Link>
                     </Fragment>
@@ -77,10 +77,3 @@ const MainHeader = (props) => {
 }
 
 export default MainHeader
-
-{/* <Link to="/login">로그인</Link>
-<a href="https://accounts.google.com/o/oauth2/auth?client_id=190024014970-5mlu7emmiboq7kcqoj0cdmtuqhh6ombg.apps.googleusercontent.com&redirect_uri=http://localhost/api/auth/social/google&scope=https://www.googleapis.com/auth/plus.login&response_type=code"><i className="fab fa-google"></i></a>
-<a href="#"><i className="fab fa-facebook"></i></a>
-<a href="/api/auth/social/kakao"><img src={kakaoImgSrc}/></a>
-<a href="/api/auth/social/naver"><img src={naverImgSrc}/></a>
-<Link to="/join">회원가입</Link>  */}

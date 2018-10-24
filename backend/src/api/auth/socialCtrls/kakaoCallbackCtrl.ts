@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import kakaoConfig from '~configs/secret/kakao.config'
+import { kakaoConfig } from '~configs/secret/secret.config'
 import fetch from 'node-fetch'
 import uniqueStringMaker from '~modules/uniqueStringMaker'
 import * as redis from 'redis'

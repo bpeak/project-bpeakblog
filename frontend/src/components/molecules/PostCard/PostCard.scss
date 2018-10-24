@@ -68,11 +68,14 @@
                 font-weight: 600;
                 font-size: 110%;
                 margin-right: 0.8em;
-                &.life{
+                &.etc{
                     background-color: #3AB54B;
                 }
                 &.dev{
                     background-color: #4267B2;
+                }
+                &.notice{
+                    background-color: #FF5252;
                 }
             }
             div.date{

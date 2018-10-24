@@ -7,6 +7,7 @@ import * as popupsActionCreators from '~redux/popups/actionCreators'
 //components
 import ProfilePage from '~components/pages/ProfilePage/ProfilePage'
 //modules
+import uniqueStringMaker from '~modules/uniqueStringMaker'
 import fetchCreator from '~modules/fetchCreator'
 
 const mapStateToProps = (state) => ({
@@ -106,11 +107,11 @@ class ProfilePageContainer extends React.PureComponent {
 
         userActions.logoutSuccess()
         popupsActions.openPopup({
+            unique_id : uniqueStringMaker(),
             popupType : "AUTO",
-            icon : '블라',
+            icon : 'bye',
             title : 'LOGOUT SUCCESS',
             description : `${nick}님 안녕히가세요.`,
-            imgName : 'clap'
         })      
     }
 

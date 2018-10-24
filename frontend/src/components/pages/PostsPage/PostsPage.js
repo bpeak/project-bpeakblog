@@ -27,11 +27,16 @@ class PostsPage extends Component{
                         return post.category === 'dev'
                     })
                 return devPosts
-                case 'life' :
-                    const lifePosts = allPosts.filter(post => {
-                        return post.category === 'life'
+                case 'etc' :
+                    const etcPosts = allPosts.filter(post => {
+                        return post.category === 'etc'
                     })
-                return lifePosts
+                return etcPosts
+                case 'notice' :
+                    const noticePosts = allPosts.filter(post => {
+                        return post.category === 'notice'
+                    })
+                return noticePosts
                 case 'search' :
                     const searchPosts = allPosts.filter(post => {
                         return (
@@ -130,14 +135,19 @@ class PostsPage extends Component{
                             <span>ALL</span><i className="fas fa-asterisk"></i>
                         </li>
                         <li 
-                        className={cx({ active : (category === 'dev')})}
-                        onClick={() => { history.push('/posts/dev') }}>
+                            className={cx({ active : (category === 'dev')})}
+                            onClick={() => { history.push('/posts/dev') }}>
                             <span>DEVELOPMENT</span><i className="fas fa-code"></i>
                         </li>
+                        <li
+                            className={cx({ active : (category === 'notice') })}
+                            onClick={() => history.push('/posts/notice')}>
+                            <span>공지</span><i className="fas fa-volume-down"></i>
+                        </li>
                         <li 
-                        className={cx({ active : (category === 'life')})}
-                        onClick={() => { history.push('/posts/life') }}>
-                            <span>LIFE</span><i className="fas fa-walking"></i>
+                            className={cx({ active : (category === 'etc')})}
+                            onClick={() => { history.push('/posts/etc') }}>
+                            <span>etc</span><i className="fas fa-walking"></i>
                         </li>
                     </nav>
                     <div className={cx('SearchBar-container')}>

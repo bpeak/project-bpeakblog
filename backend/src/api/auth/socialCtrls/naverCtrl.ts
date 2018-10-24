@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import naverConfig from '~configs/secret/naver.config'
+import { naverConfig } from '~configs/secret/secret.config'
 
 const naverCtrl = (req : Request, res : Response) : void => {
     (async function () : Promise< void | Response > {

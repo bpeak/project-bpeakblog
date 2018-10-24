@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import fetch from 'node-fetch'
-import naverConfig from '~configs/secret/naver.config'
+import { naverConfig } from '~configs/secret/secret.config'
 import uniqueStringMaker from '~modules/uniqueStringMaker'
 import User from '~db/models/user'
 import TokenManager from '~modules/TokenManager'

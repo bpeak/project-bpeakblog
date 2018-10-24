@@ -38,31 +38,33 @@ class AppContainer extends Component {
     }
 
     async componentDidMount(){
-        const { userState } = this.props
-        const response = userState.isAdmin && confirm('작성중인 글도 불러올까요?') 
-        ? await this._getPostsForAdmin() 
-        : await this._getPosts()
-        
-        if(!response) { return }
+        // const { userState } = this.props
+        // const response = userState.isAdmin && confirm('작성중인 글도 불러올까요?') 
+        // ? await this._getPostsForAdmin() 
+        // : await this._getPosts()
+        // if(!response) { return }
 
-        const posts = response.posts.map((post) => {
-            post.description = draftToHtml(post.contentState)
-            delete post.contentState
-            return post
-        })
+        // const posts = response.posts.map((post) => {
+        //     post.description = draftToHtml(post.contentState)
+        //     delete post.contentState
+        //     return post
+        // })
 
-        setTimeout(() => {
-            this.props.postsActions.postsReceived({
-                posts, 
-                comments : response.comments,
-                replies : response.replies,
-                date : Number(new Date()),
-            })
-        }, 1)
+
+        // this.props.postsActions.postsReceived({
+        //     posts, 
+        //     comments : response.comments,
+        //     replies : response.replies,
+        //     date : Number(new Date()),
+        // })
     }
 
     render() {
-        return <App/>
+        return (
+            <App
+
+            />
+        )
     }
 }
 

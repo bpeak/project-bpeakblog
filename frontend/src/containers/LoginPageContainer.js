@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as userActionCreators from '~redux/user/actionCreators'
 import * as popupsActionCreators from '~redux/popups/actionCreators'
 //modules
+import uniqueStringMaker from '~modules/uniqueStringMaker'
 import fetchCreator from '~modules/fetchCreator'
 import history from '~modules/history'
 //components
@@ -67,11 +68,11 @@ class LoginPageContainer extends Component {
                 profileImgSrc : user.profileImgSrc
             })
             popupsActions.openPopup({
+                unique_id : uniqueStringMaker(),
                 popupType : "AUTO",
-                icon : '블라',
+                icon : 'clap',
                 title : 'LOGIN SUCCESS',
                 description : `${user.nick}님 환영합니다.`,
-                imgName : 'clap'
             })                
             const redirectUrl = storeState.urlHistory.toAuthPageFrom || '/'
             history.push(redirectUrl)

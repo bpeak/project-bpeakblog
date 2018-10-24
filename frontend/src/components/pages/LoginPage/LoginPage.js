@@ -49,11 +49,11 @@ const LoginPage = (props) => {
                 </form>
                 {errMsg && <div className={cx('errMsg')}>{errMsg}</div>}
                 <div className={cx('toJoin-container')}>아직 아이디가 없으신가요? <Link to="/join">회원가입</Link></div>
-                <div className={cx('social')}>
+                {/* <div className={cx('social')}>
                     <span>소셜로그인으로 이용하기</span>
                     <img src={kakaoImgSrc}/>
                     <img src={naverImgSrc}/>
-                </div>
+                </div> */}
             </div>
         </MainTemplate>
     )

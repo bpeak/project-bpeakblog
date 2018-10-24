@@ -107,9 +107,9 @@ class GreetingBox extends Component {
                         {"LET'S DEVELOP ME \n TO BE A BETTER DEVELOPER".split('\n').map((line, index) => {
                         return <div key={index}>{line}</div>})}
                     </h2>
-                    <h3>개인적이고 주관적인 기현이의 개발블로그입니다.</h3>
+                    <h3>개인적이고 주관적인 김기현의 개발블로그</h3>
                     <div className={cx('btn-container')}>
-                        <button onClick={_handleOnBtnShowContentsClick} className={cx('btnShowContents')}>SHOW CONTENTS</button>
+                        <button onClick={_handleOnBtnShowContentsClick} className={cx('btnShowContents')}>블로그 설명</button>
                         <button onClick={() => history.push('/post/1')} className={cx('btnContactMe')}>개발정보 & 후기</button>
                     </div>                    
                 </div>

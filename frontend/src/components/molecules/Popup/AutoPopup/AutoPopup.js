@@ -2,12 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import classNames from 'classnames/bind'
 import PropTypes from 'prop-types'
-//imgs
-import clapImgSrc from '~assets/clap.png'
-import checkImgSrc from '~assets/check.png'
-import warningImgSrc from '~assets/warning.png'
 //styles
-import styles from './style.scss'
+import styles from './AutoPopup.scss'
 const cx = classNames.bind(styles)
 
 const popupRoot = document.getElementById('popup-root')
@@ -36,19 +32,25 @@ class AutoPopup extends React.Component{
         const { animationDuration, visibleTime } = this
         await _disappearer(animationDuration, visibleTime)
         setTimeout(() => {
+            console.log('먼데이거왜 실행 안되는데?')
             this.props.closePopup()
-        }, animationDuration + 300000)
+        }, animationDuration + visibleTime)
     }
 
     render(){
 
-        const { title, description } = this.props
+        const { 
+            title, 
+            description,
+            imgSrc
+        } = this.props
+
         const { willDisappear } = this.state
 
         return ReactDOM.createPortal(
                 <div className={cx('AutoPopup-wrapper')}>
                     <div className={cx('AutoPopup', { willDisappear })}>
-                        <div className={cx('img-container')}><img src={checkImgSrc}/></div>
+                        <div className={cx('img-container')}><img src={imgSrc}/></div>
                         <div className={cx('mainMsg')}>{title}</div>
                         <div className={cx('subMsg')}>{description}</div>
                     </div>

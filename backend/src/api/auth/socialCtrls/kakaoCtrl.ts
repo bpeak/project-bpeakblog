@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import kakaoConfig from '~configs/secret/kakao.config'
+import { kakaoConfig } from '~configs/secret/secret.config'
 
 const kakaoCtrl = (req : Request, res : Response) : void => {
     (async function (){

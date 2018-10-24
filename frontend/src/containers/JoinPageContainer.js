@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 //components
 import JoinPage from '~components/pages/JoinPage/JoinPage'
 //modules
+import uniqueStringMaker from '~modules/uniqueStringMaker'
 import fetchCreator from '~modules/fetchCreator'
 import history from '~modules/history'
 import textValidator from '~modules/textValidator'
@@ -284,11 +285,11 @@ class JoinPageContainer extends Component {
                     profileImgSrc : user.profileImgSrc
                 })
                 popupsActions.openPopup({
+                    unique_id : uniqueStringMaker(),
                     popupType : "AUTO",
-                    icon : '블라',
+                    icon : 'clap',
                     title : 'JOIN SUCCESS',
                     description : `${user.nick}님 환영합니다.`,
-                    imgName : 'clap'
                 })                
                 const redirectUrl = storeState.urlHistory.toAuthPageFrom || '/'
                 history.push(redirectUrl)

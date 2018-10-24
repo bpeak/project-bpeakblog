@@ -242,7 +242,8 @@ class PostEditor extends Component {
                     value={category}>
                     <option disabled value="">select category</option>
                     <option value="dev">dev</option>
-                    <option value="life">life</option>
+                    <option value="etc">etc</option>
+                    <option value="notice">notice</option>
                 </select>                
                 <input
                     className={cx('title')} 

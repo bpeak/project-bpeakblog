@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 //assets
-import starImgSrc from '~assets/star.png'
+import fireImgSrc from '~assets/fire.png'
 import clockImgSrc from '~assets/clock.png'
+import noticeImgSrc from '~assets/notice.png'
 //modules
 import history from '~modules/history'
 //styles
@@ -21,6 +22,9 @@ const HomePage = ({
     recentPost,
     recentComments
 }) => {
+
+    console.log(popularPosts, recentPost, recentComments)
+
     return (
         <MainTemplate>
             <div className={cx('HomePage')}>
@@ -28,14 +32,20 @@ const HomePage = ({
                 <div className={cx('contents')}>
                     <div className={cx('posts')}>
                         <div className={cx('post-info')}>
+                            <h3>Notice<img src={noticeImgSrc}/></h3>
+                        </div>
+                        <div className={cx('notice')}>
+                        
+                        </div>
+                        <div className={cx('post-info')}>
                             <h3>Recent Post<img src={clockImgSrc}/></h3>
                             <Link to="/posts">모든포스트 보기</Link>
                         </div>
                         <div className={cx('PostHoriCard-container')}>
-                            <PostHoriCard post={recentPost}/>
+                            {recentPost && <PostHoriCard post={recentPost}/>}
                         </div>
                         <div className={cx('post-info')}>
-                            <h3>Popular Posts<img src={starImgSrc}/></h3>
+                            <h3>Popular Posts<img src={fireImgSrc}/></h3>
                             <Link to="/posts">모든포스트 보기</Link>
                         </div>
                         {!popularPosts ? <div className={cx('spinner-container')}><SmallSpinner/></div> :
