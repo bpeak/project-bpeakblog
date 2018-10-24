@@ -91,7 +91,7 @@
                 width: fit-content;
                 transition: color 0.2s ease;
                 font-size: 0;
-                font-size: 145%;
+                font-size: 135%;
                 cursor: pointer;
                 transition: color 0.2s ease;
                 overflow: hidden;
@@ -99,7 +99,7 @@
                 display: -webkit-box;
                 -webkit-line-clamp: 3; /* 라인수 */
                 -webkit-box-orient: vertical;
-                word-wrap:break-word;
+                word-wrap: keep-all;
                 word-break: break-all;
                 line-height: 1.3em; /* 1배 */
                 max-height: 3.9em; /* 3배 */    

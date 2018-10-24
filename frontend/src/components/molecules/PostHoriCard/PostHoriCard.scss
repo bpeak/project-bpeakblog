@@ -18,17 +18,15 @@
         flex-direction: column;
         .title{
             cursor: pointer;
-            word-wrap: break-word;
-            word-break: keep-all;
+            word-wrap: keep-all;
+            word-break: break-all;
             font-size: 120%;
             font-weight: 900;
             margin-bottom: 0.5em;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
             line-height: 138%;
-            -webkit-box-orient: vertical;
             transition: color 0.2s ease;
             &:hover{
                 color: #3498db;
@@ -38,10 +36,10 @@
             flex-grow: 1;
             cursor: pointer;
             color: grey;
-            font-size: 90%;
+            font-size: 95%;
             overflow: hidden;
-            word-wrap: break-word;
-            word-break: keep-all;
+            word-wrap: keep-all;
+            word-break: break-all;
             margin-bottom: 0.85em;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -112,10 +110,10 @@
 
 @media (max-width : 480px){
     .PostHoriCard{
-        .contents{
-            .intro{
-                -webkit-line-clamp: 2;
-            }
-        }
+        // .contents{
+        //     .intro{
+        //         -webkit-line-clamp: 2;
+        //     }
+        // }
     }
 }

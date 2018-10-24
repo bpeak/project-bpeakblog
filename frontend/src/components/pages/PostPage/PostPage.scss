@@ -194,6 +194,22 @@ article.post{
     }
 }
 
+@media (min-width : 1900px){
+    .PostPage{
+        article.post{
+            width: 45%;
+        }
+    }
+}
+
+@media (min-width : 1440px) and (max-width : 1900px){
+    .PostPage{
+        article.post{
+            width: 50%;
+        }
+    }
+}
+
 @media (max-width : 1280px){
     .PostPage{
         font-size: 19.5px;
