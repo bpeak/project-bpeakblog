@@ -12,14 +12,14 @@ auth.post('/local/join', localCtrls.joinCtrl)
 auth.post('/local/login', localCtrls.loginCtrl)
 auth.post('/local/doubleCheckEmail', localCtrls.doubleCheckEmailCtrl)
 // social
-auth.get('/social/kakao', socialCtrls.kakaoCtrl)
-auth.get('/social/kakao/callback', socialCtrls.kakaoCallbackCtrl)
-auth.get('/social/naver', socialCtrls.naverCtrl)
-auth.get('/social/naver/callback', socialCtrls.naverCallbackCtrl)
+// auth.get('/social/kakao', socialCtrls.kakaoCtrl)
+// auth.get('/social/kakao/callback', socialCtrls.kakaoCallbackCtrl)
+// auth.get('/social/naver', socialCtrls.naverCtrl)
+// auth.get('/social/naver/callback', socialCtrls.naverCallbackCtrl)
 
-// auth.get('/social/google', socialCtrls.googleCtrl)
+// // auth.get('/social/google', socialCtrls.googleCtrl)
 
-auth.get('/social/preUser', socialCtrls.getPreUserCtrl)
-auth.post('/social/join', socialCtrls.joinCtrl)
+// auth.get('/social/preUser', socialCtrls.getPreUserCtrl)
+// auth.post('/social/join', socialCtrls.joinCtrl)
 
 export default auth

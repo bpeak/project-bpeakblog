@@ -262,7 +262,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nva
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst commonCtrls = __webpack_require__(/*! ./commonCtrls */ \"./src/api/auth/commonCtrls/index.ts\");\r\nconst localCtrls = __webpack_require__(/*! ./localCtrls */ \"./src/api/auth/localCtrls/index.ts\");\r\nconst socialCtrls = __webpack_require__(/*! ./socialCtrls */ \"./src/api/auth/socialCtrls/index.ts\");\r\nconst auth = express_1.Router();\r\n// common\r\nauth.post('/doubleCheckNick', commonCtrls.doubleCheckNickCtrl);\r\n// local\r\nauth.post('/local/join', localCtrls.joinCtrl);\r\nauth.post('/local/login', localCtrls.loginCtrl);\r\nauth.post('/local/doubleCheckEmail', localCtrls.doubleCheckEmailCtrl);\r\n// social\r\nauth.get('/social/kakao', socialCtrls.kakaoCtrl);\r\nauth.get('/social/kakao/callback', socialCtrls.kakaoCallbackCtrl);\r\nauth.get('/social/naver', socialCtrls.naverCtrl);\r\nauth.get('/social/naver/callback', socialCtrls.naverCallbackCtrl);\r\n// auth.get('/social/google', socialCtrls.googleCtrl)\r\nauth.get('/social/preUser', socialCtrls.getPreUserCtrl);\r\nauth.post('/social/join', socialCtrls.joinCtrl);\r\nexports.default = auth;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/index.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst express_1 = __webpack_require__(/*! express */ \"express\");\r\nconst commonCtrls = __webpack_require__(/*! ./commonCtrls */ \"./src/api/auth/commonCtrls/index.ts\");\r\nconst localCtrls = __webpack_require__(/*! ./localCtrls */ \"./src/api/auth/localCtrls/index.ts\");\r\nconst auth = express_1.Router();\r\n// common\r\nauth.post('/doubleCheckNick', commonCtrls.doubleCheckNickCtrl);\r\n// local\r\nauth.post('/local/join', localCtrls.joinCtrl);\r\nauth.post('/local/login', localCtrls.loginCtrl);\r\nauth.post('/local/doubleCheckEmail', localCtrls.doubleCheckEmailCtrl);\r\n// social\r\n// auth.get('/social/kakao', socialCtrls.kakaoCtrl)\r\n// auth.get('/social/kakao/callback', socialCtrls.kakaoCallbackCtrl)\r\n// auth.get('/social/naver', socialCtrls.naverCtrl)\r\n// auth.get('/social/naver/callback', socialCtrls.naverCallbackCtrl)\r\n// // auth.get('/social/google', socialCtrls.googleCtrl)\r\n// auth.get('/social/preUser', socialCtrls.getPreUserCtrl)\r\n// auth.post('/social/join', socialCtrls.joinCtrl)\r\nexports.default = auth;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/index.ts?");
 
 /***/ }),
 
@@ -311,102 +311,6 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 
 "use strict";
 eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst Encryption_1 = __webpack_require__(/*! ~modules/Encryption */ \"./src/modules/Encryption.ts\");\r\nconst memberTypes = __webpack_require__(/*! ~constants/memberTypes */ \"./src/constants/memberTypes.ts\");\r\nconst TokenManager_1 = __webpack_require__(/*! ~modules/TokenManager */ \"./src/modules/TokenManager.ts\");\r\nconst loginCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { email, password } = req.body;\r\n                const isBadRequest = (!email ||\r\n                    !password);\r\n                if (isBadRequest) {\r\n                    return res.status(400).json(JSON.stringify({}));\r\n                }\r\n                const user = yield user_1.default.findOne({\r\n                    email: String(email),\r\n                    memberType: memberTypes.LOCAL\r\n                }).lean();\r\n                if (user === null) {\r\n                    return res.status(200).json(JSON.stringify({\r\n                        isSuccess: false,\r\n                        errMsg: '이메일 또는 비밀번호를 잘못 입력하셨습니다. 등록되지 않은 이메일이거나 비밀번호가 다릅니다.'\r\n                    }));\r\n                }\r\n                const currentHash = Encryption_1.default.getHash(String(password), user.key.salt);\r\n                const dbHash = user.key.hash;\r\n                if (currentHash === dbHash) {\r\n                    const token = TokenManager_1.default.issue(user.unique_id);\r\n                    return res.status(200).json(JSON.stringify({\r\n                        isSuccess: true,\r\n                        user: {\r\n                            token,\r\n                            isAdmin: user.isAdmin,\r\n                            unique_id: user.unique_id,\r\n                            nick: user.nick,\r\n                            profileImgSrc: user.profileImgSrc\r\n                        }\r\n                    }));\r\n                }\r\n                else {\r\n                    return res.status(200).json(JSON.stringify({\r\n                        isSuccess: false,\r\n                        errMsg: '이메일 또는 비밀번호를 잘못 입력하셨습니다. 등록되지 않은 이메일이거나 비밀번호가 다릅니다.'\r\n                    }));\r\n                }\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.status(500).json(JSON.stringify({}));\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = loginCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/localCtrls/loginCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/getPreUserCtrl.ts":
-/*!****************************************************!*\
-  !*** ./src/api/auth/socialCtrls/getPreUserCtrl.ts ***!
-  \****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst redis = __webpack_require__(/*! redis */ \"redis\");\r\nconst redisClient = redis.createClient();\r\nconst getPreUserCtrl = (req, res) => __awaiter(this, void 0, void 0, function* () {\r\n    try {\r\n        const preSocialUser_key = req.cookies.preSocialUser_key;\r\n        const preUser = yield getPreUserFromRedis(preSocialUser_key);\r\n        return res.status(200).json(JSON.stringify({ preUser }));\r\n    }\r\n    catch (err) {\r\n        console.log(err);\r\n        return res.sendStatus(500);\r\n    }\r\n});\r\nfunction getPreUserFromRedis(preSocialUser_key) {\r\n    return new Promise((resolve, reject) => {\r\n        redisClient.get(preSocialUser_key, (err, reply) => {\r\n            if (err) {\r\n                return reject();\r\n            }\r\n            const preUser = JSON.parse(reply);\r\n            resolve(preUser);\r\n        });\r\n    });\r\n}\r\nexports.default = getPreUserCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/getPreUserCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/googleCtrl.ts":
-/*!************************************************!*\
-  !*** ./src/api/auth/socialCtrls/googleCtrl.ts ***!
-  \************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst node_fetch_1 = __webpack_require__(/*! node-fetch */ \"node-fetch\");\r\nconst googleCtrl = (req, res) => {\r\n    const { code } = req.query;\r\n    // var postVal = \"grant_type=authorization_code\"+\"&code=\"+req.query.code+\"&client_id=\"+CLIENT_ID+\"&client_secret=\"+CLIENT_SECRET+\"&redirect_uri=\"+REDIRECT_URI;\r\n    node_fetch_1.default('https://www.googleapis.com/auth/plus.login', {\r\n        headers: { 'content-type': 'application/x-www-form-urlencoded' },\r\n        method: \"POST\"\r\n    })\r\n        .then(data => data.json())\r\n        .then(json => console.log(json));\r\n};\r\nexports.default = googleCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/googleCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/index.ts":
-/*!*******************************************!*\
-  !*** ./src/api/auth/socialCtrls/index.ts ***!
-  \*******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar kakaoCtrl_1 = __webpack_require__(/*! ./kakaoCtrl */ \"./src/api/auth/socialCtrls/kakaoCtrl.ts\");\r\nexports.kakaoCtrl = kakaoCtrl_1.default;\r\nvar kakaoCallbackCtrl_1 = __webpack_require__(/*! ./kakaoCallbackCtrl */ \"./src/api/auth/socialCtrls/kakaoCallbackCtrl.ts\");\r\nexports.kakaoCallbackCtrl = kakaoCallbackCtrl_1.default;\r\nvar naverCtrl_1 = __webpack_require__(/*! ./naverCtrl */ \"./src/api/auth/socialCtrls/naverCtrl.ts\");\r\nexports.naverCtrl = naverCtrl_1.default;\r\nvar naverCallbackCtrl_1 = __webpack_require__(/*! ./naverCallbackCtrl */ \"./src/api/auth/socialCtrls/naverCallbackCtrl.ts\");\r\nexports.naverCallbackCtrl = naverCallbackCtrl_1.default;\r\nvar googleCtrl_1 = __webpack_require__(/*! ./googleCtrl */ \"./src/api/auth/socialCtrls/googleCtrl.ts\");\r\nexports.googleCtrl = googleCtrl_1.default;\r\nvar getPreUserCtrl_1 = __webpack_require__(/*! ./getPreUserCtrl */ \"./src/api/auth/socialCtrls/getPreUserCtrl.ts\");\r\nexports.getPreUserCtrl = getPreUserCtrl_1.default;\r\nvar joinCtrl_1 = __webpack_require__(/*! ./joinCtrl */ \"./src/api/auth/socialCtrls/joinCtrl.ts\");\r\nexports.joinCtrl = joinCtrl_1.default;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/index.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/joinCtrl.ts":
-/*!**********************************************!*\
-  !*** ./src/api/auth/socialCtrls/joinCtrl.ts ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst redis = __webpack_require__(/*! redis */ \"redis\");\r\nconst node_fetch_1 = __webpack_require__(/*! node-fetch */ \"node-fetch\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst path = __webpack_require__(/*! path */ \"path\");\r\nconst fs = __webpack_require__(/*! fs */ \"fs\");\r\nconst userConfig = __webpack_require__(/*! ~configs/user.config.json */ \"./src/configs/user.config.json\");\r\nconst textValidator_1 = __webpack_require__(/*! ~modules/textValidator */ \"./src/modules/textValidator.ts\");\r\nconst redisClient = redis.createClient();\r\nconst joinCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const nick = req.body.nick;\r\n                const isBadRequest = (!nick ||\r\n                    !textValidator_1.default.validateBlank(String(nick)) ||\r\n                    !textValidator_1.default.validateMinLength(String(nick), userConfig.NICK_CHAR_MIN) ||\r\n                    !textValidator_1.default.validateMaxLength(String(nick), userConfig.NICK_CHAR_MAX));\r\n                if (isBadRequest) {\r\n                    return res.status(400).json(JSON.stringify({}));\r\n                }\r\n                const preSocialUser_key = req.cookies.preSocialUser_key;\r\n                const preUser = yield getPreSocialUser(preSocialUser_key);\r\n                if (!preUser) {\r\n                    return res.status(500).json(JSON.stringify({}));\r\n                }\r\n                console.log(preUser.social_id, '로가입시크너아님?');\r\n                const user = (yield new user_1.default({\r\n                    unique_id: String(Number(new Date())),\r\n                    isAdmin: false,\r\n                    memberType: preUser.memberType,\r\n                    social_id: preUser.social_id,\r\n                    nick,\r\n                    sex: \"M\"\r\n                }).save());\r\n                const userPath = path.join(global.__rootDir, `/public/users/${user.unique_id}`);\r\n                fs.mkdirSync(userPath);\r\n                if (preUser.profileImgSrc) {\r\n                    const bufferImg = yield node_fetch_1.default(preUser.profileImgSrc).then(data => data.buffer());\r\n                    const extName = path.extname(preUser.profileImgSrc);\r\n                    const fileName = 'profile' + extName;\r\n                    fs.writeFileSync(`${userPath}/${fileName}`, bufferImg, 'binary');\r\n                    const imgSrc = `/public/users/${user.unique_id}/${fileName}`;\r\n                    const update = { $set: { profileImgSrc: imgSrc } };\r\n                    yield user.update(update);\r\n                    return res.status(200).json(JSON.stringify({\r\n                        isSuccess: true,\r\n                        user: {\r\n                            unique_id: user.unique_id,\r\n                            nick: user.nick,\r\n                            profileImgSrc: imgSrc,\r\n                            isAdmin: user.isAdmin\r\n                        }\r\n                    }));\r\n                }\r\n                else {\r\n                    return res.status(200).json(JSON.stringify({\r\n                        isSuccess: true,\r\n                        user: {\r\n                            unique_id: user.unique_id,\r\n                            nick: user.nick,\r\n                            profileImgSrc: user.profileImgSrc,\r\n                            isAdmin: user.isAdmin\r\n                        }\r\n                    }));\r\n                }\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.status(500).json(JSON.stringify({}));\r\n            }\r\n        });\r\n    })();\r\n};\r\nfunction getPreSocialUser(preSocialUser_key) {\r\n    return new Promise(resolve => {\r\n        redisClient.get(preSocialUser_key, (err, reply) => {\r\n            const preUser = JSON.parse(reply);\r\n            resolve(preUser);\r\n        });\r\n    });\r\n}\r\nexports.default = joinCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/joinCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/kakaoCallbackCtrl.ts":
-/*!*******************************************************!*\
-  !*** ./src/api/auth/socialCtrls/kakaoCallbackCtrl.ts ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst kakao_config_1 = __webpack_require__(/*! ~configs/secret/kakao.config */ \"./src/configs/secret/kakao.config.ts\");\r\nconst node_fetch_1 = __webpack_require__(/*! node-fetch */ \"node-fetch\");\r\nconst uniqueStringMaker_1 = __webpack_require__(/*! ~modules/uniqueStringMaker */ \"./src/modules/uniqueStringMaker.ts\");\r\nconst redis = __webpack_require__(/*! redis */ \"redis\");\r\nconst memberTypes = __webpack_require__(/*! ~constants/memberTypes */ \"./src/constants/memberTypes.ts\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst redisClient = redis.createClient();\r\nconst kakaoCallbackCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { code } = req.query; // user kakao login 후 발급된 인증코드\r\n                const client_id = kakao_config_1.default.client_id;\r\n                const redirect_uri = kakao_config_1.default.redirect_uri;\r\n                const responseWithAccessToken = yield node_fetch_1.default(`https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${code}`, {\r\n                    method: \"POST\"\r\n                })\r\n                    .then(data => data.json());\r\n                const { access_token } = responseWithAccessToken;\r\n                const response = yield node_fetch_1.default(`https://kapi.kakao.com/v2/user/me`, {\r\n                    method: \"POST\",\r\n                    headers: {\r\n                        Authorization: `Bearer ${access_token}`,\r\n                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'\r\n                    },\r\n                })\r\n                    .then(data => data.json());\r\n                console.log(response);\r\n                const social_id = response.id;\r\n                const preSocialUser_key = uniqueStringMaker_1.default();\r\n                res.cookie('preSocialUser_key', preSocialUser_key, { httpOnly: true });\r\n                const conditions = { social_id, memberType: memberTypes.KAKAO };\r\n                const userBySocial_id = yield user_1.default.findOne(conditions);\r\n                const preUser = (function () {\r\n                    if (userBySocial_id) {\r\n                        return ({\r\n                            isMember: true,\r\n                            social_id,\r\n                            unique_id: userBySocial_id.unique_id,\r\n                            nick: userBySocial_id.nick,\r\n                            profileImgSrc: userBySocial_id.profileImgSrc\r\n                        });\r\n                    }\r\n                    else {\r\n                        return ({\r\n                            isMember: false,\r\n                            social_id,\r\n                            nick: response.properties.nickname,\r\n                            memberType: memberTypes.KAKAO,\r\n                            profileImgSrc: response.properties.profile_image\r\n                        });\r\n                    }\r\n                })();\r\n                redisClient.set(preSocialUser_key, JSON.stringify(preUser));\r\n                res.redirect('/preSocialLogin');\r\n                setTimeout(() => {\r\n                    redisClient.del(preSocialUser_key);\r\n                }, 1000 * 60 * 3 + 1000 * 3);\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                //미완\r\n                res.redirect('/error');\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = kakaoCallbackCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/kakaoCallbackCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/kakaoCtrl.ts":
-/*!***********************************************!*\
-  !*** ./src/api/auth/socialCtrls/kakaoCtrl.ts ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst kakao_config_1 = __webpack_require__(/*! ~configs/secret/kakao.config */ \"./src/configs/secret/kakao.config.ts\");\r\nconst kakaoCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const url = `https://kauth.kakao.com/oauth/authorize?client_id=${kakao_config_1.default.client_id}&redirect_uri=${kakao_config_1.default.redirect_uri}&response_type=code`;\r\n                res.redirect(url);\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                res.status(500).json(JSON.stringify({}));\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = kakaoCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/kakaoCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/naverCallbackCtrl.ts":
-/*!*******************************************************!*\
-  !*** ./src/api/auth/socialCtrls/naverCallbackCtrl.ts ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst node_fetch_1 = __webpack_require__(/*! node-fetch */ \"node-fetch\");\r\nconst naver_config_1 = __webpack_require__(/*! ~configs/secret/naver.config */ \"./src/configs/secret/naver.config.ts\");\r\nconst uniqueStringMaker_1 = __webpack_require__(/*! ~modules/uniqueStringMaker */ \"./src/modules/uniqueStringMaker.ts\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst TokenManager_1 = __webpack_require__(/*! ~modules/TokenManager */ \"./src/modules/TokenManager.ts\");\r\nconst memberTypes = __webpack_require__(/*! ~constants/memberTypes */ \"./src/constants/memberTypes.ts\");\r\nconst redis = __webpack_require__(/*! redis */ \"redis\");\r\nconst redisClient = redis.createClient();\r\nconst naverCallbackCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const { code } = req.query;\r\n                const client_id = naver_config_1.default.client_id;\r\n                const client_secret = naver_config_1.default.client_secret;\r\n                const responseWithToken = yield node_fetch_1.default(`https://nid.naver.com/oauth2.0/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&state=123&code=${code}`, {\r\n                    method: \"POST\"\r\n                })\r\n                    .then(data => data.json());\r\n                const { access_token } = responseWithToken;\r\n                const response = yield node_fetch_1.default('https://openapi.naver.com/v1/nid/me', {\r\n                    method: \"POST\",\r\n                    headers: {\r\n                        Authorization: `Bearer ${access_token}`,\r\n                        'content-type': 'application/x-www-form-urlencoded;charset=utf-8'\r\n                    }\r\n                })\r\n                    .then(data => data.json());\r\n                if (response.message !== 'success') {\r\n                    return res.redirect('/SocialErrorPage');\r\n                }\r\n                const social_id = response.response.id;\r\n                const nick = response.response.name;\r\n                const gender = response.response.gender;\r\n                const profileImgSrc = response.response.profile_image;\r\n                const filterOptions = { memberType: memberTypes.NAVER, social_id: social_id };\r\n                const userBySocial_id = yield user_1.default.findOne(filterOptions);\r\n                const preUser = userBySocial_id ? {\r\n                    isMember: true,\r\n                    unique_id: userBySocial_id.unique_id,\r\n                    nick: userBySocial_id.nick,\r\n                    isAdmin: userBySocial_id.isAdmin,\r\n                    profileImgSrc: userBySocial_id.profileImgSrc,\r\n                    token: TokenManager_1.default.issue(userBySocial_id.unique_id)\r\n                } : {\r\n                    isMember: false,\r\n                    social_id,\r\n                    nick,\r\n                    profileImgSrc,\r\n                    gender\r\n                };\r\n                const preSocialUser_key = uniqueStringMaker_1.default();\r\n                res.cookie('preSocialUser_key', preSocialUser_key, { httpOnly: true });\r\n                redisClient.set(preSocialUser_key, JSON.stringify(preUser));\r\n                setTimeout(() => {\r\n                    redisClient.del(preSocialUser_key);\r\n                }, 1000 * 60 * 3 + 1000 * 3);\r\n                return res.redirect('/preSocialLogin');\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res;\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = naverCallbackCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/naverCallbackCtrl.ts?");
-
-/***/ }),
-
-/***/ "./src/api/auth/socialCtrls/naverCtrl.ts":
-/*!***********************************************!*\
-  !*** ./src/api/auth/socialCtrls/naverCtrl.ts ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst naver_config_1 = __webpack_require__(/*! ~configs/secret/naver.config */ \"./src/configs/secret/naver.config.ts\");\r\nconst naverCtrl = (req, res) => {\r\n    (function () {\r\n        return __awaiter(this, void 0, void 0, function* () {\r\n            try {\r\n                const client_id = naver_config_1.default.client_id;\r\n                const redirect_uri = naver_config_1.default.redirect_uri;\r\n                const url = `https://nid.naver.com/oauth2.0/authorize?client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}&state=123`;\r\n                res.redirect(url);\r\n            }\r\n            catch (err) {\r\n                console.log(err);\r\n                return res.status(500).json(JSON.stringify({}));\r\n            }\r\n        });\r\n    })();\r\n};\r\nexports.default = naverCtrl;\r\n\n\n//# sourceURL=webpack:///./src/api/auth/socialCtrls/naverCtrl.ts?");
 
 /***/ }),
 
@@ -697,63 +601,15 @@ eval("module.exports = {\"PASSWORD_CHAR_MIN\":1,\"PASSWORD_CHAR_MAX\":16,\"DESCR
 
 /***/ }),
 
-/***/ "./src/configs/secret/db.config.ts":
-/*!*****************************************!*\
-  !*** ./src/configs/secret/db.config.ts ***!
-  \*****************************************/
+/***/ "./src/configs/secret/secret.config.ts":
+/*!*********************************************!*\
+  !*** ./src/configs/secret/secret.config.ts ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst DB_PORT = 27017;\r\nconst DB_NAME = 'test';\r\nconst DB_URL = `mongodb://localhost:${DB_PORT}/${DB_NAME}`;\r\nexports.default = {\r\n    url: DB_URL,\r\n    option: { useNewUrlParser: true }\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/db.config.ts?");
-
-/***/ }),
-
-/***/ "./src/configs/secret/encryption.config.ts":
-/*!*************************************************!*\
-  !*** ./src/configs/secret/encryption.config.ts ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.default = {\r\n    byteSize: 64,\r\n    iiterations: 99998,\r\n    keyLen: 64,\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/encryption.config.ts?");
-
-/***/ }),
-
-/***/ "./src/configs/secret/jwt.config.ts":
-/*!******************************************!*\
-  !*** ./src/configs/secret/jwt.config.ts ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst secret = \"ASLDASE23i8tufERGRGK$(#FG(ETGJOEGK#IR(F)GPR\";\r\nconst options = {\r\n    issuer: 'www.bpeakBlog.com',\r\n    subject: 'userInfo'\r\n};\r\nexports.default = {\r\n    secret,\r\n    options\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/jwt.config.ts?");
-
-/***/ }),
-
-/***/ "./src/configs/secret/kakao.config.ts":
-/*!********************************************!*\
-  !*** ./src/configs/secret/kakao.config.ts ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.default = {\r\n    client_id: \"d66763cb3d1e62995bc0b50312a5f564\",\r\n    redirect_uri: \"http://localhost/api/auth/social/kakao/callback\"\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/kakao.config.ts?");
-
-/***/ }),
-
-/***/ "./src/configs/secret/naver.config.ts":
-/*!********************************************!*\
-  !*** ./src/configs/secret/naver.config.ts ***!
-  \********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.default = {\r\n    client_id: \"SrVRVgQ8XyzQqVLj9kec\",\r\n    client_secret: \"JKFL6IM3WG\",\r\n    redirect_uri: \"http://127.0.0.1/api/auth/social/naver/callback\"\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/naver.config.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.dbConfig = {\r\n    url: 'mongodb://localhost:27017/test',\r\n    option: { useNewUrlParser: true },\r\n};\r\nexports.encryptionConfig = {\r\n    byteSize: 64,\r\n    iiterations: 99998,\r\n    keyLen: 64,\r\n};\r\nexports.jwtConfig = {\r\n    secret: \"ASLDASE23i8tufERGRGK$(#FG(ETGJOEGK#IR(F)GPR\",\r\n    options: {\r\n        issuer: 'www.bpeakBlog.com',\r\n        subject: 'userInfo',\r\n    }\r\n};\r\nexports.naverConfig = {\r\n    client_id: \"SrVRVgQ8XyzQqVLj9kec\",\r\n    client_secret: \"JKFL6IM3WG\",\r\n    redirect_uri: \"http://127.0.0.1/api/auth/social/naver/callback\"\r\n};\r\nexports.kakaoConfig = {\r\n    client_id: \"d66763cb3d1e62995bc0b50312a5f564\",\r\n    redirect_uri: \"http://localhost/api/auth/social/kakao/callback\"\r\n};\r\n\n\n//# sourceURL=webpack:///./src/configs/secret/secret.config.ts?");
 
 /***/ }),
 
@@ -811,7 +667,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nex
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\r\nconst db_config_1 = __webpack_require__(/*! ~configs/secret/db.config */ \"./src/configs/secret/db.config.ts\");\r\nconst dbLauncher = () => {\r\n    const db = mongoose.connection;\r\n    db.on('error', console.error.bind(console, 'connection error : '));\r\n    db.once('open', () => {\r\n        console.log('MONGODB CONNECTED SUCCESS BY MONGOOSE');\r\n    });\r\n    mongoose.connect(db_config_1.default.url, db_config_1.default.option);\r\n};\r\nexports.default = dbLauncher;\r\n\n\n//# sourceURL=webpack:///./src/db/dbLauncher.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst mongoose = __webpack_require__(/*! mongoose */ \"mongoose\");\r\nconst secret_config_1 = __webpack_require__(/*! ~configs/secret/secret.config */ \"./src/configs/secret/secret.config.ts\");\r\nconst dbLauncher = () => {\r\n    const db = mongoose.connection;\r\n    db.on('error', console.error.bind(console, 'connection error : '));\r\n    db.once('open', () => {\r\n        console.log('MONGODB CONNECTED SUCCESS BY MONGOOSE');\r\n    });\r\n    mongoose.connect(secret_config_1.dbConfig.url, secret_config_1.dbConfig.option);\r\n};\r\nexports.default = dbLauncher;\r\n\n\n//# sourceURL=webpack:///./src/db/dbLauncher.ts?");
 
 /***/ }),
 
@@ -907,7 +763,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst jwt = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\r\nconst jwt_config_1 = __webpack_require__(/*! ~configs/secret/jwt.config */ \"./src/configs/secret/jwt.config.ts\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst tokenValidationMiddleware = (req, res, next) => __awaiter(this, void 0, void 0, function* () {\r\n    try {\r\n        const token = req.headers.authorization && req.headers.authorization.split('Bearer ')[1];\r\n        //토큰 미존재\r\n        if (!token) {\r\n            return res.sendStatus(401);\r\n        }\r\n        const decoded = jwt.verify(token, jwt_config_1.default.secret);\r\n        const unique_id = decoded.user.unique_id;\r\n        const user = yield user_1.default.findOne({ unique_id }).lean();\r\n        //존재하지 않는 유저\r\n        if (!user) {\r\n            return res.sendStatus(401);\r\n        }\r\n        //인증 성공\r\n        req.user = user;\r\n        return next();\r\n    }\r\n    catch (err) {\r\n        console.log(err);\r\n        return res.sendStatus(401);\r\n    }\r\n});\r\nexports.default = tokenValidationMiddleware;\r\n\n\n//# sourceURL=webpack:///./src/middlewares/tokenValidationMiddleware.ts?");
+eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {\r\n    return new (P || (P = Promise))(function (resolve, reject) {\r\n        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }\r\n        function rejected(value) { try { step(generator[\"throw\"](value)); } catch (e) { reject(e); } }\r\n        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }\r\n        step((generator = generator.apply(thisArg, _arguments || [])).next());\r\n    });\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst jwt = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\r\nconst secret_config_1 = __webpack_require__(/*! ~configs/secret/secret.config */ \"./src/configs/secret/secret.config.ts\");\r\nconst user_1 = __webpack_require__(/*! ~db/models/user */ \"./src/db/models/user.ts\");\r\nconst tokenValidationMiddleware = (req, res, next) => __awaiter(this, void 0, void 0, function* () {\r\n    try {\r\n        const token = req.headers.authorization && req.headers.authorization.split('Bearer ')[1];\r\n        //토큰 미존재\r\n        if (!token) {\r\n            return res.sendStatus(401);\r\n        }\r\n        const decoded = jwt.verify(token, secret_config_1.jwtConfig.secret);\r\n        const unique_id = decoded.user.unique_id;\r\n        const user = yield user_1.default.findOne({ unique_id }).lean();\r\n        //존재하지 않는 유저\r\n        if (!user) {\r\n            return res.sendStatus(401);\r\n        }\r\n        //인증 성공\r\n        req.user = user;\r\n        return next();\r\n    }\r\n    catch (err) {\r\n        console.log(err);\r\n        return res.sendStatus(401);\r\n    }\r\n});\r\nexports.default = tokenValidationMiddleware;\r\n\n\n//# sourceURL=webpack:///./src/middlewares/tokenValidationMiddleware.ts?");
 
 /***/ }),
 
@@ -919,7 +775,7 @@ eval("\r\nvar __awaiter = (this && this.__awaiter) || function (thisArg, _argume
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst crypto = __webpack_require__(/*! crypto */ \"crypto\");\r\nconst encryption_config_1 = __webpack_require__(/*! ~configs/secret/encryption.config */ \"./src/configs/secret/encryption.config.ts\");\r\nclass Encryption {\r\n    static getPwSet(password) {\r\n        const salt = this.getSalt();\r\n        const hash = this.getHash(password, salt);\r\n        return { salt, hash };\r\n    }\r\n}\r\nEncryption.getSalt = () => {\r\n    return crypto.randomBytes(encryption_config_1.default.byteSize).toString('base64');\r\n};\r\nEncryption.getHash = (password, salt) => {\r\n    return crypto.pbkdf2Sync(password, salt, encryption_config_1.default.iiterations, encryption_config_1.default.keyLen, 'sha512').toString('base64');\r\n};\r\nexports.default = Encryption;\r\n\n\n//# sourceURL=webpack:///./src/modules/Encryption.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst crypto = __webpack_require__(/*! crypto */ \"crypto\");\r\nconst secret_config_1 = __webpack_require__(/*! ~configs/secret/secret.config */ \"./src/configs/secret/secret.config.ts\");\r\nclass Encryption {\r\n    static getPwSet(password) {\r\n        const salt = this.getSalt();\r\n        const hash = this.getHash(password, salt);\r\n        return { salt, hash };\r\n    }\r\n}\r\nEncryption.getSalt = () => {\r\n    return crypto.randomBytes(secret_config_1.encryptionConfig.byteSize).toString('base64');\r\n};\r\nEncryption.getHash = (password, salt) => {\r\n    return crypto.pbkdf2Sync(password, salt, secret_config_1.encryptionConfig.iiterations, secret_config_1.encryptionConfig.keyLen, 'sha512').toString('base64');\r\n};\r\nexports.default = Encryption;\r\n\n\n//# sourceURL=webpack:///./src/modules/Encryption.ts?");
 
 /***/ }),
 
@@ -931,7 +787,7 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst jwt = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\r\nconst jwt_config_1 = __webpack_require__(/*! ~configs/secret/jwt.config */ \"./src/configs/secret/jwt.config.ts\");\r\nclass TokenManager {\r\n    static issue(unique_id) {\r\n        const token = jwt.sign({\r\n            user: {\r\n                unique_id\r\n            }\r\n        }, jwt_config_1.default.secret, jwt_config_1.default.options);\r\n        return token;\r\n    }\r\n}\r\nexports.default = TokenManager;\r\n\n\n//# sourceURL=webpack:///./src/modules/TokenManager.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst jwt = __webpack_require__(/*! jsonwebtoken */ \"jsonwebtoken\");\r\nconst secret_config_1 = __webpack_require__(/*! ~configs/secret/secret.config */ \"./src/configs/secret/secret.config.ts\");\r\nclass TokenManager {\r\n    static issue(unique_id) {\r\n        const token = jwt.sign({\r\n            user: {\r\n                unique_id\r\n            }\r\n        }, secret_config_1.jwtConfig.secret, secret_config_1.jwtConfig.options);\r\n        return token;\r\n    }\r\n}\r\nexports.default = TokenManager;\r\n\n\n//# sourceURL=webpack:///./src/modules/TokenManager.ts?");
 
 /***/ }),
 
@@ -944,18 +800,6 @@ eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nco
 
 "use strict";
 eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst textValidator = {\r\n    validateMinLength: (text, min) => {\r\n        return text.length >= min;\r\n    },\r\n    validateMaxLength: (text, max) => {\r\n        return text.length <= max;\r\n    },\r\n    validateBlank: (text) => {\r\n        return text.indexOf(' ') === -1;\r\n    }\r\n};\r\nexports.default = textValidator;\r\n\n\n//# sourceURL=webpack:///./src/modules/textValidator.ts?");
-
-/***/ }),
-
-/***/ "./src/modules/uniqueStringMaker.ts":
-/*!******************************************!*\
-  !*** ./src/modules/uniqueStringMaker.ts ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nexports.default = () => {\r\n    const random1 = Math.random();\r\n    const random2 = Math.random();\r\n    const uniqueString = random1.toString(36) + String(Number(new Date())) + random2.toString(36);\r\n    return uniqueString;\r\n};\r\n\n\n//# sourceURL=webpack:///./src/modules/uniqueStringMaker.ts?");
 
 /***/ }),
 
@@ -1058,17 +902,6 @@ eval("module.exports = require(\"multer\");\n\n//# sourceURL=webpack:///external
 
 /***/ }),
 
-/***/ "node-fetch":
-/*!*****************************!*\
-  !*** external "node-fetch" ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"node-fetch\");\n\n//# sourceURL=webpack:///external_%22node-fetch%22?");
-
-/***/ }),
-
 /***/ "path":
 /*!***********************!*\
   !*** external "path" ***!
@@ -1077,17 +910,6 @@ eval("module.exports = require(\"node-fetch\");\n\n//# sourceURL=webpack:///exte
 /***/ (function(module, exports) {
 
 eval("module.exports = require(\"path\");\n\n//# sourceURL=webpack:///external_%22path%22?");
-
-/***/ }),
-
-/***/ "redis":
-/*!************************!*\
-  !*** external "redis" ***!
-  \************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-eval("module.exports = require(\"redis\");\n\n//# sourceURL=webpack:///external_%22redis%22?");
 
 /***/ })
 

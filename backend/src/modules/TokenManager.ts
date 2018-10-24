@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import jwtConfig from '~configs/secret/jwt.config'
+import { jwtConfig } from '~configs/secret/secret.config'
 
 export default class TokenManager {
     public static issue (unique_id : string) : string {

@@ -1,6 +1,6 @@
 import { Request , Response } from 'express'
 import * as jwt from 'jsonwebtoken'
-import jwtConfig from '~configs/secret/jwt.config'
+import { jwtConfig } from '~configs/secret/secret.config'
 import User from '~db/models/user'
 
 const tokenValidationMiddleware = async (req : Request, res : Response, next : any) => {

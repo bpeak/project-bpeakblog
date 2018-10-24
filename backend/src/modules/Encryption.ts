@@ -1,5 +1,5 @@
 import * as crypto from 'crypto'
-import encryptionConfig from '~configs/secret/encryption.config'
+import { encryptionConfig } from '~configs/secret/secret.config'
 
 class Encryption {
     public static getPwSet (password : string) : { hash : string, salt : string }{

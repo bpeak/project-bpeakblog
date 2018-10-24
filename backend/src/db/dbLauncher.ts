@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose'
-import dbConfig from '~configs/secret/db.config'
+import { dbConfig } from '~configs/secret/secret.config'
 
 const dbLauncher = () : void => {
     const db = mongoose.connection
