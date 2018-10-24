@@ -109,7 +109,7 @@ class GreetingBox extends Component {
                     </h2>
                     <h3>개인적이고 주관적인 김기현의 개발블로그</h3>
                     <div className={cx('btn-container')}>
-                        <button onClick={_handleOnBtnShowContentsClick} className={cx('btnShowContents')}>블로그 설명</button>
+                        <button onClick={() => history.push('/post/0')} className={cx('btnShowContents')}>블로그 설명</button>
                         <button onClick={() => history.push('/post/1')} className={cx('btnContactMe')}>개발정보 & 후기</button>
                     </div>                    
                 </div>

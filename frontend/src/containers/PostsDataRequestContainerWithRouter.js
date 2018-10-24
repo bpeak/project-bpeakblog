@@ -80,6 +80,7 @@ class PostsDataRequest extends React.PureComponent {
             replies,
             date : Date.now()
         })
+
         await this._setIsFetchingWithPromise(false)        
     }
 

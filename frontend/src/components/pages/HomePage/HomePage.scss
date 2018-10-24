@@ -17,6 +17,28 @@
         flex-direction: column;
         align-items: center;
 
+        ul.noticePosts{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            li.title{
+                width: 100%;
+                font-weight: 900;
+                margin: 0.35em;
+                list-style-position: inside;
+                font-size: 110%;
+                a{
+                    cursor: pointer;
+                    color: #003569;
+                    &:hover{
+                        color: #3498db;
+                    }
+                }
+            }
+            margin-bottom: 1em;
+        }
+
         div.PostHoriCard-container{
             margin-bottom: 4em;
         }
@@ -26,7 +48,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            // border-top: 1px solid grey;
             // margin-top: 0.5em;
             border-bottom: 1px solid grey;
             margin-bottom: 1em;
@@ -34,7 +55,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                font-family: 'Oswald';
+                // font-family: 'Oswald';
                 letter-spacing: 0.05em;
                 color: #0D1B49;
                 font-weight: 900;

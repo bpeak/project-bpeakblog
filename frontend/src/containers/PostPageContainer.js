@@ -71,6 +71,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 class PostPageContainer extends Component {
+    state = { isUpdatedView : false }
+
     deletePost = () => {
         const { userState } = this.props
         const { post } = this.props
@@ -80,6 +82,30 @@ class PostPageContainer extends Component {
                 Authorization : `Bearer ${userState.token}`,
             },
         })
+    }
+
+    _setIsUpdatedView = (isUpdatedView) => { this.setState(() => ({ isUpdatedView }))}
+
+    _updatePostView = (post_id) => {
+        return fetch(`/api/posts/${post_id}/view`, {
+            method : "PATCH",
+        })
+    }
+
+    componentWillReceiveProps(nextProps){
+        const { post } = nextProps
+        if(post && !this.state.isUpdatedView){
+            this._setIsUpdatedView(true)
+            this._updatePostView(post._id)  
+        }
+    }
+
+    componentDidMount(){
+        const { post } = this.props
+        if(post && !this.state.isUpdatedView){
+            this._setIsUpdatedView(true)
+            this._updatePostView(post._id)
+        }
     }
 
     render() {

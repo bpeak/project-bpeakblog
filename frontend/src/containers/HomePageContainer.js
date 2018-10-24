@@ -15,7 +15,8 @@ class HomePageContainer extends Component {
         this.state = {
             popularPosts : posts ? this._getPopularPosts(posts) : undefined,
             recentPost : posts ? this._getRecentPost(posts) : undefined,
-            recentComments : comments ? this._getRecentComments(comments) : undefined
+            noticePosts : posts ? this._getNoticePosts(posts) : undefined,
+            recentComments : comments ? this._getRecentComments(comments) : undefined,
         }
     }
 
@@ -24,11 +25,19 @@ class HomePageContainer extends Component {
 
     _setPopularPosts = (popularPosts) => { this.setState(() => ({ popularPosts }))}
     _setRecentPost = (recentPost) => { this.setState(() => ({ recentPost }))}
+    _setNoticePosts = (noticePosts) => { this.setState(() => ({ noticePosts }))}
     _setRecentComments = (recentComments) => { this.setState(() => ({ recentComments }))}
 
     _getRecentPost = (posts) => {
         const recentPost = posts[0]
         return recentPost
+    }
+
+    _getNoticePosts = (posts) => {
+        const noticePosts = posts.filter(post => {
+            return post.category === 'notice'
+        })
+        return noticePosts
     }
 
     _getPopularPosts = (posts) => {
@@ -81,6 +90,10 @@ class HomePageContainer extends Component {
         const nextRecentPost = this._getRecentPost(posts)
         if(prevRecentPost !== nextRecentPost) { this._setRecentPost(nextRecentPost) }
 
+        const prevNoticePosts = this.state.noticePosts
+        const nextNoticePosts = this._getNoticePosts(posts)
+        if(prevNoticePosts !== nextNoticePosts){ this._setNoticePosts(nextNoticePosts) }
+
         const comments = nextProps.postsState.comments
         const prevRecentComments = this.state.recentComments
         const nextRecentComments = comments ? this._getRecentComments(comments) : prevRecentComments
@@ -90,6 +103,7 @@ class HomePageContainer extends Component {
     render() {
         return (
             <HomePage
+            noticePosts={this.state.noticePosts}
             popularPosts={this.state.popularPosts}
             recentPost={this.state.recentPost}
             recentComments={this.state.recentComments}

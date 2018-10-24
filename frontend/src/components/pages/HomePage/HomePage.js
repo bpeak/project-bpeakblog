@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 //assets
 import fireImgSrc from '~assets/fire.png'
@@ -20,10 +21,9 @@ import SmallSpinner from '~components/atoms/spinners/SmallSpinner/SmallSpinner'
 const HomePage = ({
     popularPosts,
     recentPost,
-    recentComments
+    noticePosts,
+    recentComments,
 }) => {
-
-    console.log(popularPosts, recentPost, recentComments)
 
     return (
         <MainTemplate>
@@ -32,20 +32,23 @@ const HomePage = ({
                 <div className={cx('contents')}>
                     <div className={cx('posts')}>
                         <div className={cx('post-info')}>
-                            <h3>Notice<img src={noticeImgSrc}/></h3>
+                            <h3>공지<img src={noticeImgSrc}/></h3>
+                            <Link to="/posts">모든포스트 보기</Link>
                         </div>
-                        <div className={cx('notice')}>
-                        
-                        </div>
+                        <ul className={cx('noticePosts')}>
+                            {noticePosts && noticePosts.map((post) => (
+                                <li className={cx('title')} key={post._id}><Link to={`/post/${post._id}`}>{post.title}</Link></li>
+                            ))}
+                        </ul>
                         <div className={cx('post-info')}>
-                            <h3>Recent Post<img src={clockImgSrc}/></h3>
+                            <h3>최근글<img src={clockImgSrc}/></h3>
                             <Link to="/posts">모든포스트 보기</Link>
                         </div>
                         <div className={cx('PostHoriCard-container')}>
                             {recentPost && <PostHoriCard post={recentPost}/>}
                         </div>
                         <div className={cx('post-info')}>
-                            <h3>Popular Posts<img src={fireImgSrc}/></h3>
+                            <h3>인기글<img src={fireImgSrc}/></h3>
                             <Link to="/posts">모든포스트 보기</Link>
                         </div>
                         {!popularPosts ? <div className={cx('spinner-container')}><SmallSpinner/></div> :
@@ -83,6 +86,13 @@ const HomePage = ({
             </div>
         </MainTemplate>
     )
+}
+
+HomePage.propTypes = {
+    noticePosts : PropTypes.array,
+    recentPost : PropTypes.object,
+    popularPosts : PropTypes.array,
+    recentComments : PropTypes.array,
 }
 
 export default HomePage

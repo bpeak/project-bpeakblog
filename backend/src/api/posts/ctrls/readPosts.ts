@@ -38,6 +38,7 @@ const getAllpostsCtrl = async (req : Request, res : Response) : Promise<Response
             comments,
             replies
         }))
+
     }
     catch(err){
         console.log(err)
