@@ -21,8 +21,7 @@ import PreSocialLoginPageContainer from '~containers/PreSocialLoginPageContainer
 import ModalContainer from '~containers/ModalContainer'
 import AdminPageContainer from '~containers/AdminPageContainer'
 
-// import PostsDataRequestWithRouter from '~routes/PostsDataRequestWithRouter'
-
+//withRouter
 import PostsDataRequestContainerWithRouter from '~containers/PostsDataRequestContainerWithRouter'
 
 class App extends Component{

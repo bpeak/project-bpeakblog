@@ -1,4 +1,65 @@
 .Footer{
+    font-size: 21px;
     height: 100%;
     background-color: #272532;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    a.logo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img{
+            width: 1em;
+            height: 1em;
+            margin-right: 0.15em;
+        }
+        span{
+            color: white;
+            font-size: 100%;
+            font-family: 'Abril Fatface';
+        }
+    }
+    div.copyright{
+        color: white;
+        font-size: 60%;
+        font-weight: 600;
+    }
+}
+
+@media (max-width : 1280px){
+    .Footer{
+        font-size: 20px;
+    }
+}
+
+@media (max-width : 1024px){
+    .Footer{
+        font-size: 19px;
+    }
+}
+
+@media (max-width : 960px){
+    .Footer{
+        font-size: 18px;
+    }
+}
+
+@media (max-width : 768px){
+    .Footer{
+        font-size: 17px;
+    }
+}
+
+@media (max-width : 600px){
+    .Footer{
+        font-size: 16px;
+    }
+}
+
+@media (max-width : 480px){
+    .Footer{
+        font-size: 15px;
+    }
 }

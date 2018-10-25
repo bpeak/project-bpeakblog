@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import history from '~modules/history'
 //styles
@@ -10,123 +11,118 @@ import MainTemplate from '~components/templates/MainTemplate/MainTemplate'
 import PostCard from '~components/molecules/PostCard/PostCard'
 import SearchBar from '~components/molecules/SearchBar/SearchBar'
 import LargeSpinner from '~components/atoms/spinners/LargeSpinner/LargeSpinner'
-//local module
-import postsTagAnalyzer from './modules/postsTagsAnalyzer.js'
 
-const POSTS_COUNT_PER_PAGE = 8
-
-class PostsPage extends Component{
+class PostsPage extends React.PureComponent{
     constructor(props){
         super(props)
-        this._getCategorizedPosts = (allPosts, category, keyword) => {
-            switch(category){
-                case 'all' :
-                return allPosts
-                case 'dev' :
-                    const devPosts = allPosts.filter(post => {
-                        return post.category === 'dev'
-                    })
-                return devPosts
-                case 'etc' :
-                    const etcPosts = allPosts.filter(post => {
-                        return post.category === 'etc'
-                    })
-                return etcPosts
-                case 'notice' :
-                    const noticePosts = allPosts.filter(post => {
-                        return post.category === 'notice'
-                    })
-                return noticePosts
-                case 'search' :
-                    const searchPosts = allPosts.filter(post => {
-                        return (
-                            (post.title.indexOf(keyword)) !== -1 ||
-                            (post.intro.indexOf(keyword)) !== -1 ||
-                            (post.description.indexOf(keyword)) !== -1 ||
-                            (post.tags.indexOf(keyword) !== -1)
-                        )
-                    })
-                return searchPosts
-                case 'tag' :
-                    const tagPosts = allPosts.filter(post => {
-                        return ( post.tags.indexOf(keyword) !== -1 )
-                    })
-                return tagPosts
-            }
-        }
-
-        const allPosts = props.posts
-        const categorizedPosts = allPosts ? this._getCategorizedPosts(allPosts, props.category, props.keyword) : undefined
-        const analyzedTags = allPosts ? postsTagAnalyzer(allPosts) : undefined
-
+        const { posts } = this.props
+        const innerWidth = window.innerWidth
+        const columnCount = this._getColumnCount(innerWidth)
         this.state = {
-            allPosts,
-            categorizedPosts,
-            analyzedTags
+            columnCount,
+            layout : posts ? this._getLayout(posts.length, columnCount) : undefined,
         }
     }
 
-    _setAllPosts = (allPosts) => { this.setState(() => ({ allPosts }))}
-    _setCategorizedPosts = (categorizedPosts) => { this.setState(() => ({ categorizedPosts }))}
-    _setAnalyzedTags = (analyzedTags) => { this.setState(() => ({ analyzedTags }))}
+    _setLayOut = (layout) => { this.setState(() => ({ layout }))}
+    _setColumnCount = (columnCount) => { this.setState(() => ({ columnCount })) }
+
+    _getStyle = (layout, columnCount) => {
+        switch(layout){
+            case 'masonry' :
+            return ({
+                // 'backgroundColor' : "blue",
+                'columnCount' : columnCount,
+                'columnGap' : '0',
+            })
+            case 'normal' :
+            return ({
+                // 'backgroundColor' : 'red',
+                'display' : 'flex',
+            })
+        }
+    }
+
+    _getLayout = (postsCount, columnCount) => {
+        if(postsCount <= columnCount){
+            return 'normal'
+        } else {
+            return 'masonry'
+        }
+    }
+
+    _getColumnCount = (innerWidth) => {
+        if(innerWidth > 1200){
+            return 4
+        }
+        if(innerWidth > 900){
+            return 3
+        }
+        if(innerWidth > 600){
+            return 2
+        }
+        return 1
+    }
 
     componentWillReceiveProps(nextProps){
-        const prevAllPosts = this.state.posts
-        const nextAllPosts = nextProps.posts
-        if(prevAllPosts !== nextAllPosts){
-            const allPosts = nextAllPosts
-            const analyzedTags = postsTagAnalyzer(allPosts)
-            this._setAllPosts(nextAllPosts)
-            this._setAnalyzedTags(analyzedTags)
+        const { posts } = nextProps
+        if(posts){
+            const innerWidth = window.innerWidth
+            const columnCount = this._getColumnCount(innerWidth)
+            const layout = this._getLayout(posts.length, columnCount)
+            this._setColumnCount(columnCount)
+            this._setLayOut(layout)
         }
-
-        const nextCategory = nextProps.category
-        const nextKeyword = nextProps.keyword
-        const nextCategorizedPosts = this._getCategorizedPosts(nextAllPosts, nextCategory, nextKeyword)
-        const prevCategorizedPosts = this.state.categorizedPosts
-        if(prevCategorizedPosts !== nextCategorizedPosts){ this._setCategorizedPosts(nextCategorizedPosts) }
-
-        console.log(this.forceUpdate)
     }
 
-    _renderPagenation = () => {
-        const pageCount = Math.ceil(this.state.categorizedPosts.length / POSTS_COUNT_PER_PAGE)
-        const pageIndex = this.props.pageIndex
-        const category = this.props.category
-        const buttons = []
-        for(let i = 1; i <= pageCount; i++){
-            buttons.push(
-                <button 
-                onClick={() => history.push(`/posts/${category}/page/${i}`)}
-                key={i} 
-                className={cx({ active : ( i === pageIndex ) })}>
-                {i}
-                </button>
-            )
-        }
-        return buttons
+    _handleOnWindowResize = () => {
+        const { posts } = this.props
+        if(!posts){ return }
+        const innerWidth = window.innerWidth
+        const columnCount = this._getColumnCount(innerWidth)
+        const layout = this._getLayout(posts.length, columnCount)
+        this._setColumnCount(columnCount)
+        this._setLayOut(layout)
     }
 
-    _getCurrentPagePosts = (categorizedPosts, pageIndex) => {
-        const startIndex = POSTS_COUNT_PER_PAGE * (pageIndex - 1)
-        const endIndex = POSTS_COUNT_PER_PAGE * pageIndex
-        const currentPagePosts = categorizedPosts.slice(startIndex, endIndex)
-        return currentPagePosts
+    componentDidMount(){
+        window.addEventListener('resize', this._handleOnWindowResize)
     }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this._handleOnWindowResize)
+    }
+
 
     render(){
+        const {
+            posts,
+            analyzedTags,
+            category,
+            keyword,
+            pageIndex,
+            pages,
+        } = this.props
 
-        const { category, keyword, pageIndex } = this.props
-        const { categorizedPosts, analyzedTags } = this.state
-        const { 
-            _getCurrentPagePosts,
-            _renderPagenation
+        const {
+            _getStyle
         } = this
+
+        const {
+            layout,
+            columnCount,
+        } = this.state
+
+        console.log(this.state)
+
+        if(layout){
+            console.log(_getStyle(layout))
+        }
 
         return (
             <MainTemplate title="Post">
                 <div className={cx('PostsPage')}>
-                    {!categorizedPosts ? <div className={cx('spinner-container')}><LargeSpinner/></div> 
+                    {!posts ? <div className={cx('spinner-container')}><LargeSpinner/></div> 
                     :<Fragment>
                     <nav className={cx('category')}>
                         <li
@@ -158,11 +154,15 @@ class PostsPage extends Component{
                         <span>{category.toUpperCase()} : </span>
                         <span>{keyword}</span>
                     </div>}
-                    {categorizedPosts.length === 0 && 
+                    {posts.length === 0 && 
                     <div className={cx('notifierPostsNull')}>해당 포스트가 존재하지 않습니다.</div>}
-                    <main className={cx('cards')}>
-                    {_getCurrentPagePosts(categorizedPosts, pageIndex).map((post => { return (
-                        <div key={post._id} className={cx('PostCard-container')}>
+
+                    {layout && <main style={_getStyle(layout, columnCount)} className={cx('cards')}>
+                    {posts.map((post => { return (
+                        <div 
+                        style={{ width : layout === 'masonry' ? '100%' : (100 / columnCount) + '%' }}
+                        key={post._id} 
+                        className={cx('PostCard-container')}>
                             <PostCard
                             _id={post._id}
                             isPublished={post.isPublished}
@@ -176,9 +176,19 @@ class PostsPage extends Component{
                             />
                         </div>
                     )}))}
-                    </main>
-                    <nav className={cx('pagenation')}> 
-                        {_renderPagenation(Math.ceil(categorizedPosts.length / POSTS_COUNT_PER_PAGE), pageIndex)} 
+                    </main>}
+
+                    <nav className={cx('pagenation')}>
+                        {pages.map((page) => {
+                            return (
+                                <Link
+                                    to={page.path}
+                                    className={cx({ active : page.num === pageIndex })}
+                                    key={page.num}>
+                                    {page.num}
+                                </Link>
+                            )
+                        })}
                     </nav>
                     {analyzedTags &&
                     <nav className={cx('tag')}>
@@ -199,10 +209,12 @@ class PostsPage extends Component{
 }
 
 PostsPage.propTypes = {
+    posts : PropTypes.array,
+    pages : PropTypes.array,
+    analyzedTags : PropTypes.array,
     category : PropTypes.string.isRequired,
     keyword : PropTypes.string,
     pageIndex : PropTypes.number.isRequired,
-    posts : PropTypes.array
 }
 
 export default PostsPage

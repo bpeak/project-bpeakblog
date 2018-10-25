@@ -22,11 +22,12 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            list-style-position: outside;
+            padding-left: 1em;
             li.title{
                 width: 100%;
                 font-weight: 900;
                 margin: 0.35em;
-                list-style-position: inside;
                 font-size: 110%;
                 a{
                     cursor: pointer;
@@ -40,6 +41,7 @@
         }
 
         div.PostHoriCard-container{
+            width: 100%;
             margin-bottom: 4em;
         }
 

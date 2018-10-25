@@ -15,71 +15,19 @@ import ProfileImg from '~components/atoms/ProfileImg/ProfileImg'
 import SmallSpinner from '~components/atoms/spinners/SmallSpinner/SmallSpinner'
 
 class PostCard extends Component {
-    constructor(){
-        super()
-        this.state = {
-            isLoaded : false,
-            postCardHeight : undefined,
-            coverImgHeight : undefined
-        }
-    }
-
-    _postCardRatio = 1.73
-    _postCardDefaultHeight = 400
-
-    _setPostCardHeight = (postCardHeight) => { this.setState(() => ({ postCardHeight }))}
-    _setCoverImgHeight = (coverImgHeight) => { this.setState(() => ({ coverImgHeight }))}
-    _setIsLoaded = (isLoaded) => { this.setState(() => ({ isLoaded }))}
 
     _handleOnAuthorClick = () => { history.push('/AboutMe') }
-
-    _handleOnWindowReSize = () => {
-        const postCard = this.refs.postCard
-        const postCardRect = postCard.getBoundingClientRect()
-        const postCardWidth = postCardRect.width
-        const postCardHeight = postCardWidth * this._postCardRatio
-        const coverImgRatio = this.coverImgRatio
-        const coverImgWidth = postCardWidth
-        const coverImgHeight = coverImgWidth * coverImgRatio  
-        this._setPostCardHeight(postCardHeight)
-        this._setCoverImgHeight(coverImgHeight)
-    }
-
     _handleOnShowPostClick = () => {
         const post_id = this.props._id
         history.push(`/post/${post_id}`)
     }
 
-    async componentDidMount(){
-        const postCard = this.refs.postCard
-        const postCardRect = postCard.getBoundingClientRect()
-        const postCardWidth = postCardRect.width
-        const postCardHeight = postCardWidth * this._postCardRatio
-        const coverImgSize = await getImgSizeFromSrc(this.props.coverImgSrc)
-        const coverImgRatio = coverImgSize.height / coverImgSize.width
-        this.coverImgRatio = coverImgRatio
-        const coverImgWidth = postCardWidth
-        const coverImgHeight = coverImgWidth * coverImgRatio
-        window.addEventListener('resize', this._handleOnWindowReSize)
-        this._setPostCardHeight(postCardHeight)
-        this._setCoverImgHeight(coverImgHeight)
-        this._setIsLoaded(true)
-    }
-
-    componentWillUnmount(){
-        window.removeEventListener('resize', this._handleOnWindowReSize)
-    }
-
     render() {
-        const { 
-            _handleOnShowPostClick,
-            _postCardDefaultHeight,
+        const {
             _handleOnAuthorClick,
+            _handleOnShowPostClick,
         } = this
-        const { isLoaded, 
-            postCardHeight,
-            coverImgHeight 
-        } = this.state
+
         const { 
             isPublished,
             author, 
@@ -92,30 +40,35 @@ class PostCard extends Component {
         } = this.props
 
         return (
-            <div 
-            className={cx('PostCard-wrapper')}
-            style={{ height : postCardHeight || _postCardDefaultHeight }}
-            ref="postCard">
-                {!isLoaded ? <div className={cx('spinner-container')}><SmallSpinner/></div> 
-                : <article className={cx('PostCard', { unPublished : !isPublished })}>
-                    <div className={cx('coverImg-container')} onClick={_handleOnShowPostClick} style={{ height : coverImgHeight }}><img src={coverImgSrc}/></div>
-                    <div style={{ height : postCardHeight - coverImgHeight }} className={cx('contents')}>
-                        <div className={cx('categoryAndDate')}>
-                            <span className={cx('category', category)}>{category}</span>
-                            <div className={cx('date')}><i className="far fa-calendar-alt"></i><span>{dateConverter.getFullTimeStamp(createdDate)}</span></div>
-                        </div>
-                        <div className={cx('title')} onClick={_handleOnShowPostClick}>
-                            <h2>{title}</h2>
-                        </div>
-                        <div className={cx('intro')}  onClick={_handleOnShowPostClick}>{intro}</div>
-                        <div className={cx('author')}>
-                            <div className={cx('profileImg-container')} onClick={_handleOnAuthorClick}>
-                                <ProfileImg imgSrc={author.profileImgSrc} isMember={true}/>
-                            </div>
-                            <span onClick={_handleOnAuthorClick} className={cx('nick')}>{author.nick}</span>
+            <div className={cx('PostCard', { unPublished : !isPublished })}>
+                <img className={cx('cover')} onClick={_handleOnShowPostClick} src={coverImgSrc}></img>
+
+                <div className={cx('contents')}>
+
+                    <div className={cx('categoryAndDate')}>
+                        <span className={cx('category', category)}>{category}</span>
+                        <div className={cx('date')}>
+                            <i className="far fa-calendar-alt"></i>
+                            <span>{dateConverter.getFullTimeStamp(createdDate)}</span>
                         </div>
                     </div>
-                </article>}
+
+                    <div className={cx('title')} onClick={_handleOnShowPostClick}>
+                        <h2>{title}</h2>
+                    </div>
+
+                    <div className={cx('intro')}  onClick={_handleOnShowPostClick}>
+                        {intro}
+                    </div>
+
+                    <div className={cx('author')}>
+                        <div className={cx('profileImg-container')} onClick={_handleOnAuthorClick}>
+                            <ProfileImg imgSrc={author.profileImgSrc} isMember={true}/>
+                        </div>
+                        <span onClick={_handleOnAuthorClick} className={cx('nick')}>{author.nick}</span>
+                    </div>
+
+                </div>
             </div>
         )
     }

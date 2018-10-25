@@ -89,11 +89,11 @@ article.post{
     }
 
     h1.title{
-        font-size: 175%;
+        font-size: 200%;
         font-weight: 900;
         word-wrap: break-word;
         word-break: keep-all;
-        line-height: 138%;
+        line-height: 125%;
         margin: 0.8em 0;
     }
 
@@ -112,16 +112,17 @@ article.post{
         word-break: keep-all;
         font-size: 100%;
         line-height: 175%;
-        margin: 1em 0;
+        margin: 1em;
         color: rgba(0,0,0,.84);
     }
 
     div.description{
+        white-space: pre-line;
         & > * {
             color: rgba(0,0,0,.84);
             font-size: 100%;
             line-height: 175%;
-            margin: 1em 0;
+            margin-bottom: 1em;
         }
 
         img{
@@ -132,7 +133,6 @@ article.post{
 
         li{
             list-style-position: inside;
-            font-weight: 600;
         }
 
         h2{

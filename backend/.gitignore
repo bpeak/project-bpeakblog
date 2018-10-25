@@ -1,3 +1,6 @@
 /node_modules/
 /src/configs/secret/
 /dist/
+/src/public/postImgs/
+/src/public/temporary/
+/src/public/users/

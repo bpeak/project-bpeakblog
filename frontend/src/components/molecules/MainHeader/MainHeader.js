@@ -4,6 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 //modules
 import history from '~modules/history'
 //imgs
+import logoImgSrc from '~assets/logo.png'
 import hamburgerImgSrc from '~assets/hamburger.png'
 import kakaoImgSrc from '~assets/kakao.png'
 import naverImgSrc from '~assets/naver.png'
@@ -44,7 +45,10 @@ const MainHeader = (props) => {
                 :
                 <div className={cx('longMenu-container')}>
                     <nav>
-                        <Link to="/">{deviceType === "PC" ? 'BPEAK BLOG' : 'BP'}</Link>
+                        <Link to="/">{deviceType === "PC" 
+                            ? <div className={cx('logo')}><img src={logoImgSrc}/><span>BPEAK BLOG</span></div>
+                            : 'BP'}
+                        </Link>
                         <NavLink to="/AboutMe">ABOUT ME</NavLink>
                         <NavLink to="/posts" activeClassName={cx('active')}>POSTS</NavLink>
                         <NavLink to="/visitors" activeClassName={cx('active')}>VISITORS</NavLink>

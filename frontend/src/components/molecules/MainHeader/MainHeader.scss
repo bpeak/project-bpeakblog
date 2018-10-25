@@ -35,8 +35,8 @@
         align-items: center;
         img{
             padding: 0.4em;
-            width: 35px;
-            height: 35px;
+            width: 40px;
+            height: 40px;
         }
     }
     // nav{
@@ -73,11 +73,24 @@
         height: 100%;
         display: flex;
         a:first-child{
+            display: flex;
+            justify-content: center;
+            align-items: center;
             font-family: 'Abril Fatface';
             letter-spacing: 0;
             font-size: 135%;
-            margin-right: 0.35em;
+            margin-right: 0.4em;
             color: #1E306E;
+            div.logo{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img{
+                    width: 1em;
+                    height: 1em;
+                    margin-right: 0.15em;
+                }
+            }
         }
         a{
             color: #757575;
@@ -147,7 +160,7 @@
         justify-content: center;
         align-items: center;
         letter-spacing: 0.02em;
-        padding: 0 0.3em;
+        padding: 0 0.42em;
         font-weight: 600;
         font-family: 'Oswald';
         color: #1E306E;
